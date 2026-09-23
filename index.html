@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VELORA — heavyweight essentials, cut with intention." />
+  <title>VELORA — Modern Essentials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23160f11'/%3E%3Cpath d='M14 17h10l8 19 8-19h10L35 49h-6z' fill='%23f8eee8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="stage" id="stage">
+    <header class="nav">
+      <a class="brand" href="#" aria-label="VELORA home">V<span>•</span>VELORA</a>
+      <nav aria-label="Main navigation">
+        <a href="#">Home</a><a class="active" href="#shop">Tees</a><a href="#shop">Sweats</a><a href="#story">Journal</a>
+      </nav>
+      <div class="actions">
+        <button aria-label="Account" class="icon-button">♙</button>
+        <button aria-label="Shopping bag" class="bag icon-button">Bag <span id="bagCount">0</span></button>
+      </div>
+    </header>
+    <section class="hero" id="shop">
+      <div class="intro">
+        <p class="eyebrow">Edition 01 · 2026</p>
+        <h1>Quiet form.<br><em>Bold presence.</em></h1>
+        <p class="lede">Weighty cotton. Relaxed lines. An everyday uniform made to outlast the moment.</p>
+        <button class="shop-button" id="addButton">Add to bag <span>↗</span></button>
+      </div>
+      <div class="product-view" aria-live="polite">
+        <div class="halo"></div><span class="edition" id="edition">01 / 04</span>
+        <div class="product-wrap" id="productWrap"><img id="shirt" src="oversized-tee.webp" alt="Burgundy oversized T-shirt on a wooden hanger" /></div>
+        <div class="shadow"></div>
+        <button class="arrow prev" id="prev" aria-label="Previous colour">←</button>
+        <button class="arrow next" id="next" aria-label="Next colour">→</button>
+      </div>
+      <aside class="details">
+        <p class="colour-label">Colour · <strong id="colourName">Oxide</strong></p>
+        <div class="swatches" id="swatches" aria-label="Choose colour"></div>
+        <div class="price"><strong>₦48,000</strong><s>₦56,000</s></div>
+        <p class="size-label">Select your size</p>
+        <div class="sizes" id="sizes"><button>S</button><button class="selected">M</button><button>L</button><button>XL</button></div>
+        <p class="note">Cut oversized. Choose your usual size for the intended fit.</p>
+      </aside>
+    </section>
+    <footer id="story">
+      <div class="socials"><a href="#">IG</a><a href="#">TK</a><a href="#">PT</a></div>
+      <p class="mantra">Made slowly.<br>Worn often.</p>
+      <p class="footer-note">Lagos · Worldwide delivery</p>
+    </footer>
+    <div class="toast" id="toast" role="status">Added Oxide · M to your bag</div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
