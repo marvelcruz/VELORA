@@ -12,17 +12,18 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="stage" id="stage">
+  <main class="stage" id="home">
     <header class="nav">
-      <a class="brand" href="#" aria-label="VELORA home">V<span>•</span>VELORA</a>
+      <a class="brand" href="#home" aria-label="VELORA home">V<span>•</span>VELORA</a>
       <nav aria-label="Main navigation">
-        <a href="#">Home</a><a class="active" href="#shop">Tees</a><a href="#shop">Sweats</a><a href="#story">Journal</a>
+        <a href="#home">Home</a><a class="active" href="#shop">Tees</a><a href="#sweats">Sweats</a><a href="#journal">Journal</a>
       </nav>
       <div class="actions">
         <button aria-label="Account" class="icon-button">♙</button>
         <button aria-label="Shopping bag" class="bag icon-button">Bag <span id="bagCount">0</span></button>
       </div>
     </header>
+
     <section class="hero" id="shop">
       <div class="intro">
         <p class="eyebrow">Edition 01 · 2026</p>
@@ -30,27 +31,54 @@
         <p class="lede">Weighty cotton. Relaxed lines. An everyday uniform made to outlast the moment.</p>
         <button class="shop-button" id="addButton">Add to bag <span>↗</span></button>
       </div>
+
       <div class="product-view" aria-live="polite">
-        <div class="halo"></div><span class="edition" id="edition">01 / 04</span>
-        <div class="product-wrap" id="productWrap"><img id="shirt" src="oversized-tee.webp" alt="Burgundy oversized T-shirt on a wooden hanger" /></div>
+        <div class="halo"></div>
+        <span class="edition" id="edition">01 / 04</span>
+        <div class="product-wrap" id="productWrap">
+          <img id="shirt" src="oversized-tee.png" alt="Burgundy oversized T-shirt on a wooden hanger" />
+        </div>
         <div class="shadow"></div>
         <button class="arrow prev" id="prev" aria-label="Previous colour">←</button>
         <button class="arrow next" id="next" aria-label="Next colour">→</button>
       </div>
+
       <aside class="details">
         <p class="colour-label">Colour · <strong id="colourName">Oxide</strong></p>
         <div class="swatches" id="swatches" aria-label="Choose colour"></div>
         <div class="price"><strong>₦48,000</strong><s>₦56,000</s></div>
         <p class="size-label">Select your size</p>
-        <div class="sizes" id="sizes"><button>S</button><button class="selected">M</button><button>L</button><button>XL</button></div>
+        <div class="sizes" id="sizes">
+          <button>S</button><button class="selected">M</button><button>L</button><button>XL</button>
+        </div>
         <p class="note">Cut oversized. Choose your usual size for the intended fit.</p>
       </aside>
     </section>
-    <footer id="story">
+
+    <section class="collection-section" id="sweats">
+      <div class="section-copy">
+        <p class="eyebrow">The weight collection</p>
+        <h2>Soft structure.<br><em>Everyday armour.</em></h2>
+        <p>Heavyweight layers designed for cool evenings, long flights, and slow weekends.</p>
+      </div>
+      <div class="collection-grid">
+        <article class="collection-card dark"><img src="oversized-tee.webp" alt="Midnight heavyweight essential"><span>01</span><h3>Midnight Weight</h3><p>₦62,000</p></article>
+        <article class="collection-card bone"><img src="oversized-tee.webp" alt="Bone heavyweight essential"><span>02</span><h3>Bone Weight</h3><p>₦62,000</p></article>
+      </div>
+    </section>
+
+    <section class="journal-section" id="journal">
+      <p class="eyebrow">VELORA Journal · 001</p>
+      <blockquote>“The best pieces do not ask for attention. They earn it over time.”</blockquote>
+      <div class="journal-meta"><span>On form, fabric and repetition</span><span>Lagos · 6 min read</span></div>
+    </section>
+
+    <footer>
       <div class="socials"><a href="#">IG</a><a href="#">TK</a><a href="#">PT</a></div>
       <p class="mantra">Made slowly.<br>Worn often.</p>
       <p class="footer-note">Lagos · Worldwide delivery</p>
     </footer>
+
     <div class="toast" id="toast" role="status">Added Oxide · M to your bag</div>
   </main>
   <script src="script.js"></script>
