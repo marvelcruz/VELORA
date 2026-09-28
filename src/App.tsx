@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import suitAvatar from '../assets/rivaado-avatar-suit.webp'
+import tuxedoAvatar from '../assets/rivaado-avatar-tuxedo.webp'
+import coatAvatar from '../assets/rivaado-avatar-coat.webp'
+import coutureAvatar from '../assets/rivaado-avatar-couture.webp'
 
 const LOOKS = [
   {
-    src: '/assets/rivaado-avatar-suit.webp',
+    src: suitAvatar,
     bg: '#7F96A8',
     panel: '#93A8B8',
     name: 'FORMAL SUIT',
@@ -11,7 +15,7 @@ const LOOKS = [
       'A made-to-measure suit shaped around your posture, proportions and occasion. Clean lines, premium cloth and a precise bespoke finish.',
   },
   {
-    src: '/assets/rivaado-avatar-tuxedo.webp',
+    src: tuxedoAvatar,
     bg: '#30343A',
     panel: '#4A4F56',
     name: 'CLASSIC TUXEDO',
@@ -19,7 +23,7 @@ const LOOKS = [
       'Black-tie tailoring with satin detailing, formal proportions and a refined evening silhouette built to fit you.',
   },
   {
-    src: '/assets/rivaado-avatar-coat.webp',
+    src: coatAvatar,
     bg: '#B8946F',
     panel: '#C7A886',
     name: 'LONG COAT',
@@ -27,7 +31,7 @@ const LOOKS = [
       'A tailored outer layer with structure, warmth and an elegant line designed to sit cleanly over suiting.',
   },
   {
-    src: '/assets/rivaado-avatar-couture.webp',
+    src: coutureAvatar,
     bg: '#C8A56B',
     panel: '#D5B983',
     name: 'ASIAN COUTURE',
