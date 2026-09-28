@@ -45,6 +45,7 @@ type Role = 'center' | 'left' | 'right' | 'back'
 
 const easing = 'cubic-bezier(0.4,0,0.2,1)'
 
+// Carousel-only homepage: no video or cinematic timeline
 export default function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
