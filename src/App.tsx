@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 const LOOKS = [
   {
-    src: '/assets/generated-formal.svg',
+    src: '/assets/rivaado-avatar-suit.webp',
     bg: '#7F96A8',
     panel: '#93A8B8',
     name: 'FORMAL SUIT',
@@ -11,7 +11,7 @@ const LOOKS = [
       'A made-to-measure suit shaped around your posture, proportions and occasion. Clean lines, premium cloth and a precise bespoke finish.',
   },
   {
-    src: '/assets/generated-tuxedo.svg',
+    src: '/assets/rivaado-avatar-tuxedo.webp',
     bg: '#30343A',
     panel: '#4A4F56',
     name: 'CLASSIC TUXEDO',
@@ -19,7 +19,7 @@ const LOOKS = [
       'Black-tie tailoring with satin detailing, formal proportions and a refined evening silhouette built to fit you.',
   },
   {
-    src: '/assets/generated-coat.svg',
+    src: '/assets/rivaado-avatar-coat.webp',
     bg: '#B8946F',
     panel: '#C7A886',
     name: 'LONG COAT',
@@ -27,7 +27,7 @@ const LOOKS = [
       'A tailored outer layer with structure, warmth and an elegant line designed to sit cleanly over suiting.',
   },
   {
-    src: '/assets/generated-asian.svg',
+    src: '/assets/rivaado-avatar-couture.webp',
     bg: '#C8A56B',
     panel: '#D5B983',
     name: 'ASIAN COUTURE',
