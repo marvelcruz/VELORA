@@ -1,66 +1,99 @@
-const products=[
-  {name:'Berry Plain Tee',bg:'#e93447',price:'₦15,000',old:'₦20,000',filter:'hue-rotate(342deg) saturate(1.5) brightness(1.15)',copy:'Soft, oversized cotton T-shirt in a bold berry shade, with a relaxed fit and a clean minimalist finish.'},
-  {name:'Brown Plain Tee',bg:'#817067',price:'₦15,000',old:'₦20,000',filter:'hue-rotate(310deg) saturate(.35) brightness(.67)',copy:'A soft brown oversized tee with an easy drape, everyday comfort and a refined neutral tone.'},
-  {name:'Black Plain Tee',bg:'#37393c',price:'₦15,000',old:'₦20,000',filter:'grayscale(1) brightness(.3) contrast(1.45)',copy:'A deep black heavyweight tee with relaxed proportions and a clean modern silhouette.'},
-  {name:'Milk Plain Tee',bg:'#ddd5a7',price:'₦15,000',old:'₦20,000',filter:'grayscale(1) sepia(.4) brightness(1.72) contrast(.72)',copy:'A warm milk-tone tee with a soft oversized shape and an effortless minimal finish.'},
-  {name:'White Plain Tee',bg:'#f1efeb',price:'₦15,000',old:'₦20,000',filter:'grayscale(1) brightness(1.9) contrast(.62)',copy:'A crisp white oversized T-shirt designed for comfort, balance and everyday layering.'}
+const PRODUCTS=[
+ {name:'Pink Plain T-shirt',bg:'#e90055',price:'₦10,000',old:'₦15,000',filter:'hue-rotate(345deg) saturate(1.8) brightness(1.2)',desc:'Soft, oversized cotton T-shirt in a bold raspberry pink shade, featuring a relaxed fit and a clean, minimalist design for everyday wear.'},
+ {name:'White Plain T-shirt',bg:'#e9e9e9',price:'₦10,000',old:'₦15,000',filter:'grayscale(1) brightness(1.9) contrast(.6)',desc:'A clean white oversized T-shirt with an easy drape, soft hand feel and minimalist everyday styling.'},
+ {name:'Milk Plain T-shirt',bg:'#e8dfb4',price:'₦10,000',old:'₦15,000',filter:'grayscale(1) sepia(.45) brightness(1.65) contrast(.72)',desc:'A warm milk-tone oversized tee with soft structure and a relaxed silhouette.'},
+ {name:'Black Plain T-shirt',bg:'#434343',price:'₦10,000',old:'₦15,000',filter:'grayscale(1) brightness(.3) contrast(1.45)',desc:'A deep black heavyweight tee with relaxed proportions and a sharp minimal finish.'},
+ {name:'Brown Plain T-shirt',bg:'#84746b',price:'₦10,000',old:'₦15,000',filter:'hue-rotate(315deg) saturate(.35) brightness(.68)',desc:'A rich brown oversized tee designed for easy layering and everyday wear.'}
 ];
-let current=0,bag=0,selectedSize='XL',locked=false;
-const stage=document.getElementById('productStage');
-const wrap=document.getElementById('productWrap');
-const img=document.getElementById('productImage');
-const mini=document.getElementById('miniImage');
-const miniName=document.getElementById('miniName');
-const price=document.getElementById('price');
-const oldPrice=document.getElementById('oldPrice');
-const mobilePrice=document.getElementById('mobilePrice');
-const mobileCopy=document.getElementById('mobileCopy');
-const colorRow=document.getElementById('colorRow');
-const mobileThumbStack=document.getElementById('mobileThumbStack');
+const CATEGORY_LABELS={home:'Home',tshirts:'T-shirt',hoodies:'Hoodies',sweatshirts:'Sweatshirts',about:'About Us'};
+let index=0,selectedSize='XL',cart=0,animating=false;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const app=$('#showroom'),mainProduct=$('#mainProduct'),mobileProduct=$('#mobileProduct');
+const shell=$('#productShell'),mobileShell=$('#mobileProductShell');
+const price=$('#price'),oldPrice=$('#oldPrice'),mobilePrice=$('#mobilePrice'),mobileDescription=$('#mobileDescription');
+const nextThumbImg=$('#nextThumbImg'),nextThumbName=$('#nextThumbName'),thumbList=$('#mobileThumbList');
 
-products.forEach((p,i)=>{
-  const b=document.createElement('button');
-  b.className='color-dot';
-  b.style.setProperty('--dot',p.bg);
-  b.setAttribute('aria-label',p.name);
-  b.onclick=()=>go(i);
-  colorRow.appendChild(b);
-  const t=document.createElement('button');
-  t.className='mobile-thumb';
-  t.innerHTML='<img src="oversized-tee.webp" alt=""><span>'+p.name+'</span>';
-  t.onclick=()=>go(i);
-  mobileThumbStack.appendChild(t);
-});
-function applySizeButtons(){
-  document.querySelectorAll('.size-row button').forEach(btn=>{
-    btn.classList.toggle('selected',btn.textContent===selectedSize);
-    btn.onclick=()=>{selectedSize=btn.textContent;applySizeButtons();}
+function buildThumbs(){
+  thumbList.innerHTML='';
+  PRODUCTS.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='mobile-thumb interactive';
+    b.dataset.index=i;
+    b.innerHTML='<img src="oversized-tee.webp" alt=""><span>'+p.name+'</span>';
+    b.querySelector('img').style.filter=p.filter;
+    b.addEventListener('click',()=>goTo(i));
+    thumbList.appendChild(b);
   });
 }
 function render(){
-  const p=products[current],next=products[(current+1)%products.length];
-  stage.style.setProperty('--bg',p.bg);
-  img.style.filter=p.filter+' drop-shadow(0 28px 22px rgba(0,0,0,.28))';
-  mini.style.filter=next.filter+' drop-shadow(0 12px 10px rgba(0,0,0,.18))';
-  miniName.textContent=next.name;
-  price.textContent=p.price;oldPrice.textContent=p.old;mobilePrice.textContent=p.price;mobileCopy.textContent=p.copy;
-  [...colorRow.children].forEach((x,i)=>x.classList.toggle('selected',i===current));
-  [...mobileThumbStack.children].forEach((x,i)=>{
-    x.classList.toggle('active',i===current);
-    const ti=x.querySelector('img');ti.style.filter=products[i].filter;
-  });
+  const p=PRODUCTS[index], n=PRODUCTS[(index+1)%PRODUCTS.length];
+  app.style.setProperty('--bg',p.bg);
+  mainProduct.style.filter=p.filter+' drop-shadow(0 32px 24px rgba(0,0,0,.25))';
+  mobileProduct.style.filter=p.filter+' drop-shadow(0 22px 18px rgba(0,0,0,.25))';
+  mainProduct.alt=p.name; mobileProduct.alt=p.name;
+  price.textContent=p.price; oldPrice.textContent=p.old; mobilePrice.textContent=p.price; mobileDescription.textContent=p.desc;
+  nextThumbImg.style.filter=n.filter+' drop-shadow(0 7px 5px rgba(0,0,0,.2))';
+  nextThumbName.textContent=n.name;
+  $$('.mobile-thumb').forEach((el,i)=>el.classList.toggle('active',i===index));
 }
-function go(i){
-  if(locked||i===current)return;
-  locked=true;wrap.classList.add('switching');
-  setTimeout(()=>{current=(i+products.length)%products.length;render();wrap.classList.remove('switching');setTimeout(()=>locked=false,350)},220);
+function goTo(nextIndex){
+  if(animating||nextIndex===index)return;
+  animating=true;
+  shell.classList.add('out'); mobileShell.classList.add('out');
+  setTimeout(()=>{
+    index=(nextIndex+PRODUCTS.length)%PRODUCTS.length;
+    render();
+    shell.classList.remove('out'); mobileShell.classList.remove('out');
+    setTimeout(()=>animating=false,260);
+  },180);
 }
-document.getElementById('nextProduct').onclick=()=>go((current+1)%products.length);
-document.getElementById('prevProduct').onclick=()=>go((current-1+products.length)%products.length);
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go((current+1)%products.length);if(e.key==='ArrowLeft')go((current-1+products.length)%products.length)});
-function add(){
-  bag++;document.getElementById('bagCount').textContent=bag;
+const next=()=>goTo((index+1)%PRODUCTS.length);
+const prev=()=>goTo((index-1+PRODUCTS.length)%PRODUCTS.length);
+['#nextBtn','#mobileNext','#nextThumb'].forEach(id=>$(id).addEventListener('click',next));
+['#prevBtn','#mobilePrev'].forEach(id=>$(id).addEventListener('click',prev));
+
+function setSize(size){
+  selectedSize=size;
+  $$('.size-btn').forEach(b=>b.classList.toggle('selected',b.dataset.size===size));
+  toast('Size '+size+' selected');
 }
-document.getElementById('addToCart').onclick=add;
-document.getElementById('buyNow').onclick=add;
-applySizeButtons();render();
+$$('.size-btn').forEach(b=>b.addEventListener('click',()=>setSize(b.dataset.size)));
+
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(window.__toast); window.__toast=setTimeout(()=>t.classList.remove('show'),1500);
+}
+function addToCart(goCheckout=false){
+  cart++; $('#cartCount').textContent=cart;
+  toast((goCheckout?'Ready to buy ':'Added ')+PRODUCTS[index].name+' · '+selectedSize);
+}
+$('#addBtn').addEventListener('click',()=>addToCart(false));
+$('#buyBtn').addEventListener('click',()=>addToCart(true));
+$('#cartBtn').addEventListener('click',()=>toast(cart?cart+' item'+(cart===1?'':'s')+' in your cart':'Your cart is empty'));
+$('#accountBtn').addEventListener('click',()=>toast('Account area'));
+$('#lookBtn').addEventListener('click',next);
+
+function activateCategory(category){
+  $$('.category-tab').forEach(b=>b.classList.toggle('active',b.dataset.category===category));
+  $('#mobileCategoryTitle').textContent=CATEGORY_LABELS[category]||'T-shirt';
+  if(category==='about') $('#aboutPanel').classList.add('open');
+  else if(category==='home') goTo(0);
+  else if(category==='hoodies') toast('Hoodies selected');
+  else if(category==='sweatshirts') toast('Sweatshirts selected');
+  else toast('T-shirt selected');
+  closeDrawer();
+}
+$$('[data-category]').forEach(b=>b.addEventListener('click',()=>activateCategory(b.dataset.category)));
+
+const drawer=$('#mobileDrawer');
+function openDrawer(){drawer.classList.add('open');drawer.setAttribute('aria-hidden','false')}
+function closeDrawer(){drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
+$('#menuBtn').addEventListener('click',openDrawer);
+$('#drawerClose').addEventListener('click',closeDrawer);
+$('#aboutClose').addEventListener('click',()=>$('#aboutPanel').classList.remove('open'));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')next();
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='Escape'){closeDrawer();$('#aboutPanel').classList.remove('open')}
+});
+buildThumbs(); render();
