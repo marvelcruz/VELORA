@@ -21,3 +21,13 @@
 .category-tab{transition:background .22s,color .22s,transform .22s}.category-tab:hover{transform:translateY(-1px)}
 .collection-counter{position:absolute;right:3vw;bottom:3vh;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;opacity:.65}
 @media(max-width:740px){.showroom::after{inset:58px 0 0}.mobile-product-info{position:relative;z-index:4}.mobile-item-name::before{content:attr(data-identity);display:block;font-family:'DM Sans',sans-serif;font-size:.44rem;letter-spacing:.13em;text-transform:uppercase;margin-bottom:.3rem;opacity:.75}}
+
+/* Hanger/object presentation */
+.product-shell,.mobile-product-shell{background:transparent;box-shadow:none;border-radius:0;overflow:visible}
+.product-shell img,.mobile-product-shell img{object-fit:contain!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 30px 24px rgba(0,0,0,.22))}
+.next-thumb img,.mobile-thumb img{object-fit:contain!important;background:transparent!important;box-shadow:none!important}
+.frame-flight{object-fit:contain!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 26px 20px rgba(0,0,0,.2))}
+.hanger-stem,.mobile-hanger-stem{height:18%;background:linear-gradient(to bottom,rgba(0,0,0,.38),rgba(0,0,0,.08))}
+.product-column::before{content:"";position:absolute;width:54%;aspect-ratio:1;left:50%;top:46%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid color-mix(in srgb,var(--accent,#fff) 28%,transparent);box-shadow:0 0 0 26px color-mix(in srgb,var(--accent,#fff) 5%,transparent),0 0 0 54px color-mix(in srgb,var(--accent,#fff) 3%,transparent);pointer-events:none}
+.details-column::before{content:"GARMENT  /  OBJECT";display:block;font-size:.5rem;letter-spacing:.18em;margin-bottom:1rem;opacity:.5}
+@media(max-width:740px){.mobile-product-shell{overflow:visible}.mobile-product-area::before{content:"";position:absolute;width:58%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.22);box-shadow:0 0 0 20px rgba(255,255,255,.04);pointer-events:none}}
