@@ -111,13 +111,13 @@ export default function App() {
     if (role === 'center') {
       return {
         ...base,
-        transform: `translateX(-50%) scale(${isMobile ? 1.18 : 1.12})`,
+        transform: `translateX(-50%) scale(${isMobile ? 1.08 : 1.02})`,
         filter: 'blur(0px)',
         opacity: 1,
         zIndex: 20,
         left: '50%',
-        height: isMobile ? '60%' : '92%',
-        bottom: isMobile ? '22%' : 0,
+        height: isMobile ? '68%' : '80%',
+        bottom: isMobile ? '10%' : '3%',
       }
     }
 
@@ -199,7 +199,7 @@ export default function App() {
             whiteSpace: 'nowrap',
           }}
         >
-          BESPOKE
+          RIVAADO
         </div>
 
         <div
