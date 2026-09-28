@@ -147,3 +147,15 @@ $('#aboutClose').addEventListener('click',()=>$('#aboutPanel').classList.remove(
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();if(e.key==='Escape'){closeDrawer();$('#aboutPanel').classList.remove('open')}});
 
 buildThumbs();render();
+const fittingForm=document.getElementById('fittingForm');
+if(fittingForm){
+  fittingForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const data=new FormData(fittingForm);
+    const name=(data.get('name')||'').toString().trim();
+    const interest=(data.get('interest')||'appointment').toString();
+    const status=document.getElementById('fittingStatus');
+    status.textContent='Thanks'+(name?', '+name:'')+'. Your '+interest.toLowerCase()+' fitting request is ready to be sent to the studio.';
+    fittingForm.reset();
+  });
+}
