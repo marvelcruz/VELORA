@@ -1,137 +1,124 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="VELORA — modern bespoke fashion and statement essentials." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="VELORA — interactive fashion storefront.">
   <title>VELORA — Wear Confidence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main id="home">
-    <section class="product-stage" id="productStage">
+  <main class="app" id="app">
+    <section class="showroom" id="showroom">
       <header class="topbar">
-        <a class="brand" href="#home">VELORA</a>
-        <button class="menu-toggle" aria-label="Open menu">☰</button>
-        <nav class="desktop-nav">
-          <a href="#home">Home</a>
-          <a class="active" href="#shop">Shop</a>
-          <a href="#men">Men</a>
-          <a href="#women">Women</a>
-          <a href="#journal">Journal</a>
-          <a href="#appointment">About Us</a>
+        <button class="mobile-menu-btn interactive" id="menuBtn" aria-label="Open menu">☰</button>
+        <a class="logo" href="#" aria-label="VELORA home">VELORA</a>
+        <nav class="category-nav" aria-label="Shop categories">
+          <button class="category-tab interactive" data-category="home">Home</button>
+          <button class="category-tab interactive active" data-category="tshirts">T-shirt</button>
+          <button class="category-tab interactive" data-category="hoodies">Hoodies</button>
+          <button class="category-tab interactive" data-category="sweatshirts">Sweatshirts</button>
+          <button class="category-tab interactive" data-category="about">About Us</button>
         </nav>
-        <div class="top-actions">
-          <button aria-label="Account">♙</button>
-          <button aria-label="Bag">Bag <span id="bagCount">0</span></button>
+        <div class="header-actions">
+          <button class="icon-btn interactive" id="accountBtn" aria-label="Account">♙</button>
+          <button class="icon-btn cart-btn interactive" id="cartBtn" aria-label="Cart">⌑<span id="cartCount">0</span></button>
         </div>
       </header>
 
-      <div class="mobile-title">T-shirt</div>
+      <div class="mobile-category-title" id="mobileCategoryTitle">T-shirt</div>
 
-      <div class="hero-layout" id="shop">
-        <section class="hero-copy">
-          <p class="eyebrow">VELORA / EDIT 01</p>
+      <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <button class="drawer-close interactive" id="drawerClose" aria-label="Close menu">×</button>
+        <button class="drawer-link interactive" data-category="home">Home</button>
+        <button class="drawer-link interactive" data-category="tshirts">T-shirt</button>
+        <button class="drawer-link interactive" data-category="hoodies">Hoodies</button>
+        <button class="drawer-link interactive" data-category="sweatshirts">Sweatshirts</button>
+        <button class="drawer-link interactive" data-category="about">About Us</button>
+      </aside>
+
+      <div class="desktop-layout">
+        <section class="copy-column">
           <h1>Wear Confidence.<br>Define Your Style.</h1>
-          <p class="hero-description">Discover premium pieces designed for comfort, quality and everyday expression.</p>
-          <a class="look-btn" href="#men">Get the look <span>›</span></a>
-          <div class="social-row">
-            <span>IG</span><span>𝕏</span><span>f</span><span>in</span><span>♪</span>
-          </div>
+          <p>Discover premium T-shirts, hoodies, and sweatshirts designed for comfort, quality, and everyday expression.</p>
+          <button class="look-btn interactive" id="lookBtn">Get the look <span>›</span></button>
+          <div class="socials"><span>◎</span><span>𝕏</span><span>◉</span><span>♪</span><span>in</span></div>
         </section>
 
-        <section class="product-center">
-          <div class="mobile-thumb-stack" id="mobileThumbStack"></div>
-          <div class="hanger-line"></div>
-          <div class="product-image-wrap" id="productWrap">
-            <img id="productImage" src="oversized-tee.webp" alt="VELORA product">
+        <section class="product-column">
+          <div class="hanger-stem"></div>
+          <div class="product-shell" id="productShell">
+            <img id="mainProduct" src="oversized-tee.webp" alt="VELORA T-shirt">
           </div>
-          <div class="product-shadow"></div>
-          <button class="nav-arrow prev" id="prevProduct" aria-label="Previous product">‹</button>
-          <button class="nav-arrow next" id="nextProduct" aria-label="Next product">›</button>
-          <div class="center-tagline">Dress Better.<br>Feel Better.</div>
+          <div class="floating-shadow"></div>
+          <button class="arrow prev interactive" id="prevBtn" aria-label="Previous product">‹</button>
+          <button class="arrow next interactive" id="nextBtn" aria-label="Next product">›</button>
+          <div class="tagline">Dress Better.<br>Feel Better.</div>
         </section>
 
-        <aside class="product-panel">
-          <div class="price-block">
-            <strong id="price">₦15,000</strong>
-            <s id="oldPrice">₦20,000</s>
+        <aside class="details-column">
+          <div class="prices">
+            <strong id="price">₦10,000</strong>
+            <s id="oldPrice">₦15,000</s>
           </div>
-          <p class="size-heading">Choose your size</p>
-          <div class="size-row" id="sizeRow">
-            <button>XL</button><button>2XL</button><button>3XL</button><button>4XL</button>
-          </div>
-          <div class="color-row" id="colorRow"></div>
-          <div class="product-mini-card">
-            <img id="miniImage" src="oversized-tee.webp" alt="">
-            <span id="miniName">Brown Plain Tee</span>
+          <p class="choose">Choose your size</p>
+          <div class="size-row" id="desktopSizes">
+            <button class="size-btn interactive selected" data-size="XL">XL</button>
+            <button class="size-btn interactive" data-size="2XL">2XL</button>
+            <button class="size-btn interactive" data-size="3XL">3XL</button>
+            <button class="size-btn interactive" data-size="4XL">4XL</button>
           </div>
         </aside>
 
-        <section class="mobile-info">
-          <p class="size-heading">Select Size</p>
-          <div class="size-row mobile-sizes" id="mobileSizeRow">
-            <button>XL</button><button>2XL</button><button>3XL</button><button>4XL</button>
+        <div class="desktop-next-card">
+          <button class="next-thumb interactive" id="nextThumb">
+            <img id="nextThumbImg" src="oversized-tee.webp" alt="">
+            <span id="nextThumbName">Black Plain T-shirt</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-layout">
+        <div class="mobile-thumbs" id="mobileThumbList"></div>
+        <section class="mobile-product-area">
+          <div class="mobile-hanger-stem"></div>
+          <div class="mobile-product-shell" id="mobileProductShell">
+            <img id="mobileProduct" src="oversized-tee.webp" alt="VELORA T-shirt">
           </div>
-          <p class="mobile-copy" id="mobileCopy">Soft, oversized cotton T-shirt with a clean minimalist cut and relaxed everyday fit.</p>
-          <strong class="mobile-price" id="mobilePrice">₦15,000</strong>
-          <div class="mobile-actions">
-            <button id="buyNow">Buy Now</button>
-            <button id="addToCart">Add to Cart ♡</button>
+          <div class="mobile-shadow"></div>
+          <button class="mobile-arrow m-prev interactive" id="mobilePrev" aria-label="Previous product">‹</button>
+          <button class="mobile-arrow m-next interactive" id="mobileNext" aria-label="Next product">›</button>
+        </section>
+
+        <section class="mobile-product-info">
+          <p class="choose">Select Size</p>
+          <div class="size-row" id="mobileSizes">
+            <button class="size-btn interactive selected" data-size="XL">XL</button>
+            <button class="size-btn interactive" data-size="2XL">2XL</button>
+            <button class="size-btn interactive" data-size="3XL">3XL</button>
+            <button class="size-btn interactive" data-size="4XL">4XL</button>
+          </div>
+          <p class="mobile-description" id="mobileDescription"></p>
+          <strong class="mobile-price" id="mobilePrice">₦10,000</strong>
+          <div class="mobile-cta-row">
+            <button class="buy-btn interactive" id="buyBtn">Buy Now</button>
+            <button class="add-btn interactive" id="addBtn">Add to Cart ♡</button>
           </div>
         </section>
       </div>
+
+      <div class="toast" id="toast" role="status"></div>
     </section>
 
-    <section class="content-intro">
-      <p class="eyebrow">VELORA BESPOKE</p>
-      <h2>Modern tailoring, premium fabrics and pieces made around you.</h2>
-    </section>
-
-    <section class="category-section" id="men">
-      <div>
-        <p class="eyebrow">MEN</p>
-        <h2>Tailored confidence.</h2>
-        <p>Custom shirts, suits, tuxedos and Asian couture, shaped around your fit, lifestyle and occasion.</p>
-      </div>
-      <div class="category-grid">
-        <article><span>01</span><h3>Shirts</h3></article>
-        <article><span>02</span><h3>Suits</h3></article>
-        <article><span>03</span><h3>Tuxedos</h3></article>
-        <article><span>04</span><h3>Asian Couture</h3></article>
-      </div>
-    </section>
-
-    <section class="category-section alt" id="women">
-      <div>
-        <p class="eyebrow">WOMEN</p>
-        <h2>Structure with movement.</h2>
-        <p>Suits, skirts, pants, coats and formalwear with a clean, confident silhouette.</p>
-      </div>
-      <div class="category-grid">
-        <article><span>01</span><h3>Suits</h3></article>
-        <article><span>02</span><h3>Pants</h3></article>
-        <article><span>03</span><h3>Long Coats</h3></article>
-        <article><span>04</span><h3>Formal Dresses</h3></article>
-      </div>
-    </section>
-
-    <section class="journal" id="journal">
-      <p class="eyebrow">THE JOURNAL</p>
-      <div class="journal-grid">
-        <article><h3>Half-canvas vs full-canvas</h3><p>Understanding structure, drape and longevity.</p></article>
-        <article><h3>Tuxedo vs suit</h3><p>When each works and how to style them.</p></article>
-        <article><h3>Choosing suit fabric</h3><p>Wool, linen, cotton, silk and seasonal blends.</p></article>
-      </div>
-    </section>
-
-    <section class="appointment" id="appointment">
-      <p class="eyebrow">PRIVATE APPOINTMENTS</p>
-      <h2>Let’s make something unmistakably yours.</h2>
-      <a href="mailto:Info@rivaado.com">Book an appointment ↗</a>
+    <section class="about-panel" id="aboutPanel">
+      <button class="panel-close interactive" id="aboutClose" aria-label="Close">×</button>
+      <p class="eyebrow">VELORA / BESPOKE</p>
+      <h2>Modern tailoring and premium essentials.</h2>
+      <p>VELORA combines everyday fashion with bespoke tailoring: men’s and women’s pieces, premium fabrics, accessories, formalwear and private appointments.</p>
+      <a href="mailto:Info@rivaado.com">Book a private appointment ↗</a>
     </section>
   </main>
   <script src="script.js"></script>
