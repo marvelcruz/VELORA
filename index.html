@@ -7,12 +7,14 @@
   <title>Rivaado — Bespoke Wear</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main class="app">
   <section class="showroom" id="showroom">
+    <div class="grain-layer" aria-hidden="true"></div>
+    <div class="ghost-word" id="ghostWord" aria-hidden="true">BESPOKE</div>
     <header class="topbar">
       <button class="mobile-menu-btn interactive" id="menuBtn" aria-label="Open menu">☰</button>
       <a class="logo" href="#" aria-label="Rivaado home">RIVAADO</a>
@@ -55,14 +57,13 @@
       </section>
 
       <section class="product-column">
-        <div class="hanger-stem"></div>
-        <div class="product-shell" id="productShell">
-          <img id="mainProduct" src="" alt="">
-        </div>
+        <div class="carousel-stage" id="carouselStage" aria-live="polite"></div>
         <div class="floating-shadow"></div>
 
-        <button class="arrow prev interactive" id="prevBtn" aria-label="Previous item">‹</button>
-        <button class="arrow next interactive" id="nextBtn" aria-label="Next item">›</button>
+        <div class="hero-nav">
+          <button class="arrow prev interactive" id="prevBtn" aria-label="Previous item">←</button>
+          <button class="arrow next interactive" id="nextBtn" aria-label="Next item">→</button>
+        </div>
 
         <div class="tagline" id="tagline">Boardroom.<br>Wedding. Black tie.</div>
       </section>
@@ -86,25 +87,19 @@
       </aside>
 
       <div class="desktop-next-card">
-        <button class="next-thumb interactive" id="nextThumb">
-          <img id="nextThumbImg" src="" alt="">
-          <span id="nextThumbName">Classic Tuxedo</span>
-        </button>
+        <a class="discover-link interactive" id="discoverLink" href="#bookingPanel">
+          DISCOVER FIT <span>→</span>
+        </a>
       </div>
     </div>
 
     <div class="mobile-layout">
-      <div class="mobile-thumbs" id="mobileThumbList"></div>
-
       <section class="mobile-product-area">
-        <div class="mobile-hanger-stem"></div>
-        <div class="mobile-product-shell" id="mobileProductShell">
-          <img id="mobileProduct" src="" alt="">
-        </div>
+        <div class="mobile-carousel-stage" id="mobileCarouselStage"></div>
         <div class="mobile-shadow"></div>
 
-        <button class="mobile-arrow m-prev interactive" id="mobilePrev" aria-label="Previous item">‹</button>
-        <button class="mobile-arrow m-next interactive" id="mobileNext" aria-label="Next item">›</button>
+        <button class="mobile-arrow m-prev interactive" id="mobilePrev" aria-label="Previous item">←</button>
+        <button class="mobile-arrow m-next interactive" id="mobileNext" aria-label="Next item">→</button>
       </section>
 
       <section class="mobile-product-info">
