@@ -1,26 +1,38 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-const IMAGES = [
+const LOOKS = [
   {
-    src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/1.02464a56.png',
-    bg: '#F4845F',
-    panel: '#F79B7F',
+    src: '/assets/generated-formal.svg',
+    bg: '#7F96A8',
+    panel: '#93A8B8',
+    name: 'FORMAL SUIT',
+    description:
+      'A made-to-measure suit shaped around your posture, proportions and occasion. Clean lines, premium cloth and a precise bespoke finish.',
   },
   {
-    src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/2.b977faab.png',
-    bg: '#6BBF7A',
-    panel: '#85CC92',
+    src: '/assets/generated-tuxedo.svg',
+    bg: '#30343A',
+    panel: '#4A4F56',
+    name: 'CLASSIC TUXEDO',
+    description:
+      'Black-tie tailoring with satin detailing, formal proportions and a refined evening silhouette built to fit you.',
   },
   {
-    src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/3.4df853b4.png',
-    bg: '#E882B4',
-    panel: '#ED9DC4',
+    src: '/assets/generated-coat.svg',
+    bg: '#B8946F',
+    panel: '#C7A886',
+    name: 'LONG COAT',
+    description:
+      'A tailored outer layer with structure, warmth and an elegant line designed to sit cleanly over suiting.',
   },
   {
-    src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png',
-    bg: '#6EB5FF',
-    panel: '#8DC4FF',
+    src: '/assets/generated-asian.svg',
+    bg: '#C8A56B',
+    panel: '#D5B983',
+    name: 'ASIAN COUTURE',
+    description:
+      'Ceremonial bespoke wear with rich detailing, formal structure and a heritage-led finish for special occasions.',
   },
 ] as const
 
@@ -35,7 +47,7 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640)
 
   useEffect(() => {
-    IMAGES.forEach(({ src }) => {
+    LOOKS.forEach(({ src }) => {
       const image = new Image()
       image.src = src
     })
@@ -47,14 +59,15 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const roles = useMemo(() => {
-    return {
+  const roles = useMemo(
+    () => ({
       center: activeIndex,
       left: (activeIndex + 3) % 4,
       right: (activeIndex + 1) % 4,
       back: (activeIndex + 2) % 4,
-    }
-  }, [activeIndex])
+    }),
+    [activeIndex],
+  )
 
   const navigate = (direction: Direction) => {
     if (isAnimating) return
@@ -64,9 +77,7 @@ export default function App() {
       direction === 'next' ? (prev + 1) % 4 : (prev + 3) % 4,
     )
 
-    window.setTimeout(() => {
-      setIsAnimating(false)
-    }, 650)
+    window.setTimeout(() => setIsAnimating(false), 650)
   }
 
   const roleFor = (index: number): Role => {
@@ -144,11 +155,13 @@ export default function App() {
     }
   }
 
+  const active = LOOKS[activeIndex]
+
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
-        backgroundColor: IMAGES[activeIndex].bg,
+        backgroundColor: active.bg,
         transition: `background-color 650ms ${easing}`,
         fontFamily: "'Inter', sans-serif",
       }}
@@ -182,7 +195,7 @@ export default function App() {
             whiteSpace: 'nowrap',
           }}
         >
-          3D SHAPE
+          BESPOKE
         </div>
 
         <div
@@ -193,18 +206,17 @@ export default function App() {
             letterSpacing: '0.18em',
           }}
         >
-          TOONHUB
+          RIVAADO
         </div>
 
         <div className="absolute inset-0" style={{ zIndex: 3 }}>
-          {IMAGES.map((item, index) => {
+          {LOOKS.map((item, index) => {
             const role = roleFor(index)
-
             return (
               <div key={item.src} style={getRoleStyle(role)}>
                 <img
                   src={item.src}
-                  alt={`TOONHUB figurine ${index + 1}`}
+                  alt={item.name}
                   draggable={false}
                   style={{
                     width: '100%',
@@ -220,42 +232,29 @@ export default function App() {
 
         <div
           className="absolute bottom-6 left-4 sm:bottom-20 sm:left-24"
-          style={{
-            zIndex: 60,
-            maxWidth: 320,
-          }}
+          style={{ zIndex: 60, maxWidth: 320 }}
         >
           <p
             className="mb-2 sm:mb-3 text-base sm:text-[22px] font-bold uppercase text-white"
-            style={{
-              opacity: 0.95,
-              letterSpacing: '0.02em',
-            }}
+            style={{ opacity: 0.95, letterSpacing: '0.02em' }}
           >
-            TOONHUB FIGURINES
+            {active.name}
           </p>
 
           <p
             className="hidden sm:block text-xs sm:text-sm text-white mb-4 sm:mb-5"
-            style={{
-              opacity: 0.85,
-              lineHeight: 1.6,
-            }}
+            style={{ opacity: 0.85, lineHeight: 1.6 }}
           >
-            The artwork is stunning, shipped fully prepared. The finish is a
-            vision, the 3D craft is flawless. Many thanks! Wishing you the win.
-            Order now.
+            {active.description}
           </p>
 
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => navigate('prev')}
-              aria-label="Previous figurine"
+              aria-label="Previous garment"
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-white bg-transparent text-white flex items-center justify-center hover:scale-[1.08] hover:bg-white/10"
-              style={{
-                transition: 'transform 150ms, background-color 150ms',
-              }}
+              style={{ transition: 'transform 150ms, background-color 150ms' }}
             >
               <ArrowLeft size={26} strokeWidth={2.25} />
             </button>
@@ -263,11 +262,9 @@ export default function App() {
             <button
               type="button"
               onClick={() => navigate('next')}
-              aria-label="Next figurine"
+              aria-label="Next garment"
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-white bg-transparent text-white flex items-center justify-center hover:scale-[1.08] hover:bg-white/10"
-              style={{
-                transition: 'transform 150ms, background-color 150ms',
-              }}
+              style={{ transition: 'transform 150ms, background-color 150ms' }}
             >
               <ArrowRight size={26} strokeWidth={2.25} />
             </button>
@@ -279,7 +276,7 @@ export default function App() {
           style={{ zIndex: 60 }}
         >
           <a
-            href="#"
+            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
             className="flex items-center gap-2 text-white no-underline uppercase hover:opacity-100"
             style={{
               fontFamily: "'Anton', sans-serif",
@@ -291,7 +288,7 @@ export default function App() {
               transition: 'opacity 200ms',
             }}
           >
-            DISCOVER IT
+            BOOK FITTING
             <ArrowRight
               className="w-5 h-5 sm:w-8 sm:h-8"
               strokeWidth={2.25}
