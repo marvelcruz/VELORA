@@ -31,3 +31,11 @@
 .mobile-thumb.active{opacity:1}
 .mobile-thumb:not(.active){opacity:.72}
 @media(max-width:740px){.mobile-product-shell{overflow:hidden;width:min(78vw,365px)}}
+
+/* frame-accurate motion pass */
+.frame-flight{position:fixed;z-index:60;pointer-events:none;object-fit:contain;transform-origin:center center;will-change:transform,opacity}
+.product-shell.transitioning #mainProduct{visibility:hidden}
+.mobile-product-shell.transitioning #mobileProduct{visibility:hidden}
+.mobile-thumb.active{background:#1689ff;color:#fff;border-radius:2px;padding:2px 1px}
+.mobile-thumb.active img{transform:scale(1.06)}
+.showroom{transition:background .33s cubic-bezier(.22,.8,.25,1)}
