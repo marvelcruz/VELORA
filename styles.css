@@ -36,3 +36,15 @@
 #mainProduct,#mobileProduct,.next-thumb img,.mobile-thumb img,.frame-flight{mix-blend-mode:multiply}
 .product-shell img,.mobile-product-shell img{filter:drop-shadow(0 26px 18px rgba(0,0,0,.18))!important}
 .next-thumb img,.mobile-thumb img{filter:drop-shadow(0 8px 8px rgba(0,0,0,.12))}
+
+/* Remove baked studio-background rectangle: garment floats directly on collection color */
+#mainProduct,#mobileProduct,.next-thumb img,.mobile-thumb img,.frame-flight{
+  mix-blend-mode:darken !important;
+  background:transparent !important;
+}
+.product-shell,.mobile-product-shell,.next-thumb,.mobile-thumb{
+  background:transparent !important;
+}
+.product-shell::after,.mobile-product-shell::after{
+  content:none !important;
+}
