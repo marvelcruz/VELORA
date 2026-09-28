@@ -12,11 +12,11 @@ men:{
     {key:"Polywool",short:"PW",label:"Polywool · Travel ready"}
   ],
   items:[
-    {name:"Formal Suit",identity:"BOARDROOM / NAVY",image:"assets/suit-hanger.svg",bg:"#b8c1c7",accent:"#213a50",price:"From $400",type:"Made to measure",desc:"A structured custom suit built for business, weddings and formal events, with proportions developed around your posture and preferred silhouette."},
-    {name:"Classic Tuxedo",identity:"BLACK TIE / MIDNIGHT",image:"assets/tuxedo-hanger.svg",bg:"#c7c3bd",accent:"#121212",price:"From $400",type:"Black-tie tailoring",desc:"Sharp lapels, refined finishing and premium cloth for weddings, galas and evenings where black tie is the language."},
-    {name:"Embroidered Tuxedo",identity:"CEREMONY / MERLOT",image:"assets/embroidered-tuxedo-hanger.svg",bg:"#cfb8b6",accent:"#681e30",price:"Custom quote",type:"Statement formalwear",desc:"Traditional tailoring elevated with embroidery and individual detailing for a tuxedo that feels one of one."},
-    {name:"Long Coat",identity:"WINTER / CAMEL",image:"assets/coat-hanger.svg",bg:"#d5c4ad",accent:"#775b3f",price:"Custom quote",type:"Bespoke outerwear",desc:"A long tailored coat designed to sit cleanly over suiting while keeping the silhouette refined and warm."},
-    {name:"Asian Couture",identity:"HERITAGE / SAND",image:"assets/asian-couture-hanger.svg",bg:"#d8c7b0",accent:"#7e533a",price:"Custom quote",type:"Bespoke couture",desc:"Traditional and contemporary Asian occasionwear shaped by generations of specialist tailoring experience."}
+    {name:"Formal Suit",identity:"BOARDROOM / NAVY",image:"assets/generated-formal.svg",bg:"#b8c1c7",accent:"#213a50",price:"From $400",type:"Made to measure",desc:"A structured custom suit built for business, weddings and formal events, with proportions developed around your posture and preferred silhouette."},
+    {name:"Classic Tuxedo",identity:"BLACK TIE / MIDNIGHT",image:"assets/generated-tuxedo.svg",bg:"#c7c3bd",accent:"#121212",price:"From $400",type:"Black-tie tailoring",desc:"Sharp lapels, refined finishing and premium cloth for weddings, galas and evenings where black tie is the language."},
+    {name:"Embroidered Tuxedo",identity:"CEREMONY / MERLOT",image:"assets/generated-embroidered.svg",bg:"#cfb8b6",accent:"#681e30",price:"Custom quote",type:"Statement formalwear",desc:"Traditional tailoring elevated with embroidery and individual detailing for a tuxedo that feels one of one."},
+    {name:"Long Coat",identity:"WINTER / CAMEL",image:"assets/generated-coat.svg",bg:"#d5c4ad",accent:"#775b3f",price:"Custom quote",type:"Bespoke outerwear",desc:"A long tailored coat designed to sit cleanly over suiting while keeping the silhouette refined and warm."},
+    {name:"Asian Couture",identity:"HERITAGE / SAND",image:"assets/generated-asian.svg",bg:"#d8c7b0",accent:"#7e533a",price:"Custom quote",type:"Bespoke couture",desc:"Traditional and contemporary Asian occasionwear shaped by generations of specialist tailoring experience."}
   ]
 },
 women:{
@@ -32,11 +32,11 @@ women:{
     {key:"Soft",short:"SF",label:"Soft structure"}
   ],
   items:[
-    {name:"Formal Suit",identity:"EXECUTIVE / NOIR",image:"assets/womens-suit-hanger.svg",bg:"#dcc8c2",accent:"#151515",price:"Custom quote",type:"Precision tailoring",desc:"A polished suit cut around your proportions for corporate, business and formal occasions."},
-    {name:"Designer Tuxedo",identity:"EVENING / ONYX",image:"assets/womens-suit-hanger.svg",bg:"#d4ceb8",accent:"#151515",price:"Custom quote",type:"Designer formalwear",desc:"Premium fabrics and distinctive lapel details give this tuxedo a sharper evening identity."},
-    {name:"Formal Skirt",identity:"OFFICE / GRAPHITE",image:"assets/womens-dress-hanger.svg",bg:"#d2d1cf",accent:"#4a4b4d",price:"Custom quote",type:"Made to measure",desc:"A clean formal skirt designed to balance comfort, proportion and a crisp professional line."},
-    {name:"Long Coat",identity:"WINTER / IVORY",image:"assets/coat-hanger.svg",bg:"#e4ddd0",accent:"#8a7967",price:"Custom quote",type:"Tailored outerwear",desc:"A long coat in a refined light palette, designed for warmth, elegance and easy layering."},
-    {name:"Culottes",identity:"MODERN / BLACK",image:"assets/culottes-hanger.svg",bg:"#e3d8d5",accent:"#111111",price:"Custom quote",type:"Contemporary tailoring",desc:"Wide-leg culottes with a modern proportion that works from office styling to evening dressing."}
+    {name:"Formal Suit",identity:"EXECUTIVE / NOIR",image:"assets/generated-womens-suit.svg",bg:"#dcc8c2",accent:"#151515",price:"Custom quote",type:"Precision tailoring",desc:"A polished suit cut around your proportions for corporate, business and formal occasions."},
+    {name:"Designer Tuxedo",identity:"EVENING / ONYX",image:"assets/generated-womens-tuxedo.svg",bg:"#d4ceb8",accent:"#151515",price:"Custom quote",type:"Designer formalwear",desc:"Premium fabrics and distinctive lapel details give this tuxedo a sharper evening identity."},
+    {name:"Formal Dress",identity:"EVENING / PLUM",image:"assets/generated-womens-dress.svg",bg:"#d8c4ce",accent:"#5c1938",price:"Custom quote",type:"Made to measure",desc:"A graceful made-to-measure evening dress with fluid drape, a defined waist and a refined formal silhouette."},
+    {name:"Long Coat",identity:"WINTER / IVORY",image:"assets/generated-coat.svg",bg:"#e4ddd0",accent:"#8a7967",price:"Custom quote",type:"Tailored outerwear",desc:"A long coat in a refined light palette, designed for warmth, elegance and easy layering."},
+    {name:"Culottes",identity:"MODERN / BLACK",image:"assets/generated-culottes.svg",bg:"#e3d8d5",accent:"#111111",price:"Custom quote",type:"Contemporary tailoring",desc:"Wide-leg culottes with a modern proportion that works from office styling to evening dressing."}
   ]
 },
 accessories:{
@@ -52,11 +52,11 @@ accessories:{
     {key:"Gift",short:"GF",label:"Gift ready"}
   ],
   items:[
-    {name:"Formal Shoes",identity:"SHOES / COGNAC",image:"assets/accessory-shoe.svg",bg:"#dec7a8",accent:"#a96521",price:"Enquire",type:"Leather footwear",desc:"Polished formal shoes in a warm cognac tone, built to finish tailored looks with a richer base."},
-    {name:"Plaid Tie",identity:"TIE / CHECK",image:"assets/accessory-tie.svg",bg:"#cad5e2",accent:"#b31d26",price:"Enquire",type:"Silk accessory",desc:"A patterned tie that brings color and rhythm into a clean suit without overpowering it."},
-    {name:"Cufflinks",identity:"CUFFLINKS / BLUE",image:"assets/accessory-cufflinks.svg",bg:"#c6cfdb",accent:"#264f96",price:"Enquire",type:"Formal finishing",desc:"Cufflinks designed as a precise finishing touch for French cuffs, tuxedos and formal shirts."},
-    {name:"Pocket Square",identity:"POCKET / TEAL",image:"assets/accessory-pocket-square.svg",bg:"#bdd6d3",accent:"#047d82",price:"Enquire",type:"Silk detail",desc:"A teal patterned pocket square that adds controlled color and texture against dark tailoring."},
-    {name:"Gift Box",identity:"GIFT / BURNT ORANGE",image:"assets/accessory-giftbox.svg",bg:"#e3c0a5",accent:"#b84c1c",price:"Enquire",type:"Curated gift",desc:"A presentation box for ties, cufflinks and finishing accessories — built for gifting or a complete formal set."}
+    {name:"Formal Shoes",identity:"SHOES / COGNAC",image:"assets/generated-accessories.svg",bg:"#dec7a8",accent:"#a96521",price:"Enquire",type:"Leather footwear",desc:"Polished formal shoes in a warm cognac tone, built to finish tailored looks with a richer base."},
+    {name:"Plaid Tie",identity:"TIE / CHECK",image:"assets/generated-accessories.svg",bg:"#cad5e2",accent:"#b31d26",price:"Enquire",type:"Silk accessory",desc:"A patterned tie that brings color and rhythm into a clean suit without overpowering it."},
+    {name:"Cufflinks",identity:"CUFFLINKS / BLUE",image:"assets/generated-accessories.svg",bg:"#c6cfdb",accent:"#264f96",price:"Enquire",type:"Formal finishing",desc:"Cufflinks designed as a precise finishing touch for French cuffs, tuxedos and formal shirts."},
+    {name:"Pocket Square",identity:"POCKET / TEAL",image:"assets/generated-accessories.svg",bg:"#bdd6d3",accent:"#047d82",price:"Enquire",type:"Silk detail",desc:"A teal patterned pocket square that adds controlled color and texture against dark tailoring."},
+    {name:"Gift Box",identity:"GIFT / BURNT ORANGE",image:"assets/generated-accessories.svg",bg:"#e3c0a5",accent:"#b84c1c",price:"Enquire",type:"Curated gift",desc:"A presentation box for ties, cufflinks and finishing accessories — built for gifting or a complete formal set."}
   ]
 }
 };
