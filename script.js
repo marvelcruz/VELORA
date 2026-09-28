@@ -61,94 +61,203 @@ accessories:{
 }
 };
 
-let category="men",index=0,previousIndex=4,selectedOption="Wool",animating=false;
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const app=$("#showroom"),mainProduct=$("#mainProduct"),mobileProduct=$("#mobileProduct"),shell=$("#productShell"),mobileShell=$("#mobileProductShell"),previewImg=$("#nextThumbImg"),previewName=$("#nextThumbName"),thumbList=$("#mobileThumbList");
-const fallback="oversized-tee.webp";
-const cfg=()=>CATALOG[category],items=()=>cfg().items;
+let category="men";
+let activeIndex=0;
+let selectedOption="Wool";
+let isAnimating=false;
+let isMobile=window.innerWidth<640;
 
-function safeImage(img,src){img.onerror=()=>{img.onerror=null;img.src=fallback};img.src=src||fallback}
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const showroom=$("#showroom");
+const carouselStage=$("#carouselStage");
+const mobileCarouselStage=$("#mobileCarouselStage");
+const fallback="oversized-tee.webp";
+const cfg=()=>CATALOG[category];
+const items=()=>cfg().items;
+
+function preloadAll(){
+  Object.values(CATALOG).forEach(group=>{
+    group.items.forEach(item=>{
+      const img=new Image();
+      img.src=item.image;
+    });
+  });
+}
+preloadAll();
+
+window.addEventListener("resize",()=>{isMobile=window.innerWidth<640});
+
+function safeImage(img,src){
+  img.onerror=()=>{img.onerror=null;img.src=fallback};
+  img.src=src||fallback;
+}
+
+function roleFor(i){
+  const n=items().length;
+  const center=activeIndex;
+  const left=(activeIndex+n-1)%n;
+  const right=(activeIndex+1)%n;
+  const back=(activeIndex+2)%n;
+  if(i===center)return "center";
+  if(i===left)return "left";
+  if(i===right)return "right";
+  if(i===back)return "back";
+  return "hidden";
+}
+
+function buildCarousel(stage){
+  stage.innerHTML="";
+  items().forEach((item,i)=>{
+    const wrap=document.createElement("div");
+    wrap.className="carousel-item role-"+roleFor(i);
+    wrap.dataset.index=i;
+    const img=document.createElement("img");
+    img.draggable=false;
+    img.alt=item.name;
+    safeImage(img,item.image);
+    wrap.appendChild(img);
+    stage.appendChild(wrap);
+  });
+}
+
+function updateRoles(stage){
+  [...stage.children].forEach((el,i)=>{
+    el.className="carousel-item role-"+roleFor(i);
+  });
+}
+
 function setOptions(){
- const opts=cfg().options;
- [$("#desktopFabrics"),$("#mobileFabrics")].forEach(row=>{
-   row.innerHTML="";
-   opts.forEach((o,i)=>{
-     const b=document.createElement("button");
-     b.className="fabric-btn interactive"+(i===0?" selected":"");
-     b.dataset.fabric=o.key;b.textContent=o.short;b.title=o.label;
-     b.onclick=()=>selectOption(o.key);
-     row.appendChild(b);
-   });
- });
- selectedOption=opts[0].key;$("#fabricName").textContent=opts[0].label;
- $("#optionLabelDesktop").textContent=cfg().optionLabel;
- $("#optionLabelMobile").textContent=cfg().optionLabel;
+  const opts=cfg().options;
+  [$("#desktopFabrics"),$("#mobileFabrics")].forEach(row=>{
+    row.innerHTML="";
+    opts.forEach((o,i)=>{
+      const b=document.createElement("button");
+      b.className="fabric-btn interactive"+(i===0?" selected":"");
+      b.dataset.fabric=o.key;
+      b.textContent=o.short;
+      b.title=o.label;
+      b.onclick=()=>selectOption(o.key);
+      row.appendChild(b);
+    });
+  });
+  selectedOption=opts[0].key;
+  $("#fabricName").textContent=opts[0].label;
+  $("#optionLabelDesktop").textContent=cfg().optionLabel;
+  $("#optionLabelMobile").textContent=cfg().optionLabel;
 }
-function buildThumbs(){
- thumbList.innerHTML="";
- items().forEach((p,i)=>{
-   const b=document.createElement("button");b.className="mobile-thumb interactive";b.dataset.index=i;
-   b.innerHTML='<img alt=""><span>'+p.name+'</span>';safeImage(b.querySelector("img"),p.image);
-   b.onclick=()=>goTo(i,i>index?1:-1);thumbList.appendChild(b);
- });
+
+function renderData(){
+  const p=items()[activeIndex];
+  showroom.style.setProperty("--bg",p.bg);
+  showroom.style.setProperty("--accent",p.accent);
+
+  $("#desktopItemName").textContent=p.name;
+  $("#mobileItemName").textContent=p.name;
+  $("#mobileItemName").dataset.identity=p.identity;
+  $("#priceLabel").textContent=p.price;
+  $("#mobilePrice").textContent=p.price;
+  $("#detailType").textContent=p.identity;
+  $("#mobileDescription").textContent=p.desc;
+
+  $("#microLabel").textContent="RIVAADO · "+cfg().label;
+  $("#heroTitle").innerHTML=cfg().title.replace("\n","<br>");
+  $("#heroDescription").textContent=cfg().hero;
+  $("#tagline").innerHTML=cfg().tagline.replace("\n","<br>");
+  $("#ghostWord").textContent=category==="accessories"?"DETAILS":category==="women"?"FORM": "BESPOKE";
 }
+
 function render(){
- const p=items()[index],prev=items()[previousIndex]||items()[items().length-1];
- app.style.setProperty("--bg",p.bg);app.style.setProperty("--accent",p.accent);
- safeImage(mainProduct,p.image);safeImage(mobileProduct,p.image);
- mainProduct.alt=p.name;mobileProduct.alt=p.name;
- $("#desktopItemName").textContent=p.name;$("#mobileItemName").textContent=p.name;$("#mobileItemName").dataset.identity=p.identity;
- $("#priceLabel").textContent=p.price;$("#mobilePrice").textContent=p.price;$("#detailType").textContent=p.identity;$("#mobileDescription").textContent=p.desc;
- $("#microLabel").textContent="RIVAADO · "+cfg().label;
- $("#heroTitle").innerHTML=cfg().title.replace("\n","<br>");
- $("#heroDescription").textContent=cfg().hero;
- $("#tagline").innerHTML=cfg().tagline.replace("\n","<br>");
- safeImage(previewImg,prev.image);previewName.textContent=prev.name;
- $$(".mobile-thumb").forEach((el,i)=>el.classList.toggle("active",i===index));
+  updateRoles(carouselStage);
+  updateRoles(mobileCarouselStage);
+  renderData();
 }
-function cloneAt(img,rect,src){
- const c=document.createElement("img");c.className="frame-flight";safeImage(c,src);
- Object.assign(c.style,{left:rect.left+"px",top:rect.top+"px",width:rect.width+"px",height:rect.height+"px"});document.body.appendChild(c);return c;
+
+function navigate(direction){
+  if(isAnimating)return;
+  isAnimating=true;
+  const n=items().length;
+  activeIndex=direction==="next"?(activeIndex+1)%n:(activeIndex+n-1)%n;
+  render();
+  setTimeout(()=>{isAnimating=false},650);
 }
-function desktopFlight(nextIndex){
- const start=mainProduct.getBoundingClientRect(),target=previewImg.getBoundingClientRect(),outgoing=cloneAt(mainProduct,start,items()[index].image),incoming=cloneAt(mainProduct,start,items()[nextIndex].image);
- const dx=target.left-start.left,dy=target.top-start.top,sx=target.width/start.width,sy=target.height/start.height;
- outgoing.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:`translate(${dx*.45}px,${dy*.38}px) scale(.76)`,offset:.48,opacity:1},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,opacity:.9}],{duration:330,easing:"cubic-bezier(.22,.8,.25,1)",fill:"forwards"});
- incoming.animate([{transform:"translate(-8%,-78%) scale(1.18)",opacity:.45},{transform:"translate(-3%,-30%) scale(1.08)",opacity:.92,offset:.5},{transform:"translate(0,0) scale(1)",opacity:1}],{duration:330,easing:"cubic-bezier(.22,.8,.25,1)",fill:"forwards"});
- shell.classList.add("transitioning");return[outgoing,incoming];
-}
-function mobileFlight(nextIndex,direction){
- const rect=mobileProduct.getBoundingClientRect(),sign=direction>0?1:-1,outgoing=cloneAt(mobileProduct,rect,items()[index].image),incoming=cloneAt(mobileProduct,rect,items()[nextIndex].image);
- outgoing.animate([{transform:"translateX(0)",opacity:1},{transform:`translateX(${sign*48}%)`,opacity:.9,offset:.5},{transform:`translateX(${sign*112}%)`,opacity:.15}],{duration:330,easing:"cubic-bezier(.22,.8,.25,1)",fill:"forwards"});
- incoming.animate([{transform:`translateX(${-sign*112}%)`,opacity:.15},{transform:`translateX(${-sign*48}%)`,opacity:.9,offset:.5},{transform:"translateX(0)",opacity:1}],{duration:330,easing:"cubic-bezier(.22,.8,.25,1)",fill:"forwards"});
- mobileShell.classList.add("transitioning");return[outgoing,incoming];
-}
-function goTo(nextIndex,direction=1){
- if(animating||nextIndex===index||!items()[nextIndex])return;animating=true;const old=index,d=desktopFlight(nextIndex),m=mobileFlight(nextIndex,direction),nextItem=items()[nextIndex];
- app.style.setProperty("--bg",nextItem.bg);app.style.setProperty("--accent",nextItem.accent);
- setTimeout(()=>{previousIndex=old;index=nextIndex;render()},165);
- setTimeout(()=>{[...d,...m].forEach(x=>x.remove());shell.classList.remove("transitioning");mobileShell.classList.remove("transitioning");animating=false},350);
-}
-const next=()=>goTo((index+1)%items().length,1),prev=()=>goTo((index-1+items().length)%items().length,-1);
-$("#nextBtn").onclick=next;$("#mobileNext").onclick=next;$("#prevBtn").onclick=prev;$("#mobilePrev").onclick=prev;$("#nextThumb").onclick=()=>goTo(previousIndex,-1);
+
+$("#nextBtn").onclick=()=>navigate("next");
+$("#mobileNext").onclick=()=>navigate("next");
+$("#prevBtn").onclick=()=>navigate("prev");
+$("#mobilePrev").onclick=()=>navigate("prev");
+
 function selectOption(key){
- selectedOption=key;const o=cfg().options.find(x=>x.key===key);
- $$(".fabric-btn").forEach(b=>b.classList.toggle("selected",b.dataset.fabric===key));$("#fabricName").textContent=o?o.label:key;toast((o?o.label:key)+" selected");
+  selectedOption=key;
+  const o=cfg().options.find(x=>x.key===key);
+  $$(".fabric-btn").forEach(b=>b.classList.toggle("selected",b.dataset.fabric===key));
+  $("#fabricName").textContent=o?o.label:key;
+  toast((o?o.label:key)+" selected");
 }
+
 function switchCategory(nextCategory){
- if(nextCategory==="about"){openAbout();closeDrawer();return}
- if(!CATALOG[nextCategory])return;
- category=nextCategory;index=0;previousIndex=CATALOG[category].items.length-1;animating=false;
- $$(".category-tab").forEach(b=>b.classList.toggle("active",b.dataset.category===category));$("#mobileCategoryTitle").textContent=category[0].toUpperCase()+category.slice(1);
- setOptions();buildThumbs();render();closeDrawer();
+  if(nextCategory==="about"){openAbout();closeDrawer();return}
+  if(!CATALOG[nextCategory])return;
+  if(isAnimating)return;
+  category=nextCategory;
+  activeIndex=0;
+  $$(".category-tab").forEach(b=>b.classList.toggle("active",b.dataset.category===category));
+  $("#mobileCategoryTitle").textContent=category[0].toUpperCase()+category.slice(1);
+  setOptions();
+  buildCarousel(carouselStage);
+  buildCarousel(mobileCarouselStage);
+  renderData();
+  closeDrawer();
 }
 $$("[data-category]").forEach(b=>b.addEventListener("click",()=>switchCategory(b.dataset.category)));
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),1400)}
-function openAbout(){$("#aboutPanel").classList.add("open")}function openBooking(){$("#bookingPanel").classList.add("open")}function closeDrawer(){$("#mobileDrawer").classList.remove("open");$("#mobileDrawer").setAttribute("aria-hidden","true")}
-$("#menuBtn").onclick=()=>{$("#mobileDrawer").classList.add("open");$("#mobileDrawer").setAttribute("aria-hidden","false")};$("#drawerClose").onclick=closeDrawer;$("#aboutClose").onclick=()=>$("#aboutPanel").classList.remove("open");$("#bookingClose").onclick=()=>$("#bookingPanel").classList.remove("open");
+
+function toast(msg){
+  const t=$("#toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(window.__toast);
+  window.__toast=setTimeout(()=>t.classList.remove("show"),1400);
+}
+
+function openAbout(){$("#aboutPanel").classList.add("open")}
+function openBooking(){$("#bookingPanel").classList.add("open")}
+function closeDrawer(){
+  $("#mobileDrawer").classList.remove("open");
+  $("#mobileDrawer").setAttribute("aria-hidden","true");
+}
+
+$("#menuBtn").onclick=()=>{
+  $("#mobileDrawer").classList.add("open");
+  $("#mobileDrawer").setAttribute("aria-hidden","false");
+};
+$("#drawerClose").onclick=closeDrawer;
+$("#aboutClose").onclick=()=>$("#aboutPanel").classList.remove("open");
+$("#bookingClose").onclick=()=>$("#bookingPanel").classList.remove("open");
 ["#bookTop","#bookMain","#bookMobile","#aboutBook"].forEach(id=>$(id).onclick=openBooking);
-$("#enquireMobile").onclick=()=>{window.location.href="mailto:Info@rivaado.com?subject="+encodeURIComponent("Rivaado enquiry: "+items()[index].name)};
+$("#discoverLink").onclick=e=>{e.preventDefault();openBooking()};
+$("#enquireMobile").onclick=()=>{
+  window.location.href="mailto:Info@rivaado.com?subject="+encodeURIComponent("Rivaado enquiry: "+items()[activeIndex].name)
+};
 $("#contactBtn").onclick=openAbout;
-$("#bookingForm").addEventListener("submit",e=>{e.preventDefault();const fd=new FormData(e.currentTarget),name=(fd.get("name")||"").toString().trim();$("#bookingStatus").textContent="Thank you"+(name?", "+name:"")+". Your fitting request is ready to confirm with Rivaado.";});
-document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")next();if(e.key==="ArrowLeft")prev();if(e.key==="Escape"){$("#aboutPanel").classList.remove("open");$("#bookingPanel").classList.remove("open");closeDrawer()}});
-setOptions();buildThumbs();render();
+
+$("#bookingForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const fd=new FormData(e.currentTarget);
+  const name=(fd.get("name")||"").toString().trim();
+  $("#bookingStatus").textContent="Thank you"+(name?", "+name:"")+". Your fitting request is ready to confirm with Rivaado.";
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight")navigate("next");
+  if(e.key==="ArrowLeft")navigate("prev");
+  if(e.key==="Escape"){
+    $("#aboutPanel").classList.remove("open");
+    $("#bookingPanel").classList.remove("open");
+    closeDrawer();
+  }
+});
+
+setOptions();
+buildCarousel(carouselStage);
+buildCarousel(mobileCarouselStage);
+renderData();
