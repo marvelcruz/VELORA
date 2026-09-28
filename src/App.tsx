@@ -111,7 +111,7 @@ export default function App() {
     if (role === 'center') {
       return {
         ...base,
-        transform: `translateX(-50%) scale(${isMobile ? 1.25 : 1.68})`,
+        transform: `translateX(-50%) scale(${isMobile ? 1.18 : 1.12})`,
         filter: 'blur(0px)',
         opacity: 1,
         zIndex: 20,
