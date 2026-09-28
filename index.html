@@ -3,84 +3,213 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="VELORA — heavyweight essentials, cut with intention." />
-  <title>VELORA — Modern Essentials</title>
+  <meta name="description" content="VELORA Bespoke — modern tailoring for men and women, premium fabrics, accessories and private appointments." />
+  <title>VELORA — Bespoke Wear</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23160f11'/%3E%3Cpath d='M14 17h10l8 19 8-19h10L35 49h-6z' fill='%23f8eee8'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="stage" id="home">
-    <header class="nav">
-      <a class="brand" href="#home" aria-label="VELORA home">V<span>•</span>VELORA</a>
-      <nav aria-label="Main navigation">
-        <a href="#home">Home</a><a class="active" href="#shop">Tees</a><a href="#sweats">Sweats</a><a href="#journal">Journal</a>
-      </nav>
-      <div class="actions">
-        <button aria-label="Account" class="icon-button">♙</button>
-        <button aria-label="Shopping bag" class="bag icon-button">Bag <span id="bagCount">0</span></button>
-      </div>
-    </header>
+  <header class="nav">
+    <a class="brand" href="#home">VELORA</a>
+    <button class="menu-toggle" aria-label="Open menu">Menu</button>
+    <nav>
+      <a href="#men">Men</a>
+      <a href="#women">Women</a>
+      <a href="#accessories">Accessories</a>
+      <a href="#heritage">Heritage</a>
+      <a href="#journal">Journal</a>
+    </nav>
+    <a class="appointment-link" href="#appointment">Book appointment</a>
+  </header>
 
-    <section class="hero" id="shop">
-      <div class="intro">
-        <p class="eyebrow">Edition 01 · 2026</p>
-        <h1>Quiet form.<br><em>Bold presence.</em></h1>
-        <p class="lede">Weighty cotton. Relaxed lines. An everyday uniform made to outlast the moment.</p>
-        <button class="shop-button" id="addButton">Add to bag <span>↗</span></button>
-      </div>
-
-      <div class="product-view" aria-live="polite">
-        <div class="halo"></div>
-        <span class="edition" id="edition">01 / 04</span>
-        <div class="product-wrap" id="productWrap">
-          <img id="shirt" src="oversized-tee.webp" alt="Burgundy oversized T-shirt on a wooden hanger" />
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">VELORA · Bespoke Wear</p>
+        <h1>Tailored for<br><em>your presence.</em></h1>
+        <p class="lede">Custom suits, tuxedos, shirts and statement pieces shaped around your body, lifestyle and occasion.</p>
+        <div class="hero-actions">
+          <a class="primary" href="#appointment">Book an appointment</a>
+          <a class="secondary" href="#collections">Explore collections</a>
         </div>
-        <div class="shadow"></div>
-        <button class="arrow prev" id="prev" aria-label="Previous colour">←</button>
-        <button class="arrow next" id="next" aria-label="Next colour">→</button>
       </div>
-
-      <aside class="details">
-        <p class="colour-label">Colour · <strong id="colourName">Oxide</strong></p>
-        <div class="swatches" id="swatches" aria-label="Choose colour"></div>
-        <div class="price"><strong>₦48,000</strong><s>₦56,000</s></div>
-        <p class="size-label">Select your size</p>
-        <div class="sizes" id="sizes">
-          <button>S</button><button class="selected">M</button><button>L</button><button>XL</button>
+      <div class="hero-art">
+        <div class="hero-frame">
+          <img src="oversized-tee.webp" alt="VELORA fashion piece" />
         </div>
-        <p class="note">Cut oversized. Choose your usual size for the intended fit.</p>
-      </aside>
-    </section>
-
-    <section class="collection-section" id="sweats">
-      <div class="section-copy">
-        <p class="eyebrow">The weight collection</p>
-        <h2>Soft structure.<br><em>Everyday armour.</em></h2>
-        <p>Heavyweight layers designed for cool evenings, long flights, and slow weekends.</p>
-      </div>
-      <div class="collection-grid">
-        <article class="collection-card dark"><img src="oversized-tee.webp" alt="Midnight heavyweight essential"><span>01</span><h3>Midnight Weight</h3><p>₦62,000</p></article>
-        <article class="collection-card bone"><img src="oversized-tee.webp" alt="Bone heavyweight essential"><span>02</span><h3>Bone Weight</h3><p>₦62,000</p></article>
+        <p class="vertical-note">MEN · WOMEN · ACCESSORIES · BESPOKE</p>
       </div>
     </section>
 
-    <section class="journal-section" id="journal">
-      <p class="eyebrow">VELORA Journal · 001</p>
-      <blockquote>“The best pieces do not ask for attention. They earn it over time.”</blockquote>
-      <div class="journal-meta"><span>On form, fabric and repetition</span><span>Lagos · 6 min read</span></div>
+    <section class="intro-band" id="collections">
+      <p>For every room you enter.</p>
+      <h2>Crafted clothing that balances confidence, comfort and character.</h2>
     </section>
 
-    <footer>
-      <div class="socials"><a href="#">IG</a><a href="#">TK</a><a href="#">PT</a></div>
-      <p class="mantra">Made slowly.<br>Worn often.</p>
-      <p class="footer-note">Lagos · Worldwide delivery</p>
-    </footer>
+    <section class="split-collection" id="men">
+      <div class="collection-visual dark">
+        <span class="index">01</span>
+        <img src="oversized-tee.webp" alt="Men's bespoke tailoring" />
+      </div>
+      <div class="collection-copy">
+        <p class="eyebrow">Men's bespoke</p>
+        <h2>Built around the man, not the mannequin.</h2>
+        <div class="category-list">
+          <a href="#appointment">Shirts <span>↗</span></a>
+          <a href="#appointment">Asian Couture <span>↗</span></a>
+          <a href="#appointment">Suits <span>↗</span></a>
+          <a href="#appointment">Tuxedos <span>↗</span></a>
+        </div>
+      </div>
+    </section>
 
-    <div class="toast" id="toast" role="status">Added Oxide · M to your bag</div>
+    <section class="split-collection reverse" id="women">
+      <div class="collection-visual cream">
+        <span class="index">02</span>
+        <img src="oversized-tee.webp" alt="Women's bespoke tailoring" />
+      </div>
+      <div class="collection-copy">
+        <p class="eyebrow">Women's bespoke</p>
+        <h2>Sharp structure. Elegant movement.</h2>
+        <div class="category-list two-col">
+          <a href="#appointment">Suits <span>↗</span></a>
+          <a href="#appointment">Skirts <span>↗</span></a>
+          <a href="#appointment">Pants <span>↗</span></a>
+          <a href="#appointment">Long Coats <span>↗</span></a>
+          <a href="#appointment">Formal Dresses <span>↗</span></a>
+          <a href="#appointment">Culottes <span>↗</span></a>
+          <a href="#appointment">Single Breasted <span>↗</span></a>
+          <a href="#appointment">Double Breasted <span>↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="fabric-section">
+      <div>
+        <p class="eyebrow">Premium fabric houses</p>
+        <h2>Exceptional cloth is where exceptional tailoring begins.</h2>
+      </div>
+      <div class="fabric-row">
+        <span>Holland & Sherry</span>
+        <span>Luxury Wool</span>
+        <span>Fine Linen</span>
+        <span>Silk Blends</span>
+        <span>Seasonal Cloth</span>
+      </div>
+    </section>
+
+    <section class="statement">
+      <p>A suit is more than clothing.</p>
+      <h2>It is a language of professionalism, respect and sophistication.</h2>
+    </section>
+
+    <section class="accessories" id="accessories">
+      <div class="accessory-heading">
+        <p class="eyebrow">Accessories</p>
+        <h2>The details finish the story.</h2>
+      </div>
+      <div class="accessory-grid">
+        <article><span>01</span><h3>Ties & Bows</h3></article>
+        <article><span>02</span><h3>Shoes</h3></article>
+        <article><span>03</span><h3>Gift Boxes</h3></article>
+        <article><span>04</span><h3>Cufflinks</h3></article>
+        <article><span>05</span><h3>Pocket Squares</h3></article>
+        <article class="book-card"><span>06</span><h3>Private Fitting</h3><a href="#appointment">Book now ↗</a></article>
+      </div>
+    </section>
+
+    <section class="heritage" id="heritage">
+      <div class="heritage-copy">
+        <p class="eyebrow">Tailoring heritage</p>
+        <h2>Generations of craft, reimagined for today.</h2>
+        <p>VELORA brings old-world tailoring discipline into a cleaner, more modern experience: personal fittings, premium cloth and garments made to reflect the wearer.</p>
+      </div>
+      <div class="timeline">
+        <div><strong>1956</strong><span>A tailoring tradition begins.</span></div>
+        <div><strong>1964</strong><span>The first dedicated tailoring house takes shape.</span></div>
+        <div><strong>1984</strong><span>The craft expands into a second generation.</span></div>
+        <div><strong>2012</strong><span>A modern bespoke identity emerges.</span></div>
+        <div><strong>2022</strong><span>The experience expands to Calgary.</span></div>
+      </div>
+    </section>
+
+    <section class="why">
+      <p class="eyebrow">Why VELORA</p>
+      <div class="why-grid">
+        <div><span>01</span><p>Decades of tailoring experience</p></div>
+        <div><span>02</span><p>Fast custom-outfit turnaround</p></div>
+        <div><span>03</span><p>Designs shaped around you</p></div>
+        <div><span>04</span><p>Premium global fabrics</p></div>
+        <div><span>05</span><p>Asian couture expertise</p></div>
+        <div><span>06</span><p>Fit, fabric and finish considered together</p></div>
+      </div>
+    </section>
+
+    <section class="journal" id="journal">
+      <div class="journal-heading">
+        <p class="eyebrow">The journal</p>
+        <h2>Know what you wear.</h2>
+      </div>
+      <div class="journal-grid">
+        <article>
+          <p>Guide 01</p>
+          <h3>Half-canvas vs full-canvas suits</h3>
+          <span>Understanding structure, drape and durability.</span>
+        </article>
+        <article>
+          <p>Guide 02</p>
+          <h3>Tuxedo vs suit</h3>
+          <span>What changes, when to wear each, and how to style them.</span>
+        </article>
+        <article>
+          <p>Guide 03</p>
+          <h3>Choosing the right suit fabric</h3>
+          <span>Wool, cotton, linen, silk and blends explained simply.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="testimonial">
+      <p class="eyebrow">Client notes</p>
+      <blockquote id="quote">“The fit changed the way I carried myself the moment I put it on.”</blockquote>
+      <div class="testimonial-footer">
+        <span id="client">Private client · Calgary</span>
+        <div><button id="prevQuote">←</button><button id="nextQuote">→</button></div>
+      </div>
+    </section>
+
+    <section class="appointment" id="appointment">
+      <div>
+        <p class="eyebrow">Private appointment</p>
+        <h2>Let’s make something that feels unmistakably yours.</h2>
+      </div>
+      <form id="appointmentForm">
+        <label>Name<input required name="name" placeholder="Your name"></label>
+        <label>Email<input required type="email" name="email" placeholder="you@example.com"></label>
+        <label>Phone<input name="phone" placeholder="+1 ..."></label>
+        <label>Interested in
+          <select name="interest">
+            <option>Men's Bespoke</option>
+            <option>Women's Bespoke</option>
+            <option>Accessories</option>
+            <option>Wedding / Formalwear</option>
+          </select>
+        </label>
+        <button type="submit">Request appointment ↗</button>
+        <p class="form-status" id="formStatus"></p>
+      </form>
+    </section>
   </main>
+
+  <footer>
+    <div><a class="brand" href="#home">VELORA</a><p>Bespoke wear for modern life.</p></div>
+    <div><strong>Visit</strong><p>THE CORE, 751 3 St SW C-212<br>Calgary, AB T2P 4K8, Canada</p></div>
+    <div><strong>Contact</strong><p><a href="mailto:Info@rivaado.com">Info@rivaado.com</a><br><a href="tel:+18258837766">+1 825-883-7766</a></p></div>
+    <div><strong>Explore</strong><p><a href="#men">Men</a><br><a href="#women">Women</a><br><a href="#accessories">Accessories</a></p></div>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
