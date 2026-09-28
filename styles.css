@@ -31,3 +31,8 @@
 .product-column::before{content:"";position:absolute;width:54%;aspect-ratio:1;left:50%;top:46%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid color-mix(in srgb,var(--accent,#fff) 28%,transparent);box-shadow:0 0 0 26px color-mix(in srgb,var(--accent,#fff) 5%,transparent),0 0 0 54px color-mix(in srgb,var(--accent,#fff) 3%,transparent);pointer-events:none}
 .details-column::before{content:"GARMENT  /  OBJECT";display:block;font-size:.5rem;letter-spacing:.18em;margin-bottom:1rem;opacity:.5}
 @media(max-width:740px){.mobile-product-shell{overflow:visible}.mobile-product-area::before{content:"";position:absolute;width:58%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.22);box-shadow:0 0 0 20px rgba(255,255,255,.04);pointer-events:none}}
+
+/* Approved generated photography */
+#mainProduct,#mobileProduct,.next-thumb img,.mobile-thumb img,.frame-flight{mix-blend-mode:multiply}
+.product-shell img,.mobile-product-shell img{filter:drop-shadow(0 26px 18px rgba(0,0,0,.18))!important}
+.next-thumb img,.mobile-thumb img{filter:drop-shadow(0 8px 8px rgba(0,0,0,.12))}
