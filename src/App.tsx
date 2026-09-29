@@ -38,12 +38,18 @@ type ProductOption = {
   shape: ProductShape
 }
 
+type ProductSubsection = {
+  id: string
+  label: string
+  options: ProductOption[]
+}
+
 type ProductShowcaseData = {
   key: ProductKind
   eyebrow: string
   title: string
   sizes: string[]
-  options: ProductOption[]
+  subsections: ProductSubsection[]
 }
 
 const NAV_ITEMS: { label: string; key: SectionKey }[] = [
@@ -62,270 +68,194 @@ const HERO_VIDEO = {
   mobilePoster: '/video/rivaado-hero-poster-mobile.jpg',
 }
 
+const MEN_SUBSECTIONS: ProductSubsection[] = [
+  {
+    id: 'suits',
+    label: 'Suits',
+    options: [
+      product('Bespoke Suit', 'Suit', 'Structured Fit.\nModern Presence.', 'Two-piece and three-piece suits shaped around posture, proportion and personal style.', 'FROM $1,250', 'FULL BESPOKE', '#d70055', '#111111', '#050505', 'suit', 'light'),
+      product('Charcoal Suit', 'Suit', 'Cut Strong.\nMove Easy.', 'Charcoal tailoring with a modern slim structure and clean formal balance.', 'FROM $1,350', 'MODERN FIT', '#4d4b4d', '#272320', '#11100f', 'suit', 'light'),
+    ],
+  },
+  {
+    id: 'shirts',
+    label: 'Shirts',
+    options: [
+      product('White Dress Shirt', 'Shirt', 'Clean Collar.\nPrecise Lines.', 'Custom shirts with sharp collars, premium cotton and exact sleeve length.', 'FROM $220', 'CUSTOM FIT', '#e8e4dc', '#f8f6ef', '#bdb4a6', 'shirt', 'dark'),
+      product('Blue Dress Shirt', 'Shirt', 'Quiet Color.\nSharp Collar.', 'A refined blue shirt cut for suiting, formal layering and everyday polish.', 'FROM $240', 'CUSTOM FIT', '#b8c9dc', '#d8e4f2', '#8497ad', 'shirt', 'dark'),
+    ],
+  },
+  {
+    id: 'tuxedos',
+    label: 'Tuxedos',
+    options: [
+      product('Classic Tuxedo', 'Tuxedo', 'Black Tie.\nSharp Finish.', 'Formal tuxedos with satin lapels, balanced shoulders and evening proportions.', 'FROM $1,450', 'EVENING WEAR', '#101010', '#060606', '#000000', 'tuxedo', 'light'),
+      product('Ivory Tuxedo Jacket', 'Tuxedo', 'Evening White.\nClean Contrast.', 'Ivory dinner jackets with black trouser styling and polished formal presence.', 'FROM $1,550', 'BLACK TIE', '#e8e4dc', '#f6f1e7', '#bdb4a6', 'tuxedo', 'dark'),
+    ],
+  },
+  {
+    id: 'overcoats',
+    label: 'Overcoats',
+    options: [
+      product('Long Overcoat', 'Overcoat', 'Quiet Power.\nTailored Warmth.', 'Long coats built to sit cleanly over tailoring with weight, warmth and structure.', 'FROM $1,600', 'OUTERWEAR', '#3e3935', '#2e2925', '#11100f', 'overcoat', 'light'),
+      product('Navy Overcoat', 'Overcoat', 'Layered Line.\nWinter Finish.', 'A navy tailored outer layer with strong shoulders and clean long-line movement.', 'FROM $1,650', 'OUTERWEAR', '#11111f', '#111827', '#050811', 'overcoat', 'light'),
+    ],
+  },
+  {
+    id: 'ceremonial',
+    label: 'Ceremonial',
+    options: [
+      product('Ceremonial Wear', 'Ceremony', 'Heritage Cut.\nOccasion Ready.', 'Traditional and ceremonial silhouettes tailored for weddings, events and statement entrances.', 'FROM $1,800', 'SPECIAL ORDER', '#9d7427', '#d4a94a', '#6a4914', 'ceremonial', 'dark'),
+      product('Royal Ceremony Set', 'Ceremony', 'Gold Detail.\nFormal Impact.', 'Decorative ceremonial tailoring with premium cloth and event-ready structure.', 'FROM $2,100', 'BESPOKE CEREMONY', '#3f2461', '#6d4ca1', '#241233', 'ceremonial', 'light'),
+    ],
+  },
+]
+
+const WOMEN_SUBSECTIONS: ProductSubsection[] = [
+  {
+    id: 'pantsuits',
+    label: 'Pantsuits',
+    options: [
+      product('Emerald Pantsuit', 'Pantsuit', 'Strong Line.\nSoft Finish.', 'Tailored pantsuits with a strong shoulder, refined waist and modern wide-leg balance.', 'FROM $1,100', 'CUSTOM FIT', '#0b4a3f', '#0e5b4e', '#052a24', 'pantsuit', 'light'),
+      product('Cobalt Pantsuit', 'Pantsuit', 'Cool Tone.\nBold Cut.', 'Cobalt tailoring with clean structure, confident shape and refined movement.', 'FROM $1,200', 'CUSTOM FIT', '#112f6f', '#153d8f', '#071740', 'pantsuit', 'light'),
+    ],
+  },
+  {
+    id: 'skirt-suits',
+    label: 'Skirt Suits',
+    options: [
+      product('Ivory Skirt Suit', 'Skirt Suit', 'Elegant Shape.\nSharp Finish.', 'Skirt suits with clean tailoring, precise waist shaping and a feminine formal silhouette.', 'FROM $980', 'BESPOKE SET', '#ebe7dc', '#f5f2e8', '#b9b2a4', 'skirt-suit', 'dark'),
+      product('Burgundy Skirt Suit', 'Skirt Suit', 'Rich Color.\nFormal Shape.', 'A skirt suit with deeper color, sculpted waistline and polished finish.', 'FROM $1,080', 'BESPOKE SET', '#8c132d', '#9e1835', '#4b0718', 'skirt-suit', 'light'),
+    ],
+  },
+  {
+    id: 'dresses',
+    label: 'Dresses',
+    options: [
+      product('Evening Dress', 'Dress', 'One Line.\nFull Presence.', 'Elegant dresses cut for ceremony, evening wear and polished social occasions.', 'FROM $1,200', 'OCCASION WEAR', '#8c132d', '#9e1835', '#4b0718', 'dress', 'light'),
+      product('Ivory Ceremony Dress', 'Dress', 'Soft Finish.\nClean Drama.', 'A refined ivory dress silhouette for special occasions and elegant entrances.', 'FROM $1,350', 'OCCASION WEAR', '#ebe7dc', '#f5f2e8', '#b9b2a4', 'dress', 'dark'),
+    ],
+  },
+  {
+    id: 'blouses',
+    label: 'Blouses',
+    options: [
+      product('Silk Blouse', 'Blouse', 'Clean Collar.\nSoft Drape.', 'Blouses and shirts with refined collars, elegant drape and tailored proportion.', 'FROM $260', 'MADE TO FIT', '#112f6f', '#eef0fb', '#9ba3ca', 'blouse', 'light'),
+      product('Champagne Blouse', 'Blouse', 'Warm Tone.\nSoft Structure.', 'A warm blouse option with clean cuffs and a smooth luxury drape.', 'FROM $280', 'MADE TO FIT', '#caa149', '#f3dfad', '#9e7930', 'blouse', 'dark'),
+    ],
+  },
+  {
+    id: 'coats',
+    label: 'Coats',
+    options: [
+      product('Tailored Coat', 'Coat', 'Layered Luxury.\nClean Structure.', 'Women’s coats with sculpted shoulders, shaped waistlines and clean long-line movement.', 'FROM $1,450', 'OUTERWEAR', '#b57b52', '#c89065', '#70452c', 'coat', 'light'),
+      product('Black Long Coat', 'Coat', 'Long Line.\nQuiet Power.', 'A black tailored coat with crisp shoulders and a full-length dramatic line.', 'FROM $1,500', 'OUTERWEAR', '#101010', '#181818', '#030303', 'coat', 'light'),
+    ],
+  },
+]
+
+const ACCESSORY_SUBSECTIONS: ProductSubsection[] = [
+  {
+    id: 'shoes',
+    label: 'Shoes',
+    options: [
+      product('Dress Shoes', 'Shoes', 'Grounded Look.\nSharp Finish.', 'Polished footwear styling to complete formal, ceremonial and bespoke looks.', 'FROM $280', 'PAIR', '#2c211d', '#17110f', '#070504', 'shoe', 'light'),
+      product('Brown Dress Shoes', 'Shoes', 'Warm Leather.\nClean Finish.', 'Brown formal shoe styling for lighter suits, coats and relaxed formal looks.', 'FROM $300', 'PAIR', '#8b5a34', '#5d351d', '#24120a', 'shoe', 'light'),
+    ],
+  },
+  {
+    id: 'ties',
+    label: 'Ties',
+    options: [
+      product('Silk Tie', 'Tie', 'Finish Clean.\nStand Out.', 'Silk ties matched to suiting, shirts and occasion styling.', 'FROM $120', 'SILK', '#4f4039', '#5a4840', '#2a211d', 'tie', 'light'),
+      product('Burgundy Silk Tie', 'Tie', 'Deep Tone.\nFormal Finish.', 'A burgundy silk tie for tuxedos, charcoal suits and evening styling.', 'FROM $140', 'SILK', '#8c132d', '#9e1835', '#4b0718', 'tie', 'light'),
+    ],
+  },
+  {
+    id: 'cuffs',
+    label: 'Cuffs',
+    options: [
+      product('Cufflinks', 'Cuffs', 'Small Detail.\nBig Finish.', 'Cufflink details for formal shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#caa149', '#d5ad49', '#5f4617', 'cuff', 'dark'),
+      product('Silver Cuffs', 'Cuffs', 'Cool Metal.\nPrecise Detail.', 'Silver cuff details for crisp shirts and evening formalwear.', 'FROM $170', 'PAIR', '#d8d8d8', '#f1f1f1', '#9a9a9a', 'cuff', 'dark'),
+    ],
+  },
+  {
+    id: 'belts',
+    label: 'Belts',
+    options: [
+      product('Leather Belt', 'Belt', 'Clean Waist.\nFinished Fit.', 'Belts selected to finish trousers, suiting and full bespoke looks.', 'FROM $180', 'LEATHER', '#11111f', '#1b1715', '#050505', 'belt', 'light'),
+      product('Tan Leather Belt', 'Belt', 'Warm Leather.\nSmart Finish.', 'A tan belt option for lighter trousers, coats and casual bespoke dressing.', 'FROM $190', 'LEATHER', '#9d683e', '#7b4a24', '#3b2110', 'belt', 'light'),
+    ],
+  },
+  {
+    id: 'pocket-squares',
+    label: 'Pocket Squares',
+    options: [
+      product('Pocket Square', 'Pocket Square', 'Layered Finish.\nComplete Look.', 'Pocket squares in refined tones for tuxedos, suits and event styling.', 'FROM $95', 'SILK SET', '#e8e4dc', '#f5f2e8', '#a79d90', 'square', 'dark'),
+      product('Blue Pocket Square', 'Pocket Square', 'Cool Accent.\nClean Fold.', 'A blue silk square that adds contrast and polish to formal tailoring.', 'FROM $105', 'SILK SET', '#112f6f', '#153d8f', '#071740', 'square', 'light'),
+    ],
+  },
+  {
+    id: 'lapel-pins',
+    label: 'Lapel Pins',
+    options: [
+      product('Lapel Pin', 'Lapel Pin', 'Quiet Accent.\nLuxury Touch.', 'Lapel pins and floral accents for formal, wedding and ceremonial looks.', 'FROM $85', 'DETAIL', '#d70055', '#d70055', '#650026', 'lapel', 'light'),
+      product('Gold Lapel Pin', 'Lapel Pin', 'Gold Accent.\nSharp Detail.', 'A gold lapel detail for formal and celebratory finishing.', 'FROM $95', 'DETAIL', '#caa149', '#d5ad49', '#5f4617', 'lapel', 'dark'),
+    ],
+  },
+]
+
+function product(
+  name: string,
+  label: string,
+  caption: string,
+  description: string,
+  priceTop: string,
+  priceBottom: string,
+  background: string,
+  garment: string,
+  shadow: string,
+  shape: ProductShape,
+  text: 'light' | 'dark',
+): ProductOption {
+  return {
+    name,
+    label,
+    caption,
+    description,
+    priceTop,
+    priceBottom,
+    background,
+    garment,
+    shadow,
+    shape,
+    text,
+    glow: text === 'dark' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.22)',
+    accent: text === 'dark' ? '#c79b37' : '#d5ac50',
+  }
+}
+
 const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
   men: {
     key: 'men',
     eyebrow: 'Men / Bespoke',
     title: 'Wear Confidence Define Your Style.',
     sizes: ['S', 'M', 'L', 'XL'],
-    options: [
-      {
-        name: 'Bespoke Suit',
-        label: 'Suit',
-        caption: 'Structured Fit.\nModern Presence.',
-        description: 'Two-piece and three-piece suits shaped around posture, proportion and personal style.',
-        priceTop: 'FROM $1,250',
-        priceBottom: 'FULL BESPOKE',
-        background: '#d70055',
-        glow: 'rgba(255,255,255,0.28)',
-        garment: '#111111',
-        shadow: '#050505',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'suit',
-      },
-      {
-        name: 'Dress Shirt',
-        label: 'Shirt',
-        caption: 'Clean Collar.\nPrecise Lines.',
-        description: 'Custom shirts with sharp collars, premium cotton, exact sleeve length and a clean body fit.',
-        priceTop: 'FROM $220',
-        priceBottom: 'CUSTOM FIT',
-        background: '#e8e4dc',
-        glow: 'rgba(255,255,255,0.62)',
-        garment: '#f8f6ef',
-        shadow: '#bdb4a6',
-        accent: '#c79b37',
-        text: 'dark',
-        shape: 'shirt',
-      },
-      {
-        name: 'Classic Tuxedo',
-        label: 'Tuxedo',
-        caption: 'Black Tie.\nSharp Finish.',
-        description: 'Formal tuxedos with satin lapels, balanced shoulders and evening proportions.',
-        priceTop: 'FROM $1,450',
-        priceBottom: 'EVENING WEAR',
-        background: '#101010',
-        glow: 'rgba(255,255,255,0.16)',
-        garment: '#060606',
-        shadow: '#000000',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'tuxedo',
-      },
-      {
-        name: 'Long Overcoat',
-        label: 'Overcoat',
-        caption: 'Quiet Power.\nTailored Warmth.',
-        description: 'Long coats built to sit cleanly over tailoring with weight, warmth and structure.',
-        priceTop: 'FROM $1,600',
-        priceBottom: 'OUTERWEAR',
-        background: '#3e3935',
-        glow: 'rgba(255,255,255,0.18)',
-        garment: '#2e2925',
-        shadow: '#11100f',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'overcoat',
-      },
-      {
-        name: 'Ceremonial Wear',
-        label: 'Ceremony',
-        caption: 'Heritage Cut.\nOccasion Ready.',
-        description: 'Traditional and ceremonial silhouettes tailored for weddings, events and statement entrances.',
-        priceTop: 'FROM $1,800',
-        priceBottom: 'SPECIAL ORDER',
-        background: '#9d7427',
-        glow: 'rgba(255,255,255,0.2)',
-        garment: '#d4a94a',
-        shadow: '#6a4914',
-        accent: '#fff0b6',
-        text: 'dark',
-        shape: 'ceremonial',
-      },
-    ],
+    subsections: MEN_SUBSECTIONS,
   },
   women: {
     key: 'women',
     eyebrow: 'Women / Bespoke',
     title: 'Wear Confidence Define Your Style.',
     sizes: ['XS', 'S', 'M', 'L'],
-    options: [
-      {
-        name: 'Power Pantsuit',
-        label: 'Pantsuit',
-        caption: 'Strong Line.\nSoft Finish.',
-        description: 'Tailored pantsuits with a strong shoulder, refined waist and modern wide-leg balance.',
-        priceTop: 'FROM $1,100',
-        priceBottom: 'CUSTOM FIT',
-        background: '#0b4a3f',
-        glow: 'rgba(255,255,255,0.2)',
-        garment: '#0e5b4e',
-        shadow: '#052a24',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'pantsuit',
-      },
-      {
-        name: 'Ivory Skirt Suit',
-        label: 'Skirt Suit',
-        caption: 'Elegant Shape.\nSharp Finish.',
-        description: 'Skirt suits with clean tailoring, precise waist shaping and a feminine formal silhouette.',
-        priceTop: 'FROM $980',
-        priceBottom: 'BESPOKE SET',
-        background: '#ebe7dc',
-        glow: 'rgba(255,255,255,0.62)',
-        garment: '#f5f2e8',
-        shadow: '#b9b2a4',
-        accent: '#c8a15b',
-        text: 'dark',
-        shape: 'skirt-suit',
-      },
-      {
-        name: 'Evening Dress',
-        label: 'Dress',
-        caption: 'One Line.\nFull Presence.',
-        description: 'Elegant dresses cut for ceremony, evening wear and polished social occasions.',
-        priceTop: 'FROM $1,200',
-        priceBottom: 'OCCASION WEAR',
-        background: '#8c132d',
-        glow: 'rgba(255,255,255,0.18)',
-        garment: '#9e1835',
-        shadow: '#4b0718',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'dress',
-      },
-      {
-        name: 'Silk Blouse',
-        label: 'Blouse',
-        caption: 'Clean Collar.\nSoft Drape.',
-        description: 'Blouses and shirts with refined collars, elegant drape and tailored proportion.',
-        priceTop: 'FROM $260',
-        priceBottom: 'MADE TO FIT',
-        background: '#112f6f',
-        glow: 'rgba(255,255,255,0.18)',
-        garment: '#eef0fb',
-        shadow: '#9ba3ca',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'blouse',
-      },
-      {
-        name: 'Tailored Coat',
-        label: 'Coat',
-        caption: 'Layered Luxury.\nClean Structure.',
-        description: 'Women’s coats with sculpted shoulders, shaped waistlines and clean long-line movement.',
-        priceTop: 'FROM $1,450',
-        priceBottom: 'OUTERWEAR',
-        background: '#b57b52',
-        glow: 'rgba(255,255,255,0.18)',
-        garment: '#c89065',
-        shadow: '#70452c',
-        accent: '#ffe0a0',
-        text: 'light',
-        shape: 'coat',
-      },
-    ],
+    subsections: WOMEN_SUBSECTIONS,
   },
   accessories: {
     key: 'accessories',
     eyebrow: 'Accessories / Finish',
     title: 'Wear Confidence Define Your Style.',
     sizes: ['One', 'Pair', 'Set', 'Custom'],
-    options: [
-      {
-        name: 'Dress Shoes',
-        label: 'Shoes',
-        caption: 'Grounded Look.\nSharp Finish.',
-        description: 'Polished footwear styling to complete formal, ceremonial and bespoke looks.',
-        priceTop: 'FROM $280',
-        priceBottom: 'PAIR',
-        background: '#2c211d',
-        glow: 'rgba(255,255,255,0.17)',
-        garment: '#17110f',
-        shadow: '#070504',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'shoe',
-      },
-      {
-        name: 'Silk Tie',
-        label: 'Tie',
-        caption: 'Finish Clean.\nStand Out.',
-        description: 'Silk ties matched to suiting, shirts and occasion styling.',
-        priceTop: 'FROM $120',
-        priceBottom: 'SILK',
-        background: '#4f4039',
-        glow: 'rgba(255,255,255,0.18)',
-        garment: '#5a4840',
-        shadow: '#2a211d',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'tie',
-      },
-      {
-        name: 'Cufflinks',
-        label: 'Cuffs',
-        caption: 'Small Detail.\nBig Finish.',
-        description: 'Cufflink details for formal shirts, tuxedos and ceremonial dressing.',
-        priceTop: 'FROM $160',
-        priceBottom: 'PAIR',
-        background: '#caa149',
-        glow: 'rgba(255,255,255,0.32)',
-        garment: '#d5ad49',
-        shadow: '#5f4617',
-        accent: '#fff1b8',
-        text: 'dark',
-        shape: 'cuff',
-      },
-      {
-        name: 'Leather Belt',
-        label: 'Belt',
-        caption: 'Clean Waist.\nFinished Fit.',
-        description: 'Belts selected to finish trousers, suiting and full bespoke looks.',
-        priceTop: 'FROM $180',
-        priceBottom: 'LEATHER',
-        background: '#11111f',
-        glow: 'rgba(255,255,255,0.12)',
-        garment: '#1b1715',
-        shadow: '#050505',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'belt',
-      },
-      {
-        name: 'Pocket Square',
-        label: 'Pocket Square',
-        caption: 'Layered Finish.\nComplete Look.',
-        description: 'Pocket squares in refined tones for tuxedos, suits and event styling.',
-        priceTop: 'FROM $95',
-        priceBottom: 'SILK SET',
-        background: '#e8e4dc',
-        glow: 'rgba(255,255,255,0.54)',
-        garment: '#f5f2e8',
-        shadow: '#a79d90',
-        accent: '#c79b37',
-        text: 'dark',
-        shape: 'square',
-      },
-      {
-        name: 'Lapel Pin',
-        label: 'Lapel Pin',
-        caption: 'Quiet Accent.\nLuxury Touch.',
-        description: 'Lapel pins and floral accents for formal, wedding and ceremonial looks.',
-        priceTop: 'FROM $85',
-        priceBottom: 'DETAIL',
-        background: '#d70055',
-        glow: 'rgba(255,255,255,0.25)',
-        garment: '#d70055',
-        shadow: '#650026',
-        accent: '#d5ac50',
-        text: 'light',
-        shape: 'lapel',
-      },
-    ],
+    subsections: ACCESSORY_SUBSECTIONS,
   },
 }
 
@@ -528,16 +458,23 @@ function AboutScreen() {
 }
 
 function ProductShowcase({ data }: { data: ProductShowcaseData }) {
+  const [subsectionIndex, setSubsectionIndex] = useState(0)
   const [optionIndex, setOptionIndex] = useState(0)
-  const option = data.options[optionIndex]
+  const subsection = data.subsections[subsectionIndex]
+  const option = subsection.options[optionIndex]
   const darkText = option.text === 'dark'
   const sectionStyle: CSSProperties = {
     background: `${option.background}`,
     color: darkText ? '#101010' : '#ffffff',
   }
 
-  const previousOption = () => setOptionIndex((current) => (current + data.options.length - 1) % data.options.length)
-  const nextOption = () => setOptionIndex((current) => (current + 1) % data.options.length)
+  const selectSubsection = (index: number) => {
+    setSubsectionIndex(index)
+    setOptionIndex(0)
+  }
+
+  const previousOption = () => setOptionIndex((current) => (current + subsection.options.length - 1) % subsection.options.length)
+  const nextOption = () => setOptionIndex((current) => (current + 1) % subsection.options.length)
 
   return (
     <div className="relative h-full w-full overflow-hidden px-5 pt-28 transition-colors duration-500 sm:px-10" style={sectionStyle}>
@@ -548,72 +485,97 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto grid h-full max-w-7xl items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
-        <div className="relative z-20 pt-12 sm:pt-0">
-          <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/48' : 'text-white/70'}`}>{data.eyebrow}</p>
-          <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-            {option.label}
-          </h2>
-          <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{option.description}</p>
-
-          <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
-            Book fitting
-          </button>
-
-          <div className="mt-8 flex items-center gap-3" aria-label={`${data.key} options`}>
-            {data.options.map((item, index) => (
-              <button
-                key={item.name}
-                type="button"
-                onClick={() => setOptionIndex(index)}
-                aria-label={item.name}
-                title={item.label}
-                className={`h-6 w-6 rounded-full border-2 transition ${index === optionIndex ? (darkText ? 'border-black scale-110' : 'border-white scale-110') : darkText ? 'border-black/30' : 'border-white/45'}`}
-                style={{ backgroundColor: item.garment }}
-              />
-            ))}
-          </div>
-
-          <div className={`mt-5 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'text-black/46' : 'text-white/55'}`}>{option.name}</div>
+      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col">
+        <div className="mt-16 flex flex-wrap justify-center gap-2 sm:mt-20">
+          {data.subsections.map((subsectionItem, index) => (
+            <button
+              key={subsectionItem.id}
+              type="button"
+              onClick={() => selectSubsection(index)}
+              className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] transition ${
+                index === subsectionIndex
+                  ? darkText
+                    ? 'border-black bg-black text-white'
+                    : 'border-white bg-white text-black'
+                  : darkText
+                    ? 'border-black/20 bg-white/20 text-black/55 hover:text-black'
+                    : 'border-white/20 bg-black/10 text-white/62 hover:text-white'
+              }`}
+            >
+              {subsectionItem.label}
+            </button>
+          ))}
         </div>
 
-        <div className="relative flex min-h-[50vh] items-center justify-center lg:min-h-[680px]">
-          <button
-            type="button"
-            onClick={previousOption}
-            aria-label={`Previous ${data.key} option`}
-            className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
-          >
-            <ArrowLeft size={22} strokeWidth={2.4} />
-          </button>
+        <div className="grid flex-1 items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
+          <div className="relative z-20 pt-6 sm:pt-0">
+            <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/48' : 'text-white/70'}`}>
+              {data.eyebrow} / {subsection.label}
+            </p>
+            <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              {option.label}
+            </h2>
+            <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{option.description}</p>
 
-          <ProductIllustration productKey={data.key} option={option} />
+            <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
+              Book fitting
+            </button>
 
-          <button
-            type="button"
-            onClick={nextOption}
-            aria-label={`Next ${data.key} option`}
-            className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
-          >
-            <ArrowRight size={22} strokeWidth={2.4} />
-          </button>
-        </div>
+            <div className="mt-8 flex items-center gap-3" aria-label={`${subsection.label} options`}>
+              {subsection.options.map((item, index) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => setOptionIndex(index)}
+                  aria-label={item.name}
+                  title={item.name}
+                  className={`h-6 w-6 rounded-full border-2 transition ${index === optionIndex ? (darkText ? 'border-black scale-110' : 'border-white scale-110') : darkText ? 'border-black/30' : 'border-white/45'}`}
+                  style={{ backgroundColor: item.garment }}
+                />
+              ))}
+            </div>
 
-        <div className="relative z-20 hidden lg:block">
-          <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/68'}`}>Starting at</p>
-          <p className="text-3xl font-black uppercase leading-tight">{option.priceTop}</p>
-          <p className="text-sm font-black uppercase opacity-80">{option.priceBottom}</p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            {data.sizes.map((size) => (
-              <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
-                {size}
-              </span>
-            ))}
+            <div className={`mt-5 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'text-black/46' : 'text-white/55'}`}>{option.name}</div>
           </div>
 
-          <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}>
-            <MiniProduct productKey={data.key} option={option} />
+          <div className="relative flex min-h-[48vh] items-center justify-center lg:min-h-[640px]">
+            <button
+              type="button"
+              onClick={previousOption}
+              aria-label={`Previous ${subsection.label} option`}
+              className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
+            >
+              <ArrowLeft size={22} strokeWidth={2.4} />
+            </button>
+
+            <ProductIllustration productKey={data.key} option={option} />
+
+            <button
+              type="button"
+              onClick={nextOption}
+              aria-label={`Next ${subsection.label} option`}
+              className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
+            >
+              <ArrowRight size={22} strokeWidth={2.4} />
+            </button>
+          </div>
+
+          <div className="relative z-20 hidden lg:block">
+            <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/68'}`}>Starting at</p>
+            <p className="text-3xl font-black uppercase leading-tight">{option.priceTop}</p>
+            <p className="text-sm font-black uppercase opacity-80">{option.priceBottom}</p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {data.sizes.map((size) => (
+                <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
+                  {size}
+                </span>
+              ))}
+            </div>
+
+            <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}>
+              <MiniProduct productKey={data.key} option={option} />
+            </div>
           </div>
         </div>
       </div>
@@ -628,8 +590,8 @@ function ProductIllustration({ productKey, option }: { productKey: ProductKind; 
   const stroke = option.text === 'dark' ? '#6f675c' : '#787878'
 
   return (
-    <div className="relative flex h-[56vh] min-h-[430px] w-full items-center justify-center lg:h-[72vh]">
-      <svg className="h-full max-h-[680px] w-full max-w-[520px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={option.name}>
+    <div className="relative flex h-[54vh] min-h-[400px] w-full items-center justify-center lg:h-[68vh]">
+      <svg className="h-full max-h-[620px] w-full max-w-[500px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={option.name}>
         <defs>
           <linearGradient id={`cloth-${slug}`} x1="0" x2="1" y1="0" y2="1">
             <stop offset="0%" stopColor={option.garment} />
@@ -755,8 +717,8 @@ function renderShape(option: ProductOption, fill: string, lapel: string, stroke:
       return (
         <>
           <path d="M96 320 H370 Q418 320 418 368 Q418 416 370 416 H96 Z" fill={fill} />
-          <rect x="328" y="296" width="112" height="144" rx="28" fill="none" stroke={option.accent} strokeWidth="16" />
-          <path d="M124 368 H336" stroke={option.accent} strokeWidth="7" opacity="0.45" />
+          <rect x="328" y="302" width="86" height="132" rx="22" fill="none" stroke={option.accent} strokeWidth="16" />
+          <path d="M120 368 H324" stroke={option.shadow} strokeWidth="9" opacity="0.5" />
         </>
       )
     case 'square':
