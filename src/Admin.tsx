@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
+import type { Session } from '@supabase/supabase-js'
 import { ArrowLeft, ImagePlus, LogOut, Pencil, RefreshCw, Trash2, UploadCloud } from 'lucide-react'
 import { supabase } from './supabase'
 import { fromProductRow, subsectionConfig, toProductRow, type CatalogItem, type ProductKind, type ProductRow, type TextMode } from './catalog'
@@ -44,23 +45,42 @@ export default function Admin({ onExit }: { onExit: () => void }) {
     setItems(((data || []) as ProductRow[]).map(fromProductRow))
   }
 
-  const refreshAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
+  const applySession = async (session: Session | null) => {
     setSessionEmail(session?.user.email || '')
+
     if (!session) {
       setIsAdmin(false)
       return
     }
 
-    await supabase.rpc('claim_first_admin')
-    const { data } = await supabase.from('admin_users').select('user_id').eq('user_id', session.user.id).maybeSingle()
+    const { data, error } = await supabase
+      .from('admin_users')
+      .select('user_id')
+      .eq('user_id', session.user.id)
+      .maybeSingle()
+
+    if (error) {
+      setIsAdmin(false)
+      setMessage(error.message)
+      return
+    }
+
     setIsAdmin(Boolean(data))
   }
 
   useEffect(() => {
     loadCatalog()
-    refreshAuth()
-    const { data } = supabase.auth.onAuthStateChange(() => refreshAuth())
+
+    supabase.auth.getSession().then(({ data }) => {
+      void applySession(data.session)
+    })
+
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      window.setTimeout(() => {
+        void applySession(session)
+      }, 0)
+    })
+
     return () => data.subscription.unsubscribe()
   }, [])
 
@@ -121,11 +141,19 @@ export default function Admin({ onExit }: { onExit: () => void }) {
         })
 
     if (result.error) return setMessage(result.error.message)
+
     if (mode === 'signup' && !result.data.session) {
       setMessage('Account created. Check your email to confirm it, then sign in here.')
       return
     }
-    await refreshAuth()
+
+    if (!result.data.session) {
+      setMessage('Supabase did not return a session. Please sign in again.')
+      return
+    }
+
+    await applySession(result.data.session)
+    await loadCatalog()
     setMessage('Signed in.')
   }
 
@@ -209,7 +237,7 @@ export default function Admin({ onExit }: { onExit: () => void }) {
           <>
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div><div className="text-[10px] font-black uppercase tracking-[0.16em] text-white/40">Signed in</div><div className="mt-1 text-sm font-black">{sessionEmail} · {isAdmin ? 'Admin access' : 'No admin access'}</div></div>
-              <button onClick={()=>supabase.auth.signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-black uppercase tracking-[0.14em]"><LogOut size={14}/> Sign out</button>
+              <button onClick={async()=>{ await supabase.auth.signOut(); setSessionEmail(''); setIsAdmin(false) }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-black uppercase tracking-[0.14em]"><LogOut size={14}/> Sign out</button>
             </div>
 
             <div className="mt-8 grid gap-7 lg:grid-cols-[0.9fr_1.1fr]">
