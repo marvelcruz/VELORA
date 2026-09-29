@@ -112,7 +112,13 @@ export default function Admin({ onExit }: { onExit: () => void }) {
 
     const result = mode === 'signin'
       ? await supabase.auth.signInWithPassword({ email: cleanEmail, password })
-      : await supabase.auth.signUp({ email: cleanEmail, password })
+      : await supabase.auth.signUp({
+          email: cleanEmail,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/#admin`,
+          },
+        })
 
     if (result.error) return setMessage(result.error.message)
     if (mode === 'signup' && !result.data.session) {
