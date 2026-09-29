@@ -98,9 +98,21 @@ export default function Admin({ onExit }: { onExit: () => void }) {
 
   const authenticate = async (mode: 'signin' | 'signup') => {
     setMessage('')
+
+    const cleanEmail = email.trim()
+    if (!cleanEmail || !password) {
+      setMessage('Enter your email and password first.')
+      return
+    }
+
+    if (password.length < 6) {
+      setMessage('Use a password with at least 6 characters.')
+      return
+    }
+
     const result = mode === 'signin'
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password })
+      ? await supabase.auth.signInWithPassword({ email: cleanEmail, password })
+      : await supabase.auth.signUp({ email: cleanEmail, password })
 
     if (result.error) return setMessage(result.error.message)
     if (mode === 'signup' && !result.data.session) {
@@ -179,8 +191,8 @@ export default function Admin({ onExit }: { onExit: () => void }) {
           <div className="mt-7 max-w-xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-6">
             <h2 className="text-2xl font-black">Admin sign in</h2>
             <p className="mt-2 text-sm text-white/55">The first account created here becomes the RIVAADO catalog administrator.</p>
-            <Field label="Email"><input className="admin-input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} /></Field>
-            <Field label="Password"><input className="admin-input" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} /></Field>
+            <Field label="Email"><input className="admin-input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="admin@rivaado.com" autoComplete="email" /></Field>
+            <Field label="Password"><input className="admin-input" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="At least 6 characters" autoComplete="current-password" /></Field>
             <div className="mt-5 flex gap-3">
               <button onClick={()=>authenticate('signin')} className="rounded-full bg-[#d3aa52] px-6 py-3 text-xs font-black uppercase tracking-[0.15em] text-black">Sign in</button>
               <button onClick={()=>authenticate('signup')} className="rounded-full border border-white/20 px-6 py-3 text-xs font-black uppercase tracking-[0.15em]">Create admin account</button>
