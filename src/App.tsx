@@ -59,9 +59,22 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,250',
         priceBottom: 'FROM $1,650',
         background: '#d70055',
-        glow: 'rgba(255, 255, 255, 0.26)',
+        glow: 'rgba(255,255,255,0.28)',
         garment: '#111111',
         shadow: '#050505',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Charcoal Three Piece',
+        label: 'Modern Suit',
+        caption: 'Cut Strong.\nMove Easy.',
+        priceTop: 'FROM $1,350',
+        priceBottom: 'FROM $1,750',
+        background: '#4d4b4d',
+        glow: 'rgba(255,255,255,0.22)',
+        garment: '#272320',
+        shadow: '#11100f',
         accent: '#d5ac50',
         text: 'light',
       },
@@ -71,36 +84,23 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Clean Lines.\nSharp Presence.',
         priceTop: 'FROM $1,450',
         priceBottom: 'FROM $1,850',
-        background: '#d70055',
-        glow: 'rgba(255, 255, 255, 0.28)',
-        garment: '#f2eee2',
-        shadow: '#c9bfae',
-        accent: '#d5ac50',
-        text: 'light',
+        background: '#e8e4dc',
+        glow: 'rgba(255,255,255,0.62)',
+        garment: '#f6f1e7',
+        shadow: '#bdb4a6',
+        accent: '#c79b37',
+        text: 'dark',
       },
       {
-        name: 'Burgundy Three Piece',
-        label: 'Modern Suit',
-        caption: 'Cut Strong.\nMove Easy.',
-        priceTop: 'FROM $1,350',
-        priceBottom: 'FROM $1,750',
-        background: '#d70055',
-        glow: 'rgba(255, 255, 255, 0.24)',
-        garment: '#6f1028',
-        shadow: '#3a0815',
-        accent: '#d5ac50',
-        text: 'light',
-      },
-      {
-        name: 'Charcoal Overcoat',
+        name: 'Navy Overcoat',
         label: 'Layered Fit',
         caption: 'Quiet Power.\nTailored Warmth.',
         priceTop: 'FROM $1,600',
         priceBottom: 'FROM $2,200',
-        background: '#d70055',
-        glow: 'rgba(255, 255, 255, 0.22)',
-        garment: '#3d3834',
-        shadow: '#161412',
+        background: '#11111f',
+        glow: 'rgba(255,255,255,0.13)',
+        garment: '#111827',
+        shadow: '#050811',
         accent: '#d5ac50',
         text: 'light',
       },
@@ -120,7 +120,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $980',
         priceBottom: 'FROM $1,400',
         background: '#ebe7dc',
-        glow: 'rgba(255, 255, 255, 0.62)',
+        glow: 'rgba(255,255,255,0.62)',
         garment: '#f5f2e8',
         shadow: '#b9b2a4',
         accent: '#c8a15b',
@@ -132,12 +132,12 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Color Forward.\nBuilt Strong.',
         priceTop: 'FROM $1,100',
         priceBottom: 'FROM $1,550',
-        background: '#ebe7dc',
-        glow: 'rgba(255, 255, 255, 0.58)',
-        garment: '#0b4a3f',
+        background: '#0b4a3f',
+        glow: 'rgba(255,255,255,0.2)',
+        garment: '#0e5b4e',
         shadow: '#052a24',
-        accent: '#c8a15b',
-        text: 'dark',
+        accent: '#d5ac50',
+        text: 'light',
       },
       {
         name: 'Burgundy Long Suit',
@@ -145,12 +145,12 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Rich Color.\nFull Presence.',
         priceTop: 'FROM $1,180',
         priceBottom: 'FROM $1,700',
-        background: '#ebe7dc',
-        glow: 'rgba(255, 255, 255, 0.58)',
-        garment: '#8c132d',
+        background: '#8c132d',
+        glow: 'rgba(255,255,255,0.18)',
+        garment: '#9e1835',
         shadow: '#4b0718',
-        accent: '#c8a15b',
-        text: 'dark',
+        accent: '#d5ac50',
+        text: 'light',
       },
       {
         name: 'Cobalt Evening Suit',
@@ -158,12 +158,12 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Cool Tone.\nBold Cut.',
         priceTop: 'FROM $1,200',
         priceBottom: 'FROM $1,750',
-        background: '#ebe7dc',
-        glow: 'rgba(255, 255, 255, 0.58)',
-        garment: '#112f6f',
+        background: '#112f6f',
+        glow: 'rgba(255,255,255,0.18)',
+        garment: '#153d8f',
         shadow: '#071740',
-        accent: '#c8a15b',
-        text: 'dark',
+        accent: '#d5ac50',
+        text: 'light',
       },
     ],
   },
@@ -181,7 +181,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $120',
         priceBottom: 'FROM $300',
         background: '#4f4039',
-        glow: 'rgba(255, 255, 255, 0.18)',
+        glow: 'rgba(255,255,255,0.18)',
         garment: '#5a4840',
         shadow: '#2a211d',
         accent: '#d5ac50',
@@ -193,12 +193,12 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Small Detail.\nBig Finish.',
         priceTop: 'FROM $160',
         priceBottom: 'FROM $420',
-        background: '#4f4039',
-        glow: 'rgba(255, 255, 255, 0.18)',
-        garment: '#caa149',
+        background: '#caa149',
+        glow: 'rgba(255,255,255,0.32)',
+        garment: '#d5ad49',
         shadow: '#5f4617',
-        accent: '#f1d17c',
-        text: 'light',
+        accent: '#fff1b8',
+        text: 'dark',
       },
       {
         name: 'Lapel Flower',
@@ -206,8 +206,8 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Quiet Accent.\nLuxury Touch.',
         priceTop: 'FROM $95',
         priceBottom: 'FROM $240',
-        background: '#4f4039',
-        glow: 'rgba(255, 255, 255, 0.18)',
+        background: '#d70055',
+        glow: 'rgba(255,255,255,0.25)',
         garment: '#d70055',
         shadow: '#650026',
         accent: '#d5ac50',
@@ -219,8 +219,8 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         caption: 'Layered Finish.\nComplete Look.',
         priceTop: 'FROM $180',
         priceBottom: 'FROM $500',
-        background: '#4f4039',
-        glow: 'rgba(255, 255, 255, 0.18)',
+        background: '#11111f',
+        glow: 'rgba(255,255,255,0.12)',
         garment: '#f5f2e8',
         shadow: '#a79d90',
         accent: '#d5ac50',
@@ -267,7 +267,7 @@ export default function App() {
     window.history.replaceState(null, '', key === 'home' ? window.location.pathname : `#${key}`)
   }
 
-  const headerMode = activeSection === 'women' || activeSection === 'about' ? 'dark' : 'light'
+  const headerMode = activeSection === 'about' ? 'dark' : 'light'
 
   return (
     <main className="relative h-[100svh] w-full overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -277,23 +277,18 @@ export default function App() {
         <Screen active={activeSection === 'home'}>
           <HomeScreen isMobile={isMobile} onExplore={() => go('men')} />
         </Screen>
-
         <Screen active={activeSection === 'about'}>
           <AboutScreen />
         </Screen>
-
         <Screen active={activeSection === 'men'}>
           <ProductShowcase data={PRODUCTS.men} />
         </Screen>
-
         <Screen active={activeSection === 'women'}>
           <ProductShowcase data={PRODUCTS.women} />
         </Screen>
-
         <Screen active={activeSection === 'accessories'}>
           <ProductShowcase data={PRODUCTS.accessories} />
         </Screen>
-
         <Screen active={activeSection === 'contact'}>
           <ContactScreen onBack={() => go('accessories')} />
         </Screen>
@@ -302,29 +297,17 @@ export default function App() {
   )
 }
 
-function Header({
-  activeSection,
-  mode,
-  onNavigate,
-}: {
-  activeSection: SectionKey
-  mode: 'light' | 'dark'
-  onNavigate: (section: SectionKey) => void
-}) {
+function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
   const dark = mode === 'dark'
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-4 py-4 sm:px-8 sm:py-6">
       <div
         className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border px-4 py-3 shadow-2xl backdrop-blur-xl sm:px-6 ${
-          dark ? 'border-black/10 bg-white/55 shadow-black/10' : 'border-white/30 bg-black/10 shadow-black/20'
+          dark ? 'border-black/10 bg-white/58 shadow-black/10' : 'border-white/30 bg-black/10 shadow-black/20'
         }`}
       >
-        <button
-          type="button"
-          onClick={() => onNavigate('home')}
-          className={`text-xs font-black uppercase tracking-[0.28em] sm:text-sm ${dark ? 'text-black' : 'text-white'}`}
-        >
+        <button type="button" onClick={() => onNavigate('home')} className={`text-xs font-black uppercase tracking-[0.28em] sm:text-sm ${dark ? 'text-black' : 'text-white'}`}>
           RIVAADO
         </button>
 
@@ -335,13 +318,7 @@ function Header({
               type="button"
               onClick={() => onNavigate(item.key)}
               className={`text-[11px] font-black uppercase tracking-[0.2em] transition ${
-                activeSection === item.key
-                  ? dark
-                    ? 'text-black'
-                    : 'text-white'
-                  : dark
-                    ? 'text-black/48 hover:text-black'
-                    : 'text-white/62 hover:text-white'
+                activeSection === item.key ? (dark ? 'text-black' : 'text-white') : dark ? 'text-black/50 hover:text-black' : 'text-white/68 hover:text-white'
               }`}
             >
               {item.label}
@@ -353,9 +330,7 @@ function Header({
           type="button"
           onClick={() => onNavigate('contact')}
           className={`hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.18em] transition sm:inline-flex ${
-            dark
-              ? 'border-black/40 text-black hover:bg-black hover:text-white'
-              : 'border-white/58 text-white hover:bg-white hover:text-black'
+            dark ? 'border-black/40 text-black hover:bg-black hover:text-white' : 'border-white/58 text-white hover:bg-white hover:text-black'
           }`}
         >
           Book fitting
@@ -388,10 +363,7 @@ function Header({
 
 function Screen({ active, children }: { active: boolean; children: ReactNode }) {
   return (
-    <section
-      className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
-      aria-hidden={!active}
-    >
+    <section className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden={!active}>
       {children}
     </section>
   )
@@ -403,24 +375,11 @@ function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () 
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-black text-white">
-      <video
-        key={src}
-        className="absolute inset-0 h-full w-full object-cover"
-        src={src}
-        poster={poster}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.08)_42%,rgba(0,0,0,0.86)_100%)]" />
+      <video key={src} className="absolute inset-0 h-full w-full object-cover" src={src} poster={poster} autoPlay muted loop playsInline preload="auto" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.05),transparent_38%),linear-gradient(180deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.08)_42%,rgba(0,0,0,0.86)_100%)]" />
       <div className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-8 sm:px-10 sm:pb-12">
         <p className="mb-3 text-xs font-black uppercase tracking-[0.32em] text-white/70">Bespoke tailoring house</p>
-        <h1
-          className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white"
-          style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}
-        >
+        <h1 className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white" style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}>
           Rivaado
         </h1>
         <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -444,14 +403,11 @@ function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () 
 function AboutScreen() {
   return (
     <div className="relative flex h-full w-full items-center overflow-hidden bg-[#ebe7dc] px-5 pt-24 text-black sm:px-10 sm:pt-28">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(255,255,255,0.65),transparent_38%),radial-gradient(circle_at_75%_70%,rgba(202,161,73,0.16),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_35%,rgba(255,255,255,0.65),transparent_34%),radial-gradient(circle_at_75%_70%,rgba(202,161,73,0.18),transparent_28%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
           <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-black/48">About Rivaado</p>
-          <h2
-            className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-black sm:text-7xl"
-            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-          >
+          <h2 className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-black sm:text-7xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
             Seventy years of cloth, cut and quiet confidence.
           </h2>
           <p className="mt-7 max-w-xl text-sm font-semibold leading-7 text-black/58 sm:text-base">
@@ -461,11 +417,7 @@ function AboutScreen() {
 
         <div className="grid gap-3 sm:grid-cols-5 lg:h-[560px] lg:items-end">
           {ABOUT_MARKERS.map(([year, body], index) => (
-            <div
-              key={year}
-              className="rounded-[2rem] border border-black/10 bg-white/40 p-5 shadow-2xl shadow-black/10 backdrop-blur"
-              style={{ minHeight: `${260 + (index % 3) * 46}px` }}
-            >
+            <div key={year} className="rounded-[2rem] border border-black/12 bg-white/42 p-5 shadow-2xl shadow-black/10 backdrop-blur" style={{ minHeight: `${260 + (index % 3) * 46}px` }}>
               <p className="text-4xl font-black text-black">{year}</p>
               <p className="mt-5 text-xs font-bold leading-6 text-black/58 sm:text-sm">{body}</p>
             </div>
@@ -481,7 +433,7 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
   const option = data.options[optionIndex]
   const darkText = option.text === 'dark'
   const sectionStyle: CSSProperties = {
-    background: `radial-gradient(circle at 51% 45%, ${option.glow}, transparent 30%), linear-gradient(135deg, ${option.background} 0%, ${option.background} 58%, ${option.shadow} 140%)`,
+    background: `${option.background}`,
     color: darkText ? '#101010' : '#ffffff',
   }
 
@@ -489,31 +441,23 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
   const nextOption = () => setOptionIndex((current) => (current + 1) % data.options.length)
 
   return (
-    <div className="relative h-full w-full overflow-hidden px-5 pt-28 sm:px-10" style={sectionStyle}>
-      <div className={`absolute inset-0 ${darkText ? 'bg-black/[0.015]' : 'bg-black/[0.04]'}`} />
-      <div className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-3xl" />
+    <div className="relative h-full w-full overflow-hidden px-5 pt-28 transition-colors duration-500 sm:px-10" style={sectionStyle}>
+      <div
+        className="absolute inset-0 transition duration-500"
+        style={{
+          background: `radial-gradient(circle at 52% 42%, ${option.glow}, transparent 32%), radial-gradient(circle at 18% 86%, rgba(0,0,0,0.16), transparent 27%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08))`,
+        }}
+      />
 
       <div className="relative z-10 mx-auto grid h-full max-w-7xl items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
         <div className="relative z-20 pt-12 sm:pt-0">
-          <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/48' : 'text-white/68'}`}>
-            {data.eyebrow}
-          </p>
-          <h2
-            className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl"
-            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-          >
+          <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/48' : 'text-white/70'}`}>{data.eyebrow}</p>
+          <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
             {data.title}
           </h2>
-          <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/58' : 'text-white/72'}`}>
-            {data.description}
-          </p>
+          <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{data.description}</p>
 
-          <button
-            type="button"
-            className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${
-              darkText ? 'bg-black text-white' : 'bg-white text-black'
-            }`}
-          >
+          <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
             Book fitting
           </button>
 
@@ -524,15 +468,13 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
                 type="button"
                 onClick={() => setOptionIndex(index)}
                 aria-label={item.name}
-                className={`h-5 w-5 rounded-full border shadow transition ${
-                  index === optionIndex ? 'scale-110 border-white ring-2 ring-white/55' : 'border-white/55'
-                }`}
+                className={`h-6 w-6 rounded-full border-2 transition ${index === optionIndex ? (darkText ? 'border-black scale-110' : 'border-white scale-110') : darkText ? 'border-black/30' : 'border-white/45'}`}
                 style={{ backgroundColor: item.garment }}
               />
             ))}
           </div>
 
-          <div className={`mt-20 hidden items-center gap-5 text-xs sm:flex ${darkText ? 'text-black/40' : 'text-white/45'}`}>
+          <div className={`mt-20 hidden items-center gap-5 text-xs sm:flex ${darkText ? 'text-black/42' : 'text-white/58'}`}>
             <span>◎</span>
             <span>×</span>
             <span>□</span>
@@ -546,49 +488,38 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
             type="button"
             onClick={previousOption}
             aria-label={`Previous ${data.key} option`}
-            className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${
-              darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'
-            }`}
+            className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
           >
             <ArrowLeft size={22} strokeWidth={2.4} />
           </button>
 
-          <ProductIllustration option={option} kind={data.key} />
+          <ProductIllustration productKey={data.key} option={option} />
 
           <button
             type="button"
             onClick={nextOption}
             aria-label={`Next ${data.key} option`}
-            className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${
-              darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'
-            }`}
+            className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
           >
             <ArrowRight size={22} strokeWidth={2.4} />
           </button>
         </div>
 
         <div className="relative z-20 hidden lg:block">
-          <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/65'}`}>
-            Starting at
-          </p>
+          <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/68'}`}>Starting at</p>
           <p className="text-3xl font-black uppercase leading-tight">{option.priceTop}</p>
           <p className="text-sm font-black uppercase opacity-80">{option.priceBottom}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             {data.sizes.map((size) => (
-              <span
-                key={size}
-                className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${
-                  darkText ? 'bg-black text-white' : 'bg-white text-black'
-                }`}
-              >
+              <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
                 {size}
               </span>
             ))}
           </div>
 
-          <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/25' : 'border-white/35'}`}>
-            <MiniProduct option={option} kind={data.key} />
+          <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}>
+            <MiniProduct productKey={data.key} option={option} />
           </div>
         </div>
       </div>
@@ -596,20 +527,23 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
   )
 }
 
-function ProductIllustration({ option, kind }: { option: ProductOption; kind: ProductKind }) {
-  const isAccessory = kind === 'accessories'
+function ProductIllustration({ productKey, option }: { productKey: ProductKind; option: ProductOption }) {
+  const isWomen = productKey === 'women'
+  const isAccessories = productKey === 'accessories'
+  const centerFill = option.garment
+  const lapel = option.text === 'dark' ? '#2d2d2d' : '#101010'
 
   return (
     <div className="relative flex h-[56vh] min-h-[430px] w-full items-center justify-center lg:h-[72vh]">
       <svg className="h-full max-h-[680px] w-full max-w-[520px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={option.name}>
         <defs>
-          <linearGradient id={`cloth-${kind}-${option.label.replace(/\s+/g, '-')}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor={option.garment} />
-            <stop offset="60%" stopColor={option.garment} />
+          <linearGradient id={`cloth-${productKey}-${option.name.replace(/\s+/g, '-')}`} x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor={centerFill} />
+            <stop offset="64%" stopColor={centerFill} />
             <stop offset="100%" stopColor={option.shadow} />
           </linearGradient>
-          <filter id={`soft-shadow-${kind}`} x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="32" stdDeviation="26" floodColor="#000000" floodOpacity="0.22" />
+          <filter id={`shadow-${productKey}-${option.name.replace(/\s+/g, '-')}`} x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="30" stdDeviation="24" floodColor="#000000" floodOpacity="0.22" />
           </filter>
         </defs>
 
@@ -617,32 +551,37 @@ function ProductIllustration({ option, kind }: { option: ProductOption; kind: Pr
         <path d="M162 118 Q260 62 358 118" fill="none" stroke={option.accent} strokeWidth="17" strokeLinecap="round" />
         <ellipse cx="260" cy="626" rx="136" ry="22" fill="#000" opacity="0.18" />
 
-        <g filter={`url(#soft-shadow-${kind})`}>
-          {isAccessory ? (
+        <g filter={`url(#shadow-${productKey}-${option.name.replace(/\s+/g, '-')})`}>
+          {isAccessories ? (
             <>
-              <path d="M232 118 L288 118 L312 500 L260 626 L208 500 Z" fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`} />
-              <path d="M232 118 L260 154 L288 118 L278 202 L260 226 L242 202 Z" fill="#111" opacity="0.35" />
+              <path d="M228 116 L292 116 L310 306 L260 606 L210 306 Z" fill={`url(#cloth-${productKey}-${option.name.replace(/\s+/g, '-')})`} />
+              <path d="M226 116 L294 116 L280 170 L260 154 L240 170 Z" fill={lapel} opacity="0.64" />
+              <path d="M260 156 L260 570" stroke={option.accent} strokeWidth="5" opacity="0.45" />
             </>
           ) : (
             <>
               <path
-                d="M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z"
-                fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`}
+                d={
+                  isWomen
+                    ? 'M151 134 L232 106 L260 142 L288 106 L369 134 L415 246 L358 286 L348 592 Q338 630 300 650 L220 650 Q182 630 172 592 L162 286 L105 246 Z'
+                    : 'M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z'
+                }
+                fill={`url(#cloth-${productKey}-${option.name.replace(/\s+/g, '-')})`}
               />
-              <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={kind === 'women' ? '#ffffff' : '#111111'} opacity="0.72" />
-              <path d="M226 122 L260 154 L294 122" fill="none" stroke={kind === 'women' ? '#d2c7b8' : '#5a5a5a'} strokeWidth="8" strokeLinecap="round" />
-              <path d="M260 146 L260 612" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#707070'} strokeWidth="5" opacity="0.72" />
+              <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={lapel} opacity="0.75" />
+              <path d="M226 122 L260 154 L294 122" fill="none" stroke={option.text === 'dark' ? '#6f675c' : '#787878'} strokeWidth="8" strokeLinecap="round" />
+              <path d="M260 146 L260 612" fill="none" stroke={option.text === 'dark' ? '#6f675c' : '#707070'} strokeWidth="5" opacity="0.72" />
               {[230, 290, 352].map((cy) => (
-                <circle key={cy} cx="260" cy={cy} r="8" fill={kind === 'women' ? '#d8d0c4' : '#8c8c8c'} />
+                <circle key={cy} cx="260" cy={cy} r="8" fill={option.text === 'dark' ? '#6f675c' : '#8c8c8c'} />
               ))}
-              <path d="M172 318 Q260 354 348 318" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.42" />
-              <path d="M174 440 Q260 480 346 440" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.34" />
+              <path d="M172 318 Q260 354 348 318" fill="none" stroke={option.text === 'dark' ? '#6f675c' : '#656565'} strokeWidth="6" opacity="0.35" />
+              <path d="M174 440 Q260 480 346 440" fill="none" stroke={option.text === 'dark' ? '#6f675c' : '#656565'} strokeWidth="6" opacity="0.28" />
             </>
           )}
         </g>
       </svg>
 
-      <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${option.text === 'dark' ? 'text-black/58' : 'text-white/68'}`}>
+      <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${option.text === 'dark' ? 'text-black/62' : 'text-white/72'}`}>
         {option.caption.split('\n').map((line) => (
           <div key={line}>{line}</div>
         ))}
@@ -651,12 +590,12 @@ function ProductIllustration({ option, kind }: { option: ProductOption; kind: Pr
   )
 }
 
-function MiniProduct({ option, kind }: { option: ProductOption; kind: ProductKind }) {
+function MiniProduct({ productKey, option }: { productKey: ProductKind; option: ProductOption }) {
   return (
     <svg viewBox="0 0 120 160" className="h-24 w-24" aria-hidden="true">
       <path d="M60 19 C60 7 76 8 76 2" fill="none" stroke={option.accent} strokeWidth="4" strokeLinecap="round" />
-      {kind === 'accessories' ? (
-        <path d="M52 25 L68 25 L76 118 L60 150 L44 118 Z" fill={option.garment} />
+      {productKey === 'accessories' ? (
+        <path d="M52 24 L68 24 L74 70 L60 146 L46 70 Z" fill={option.garment} />
       ) : (
         <path d="M28 32 L52 22 L60 34 L68 22 L92 32 L106 62 L88 73 L86 132 Q84 145 72 150 L48 150 Q36 145 34 132 L32 73 L14 62 Z" fill={option.garment} />
       )}
@@ -668,36 +607,23 @@ function MiniProduct({ option, kind }: { option: ProductOption; kind: ProductKin
 function ContactScreen({ onBack }: { onBack: () => void }) {
   return (
     <div className="relative flex h-full w-full items-center overflow-hidden bg-[#111] px-5 pt-24 text-white sm:px-10 sm:pt-28">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,0,85,0.25),transparent_35%),radial-gradient(circle_at_30%_75%,rgba(202,161,73,0.14),transparent_38%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,0,85,0.25),transparent_35%),radial-gradient(circle_at_18%_88%,rgba(202,161,73,0.16),transparent_28%)]" />
       <div className="relative mx-auto max-w-6xl">
         <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-white/50">Book fitting</p>
-        <h2
-          className="max-w-4xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-8xl"
-          style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-        >
+        <h2 className="max-w-4xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-8xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
           Begin your bespoke fitting.
         </h2>
         <p className="mt-7 max-w-xl text-base font-semibold leading-8 text-white/62">
-          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial wear and finishing details.
+          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial wear and refined finishing details.
         </p>
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <a
-            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
-            className="rounded-full bg-white px-7 py-4 text-center text-xs font-black uppercase tracking-[0.18em] text-black no-underline"
-          >
+        <div className="mt-10 flex flex-wrap gap-4">
+          <a href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request" className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline">
             Email Rivaado
           </a>
-          <a
-            href="tel:+18258837766"
-            className="rounded-full border border-white/40 px-7 py-4 text-center text-xs font-black uppercase tracking-[0.18em] text-white no-underline"
-          >
+          <a href="tel:+18258837766" className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white no-underline">
             +1 825-883-7766
           </a>
-          <button
-            type="button"
-            onClick={onBack}
-            className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white/70"
-          >
+          <button type="button" onClick={onBack} className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white/70">
             Back
           </button>
         </div>
