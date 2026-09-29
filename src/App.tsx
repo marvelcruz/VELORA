@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Admin from './Admin'
-import { itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type SectionKey } from './catalog'
+import { fromProductRow, itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type ProductRow, type SectionKey } from './catalog'\nimport { supabase } from './supabase'
 
 const navItems: { label: string; key: Exclude<SectionKey, 'admin'> }[] = [
   { label: 'Home', key: 'home' },
@@ -56,14 +56,26 @@ export default function App() {
 
   useEffect(() => {
     let active = true
-    fetch('/api/catalog', { cache: 'no-store' })
-      .then((response) => response.ok ? response.json() : Promise.reject())
-      .then((data) => {
-        if (active && Array.isArray(data.items) && data.items.length) setCatalog(data.items)
-      })
-      .catch(() => {
-        if (active) setCatalog(seedCatalog)
-      })
+
+    const loadCatalog = async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('published', true)
+        .order('section')
+        .order('subsection')
+        .order('sort_order')
+
+      if (!active) return
+      if (error || !data?.length) {
+        setCatalog(seedCatalog)
+        return
+      }
+
+      setCatalog((data as ProductRow[]).map(fromProductRow))
+    }
+
+    loadCatalog()
     return () => { active = false }
   }, [])
 

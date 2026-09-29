@@ -106,3 +106,61 @@ export function itemsFor(catalog: CatalogItem[], section: ProductKind, subsectio
     .filter((item) => item.published && item.section === section && item.subsection === subsection)
     .sort((a,b) => a.sortOrder - b.sortOrder)
 }
+
+
+export type ProductRow = {
+  id: string
+  section: ProductKind
+  subsection: string
+  name: string
+  label: string
+  caption: string
+  description: string
+  price_top: string
+  price_bottom: string
+  background: string
+  glow: string
+  text_mode: TextMode
+  image_url: string
+  published: boolean
+  sort_order: number
+}
+
+export function fromProductRow(row: ProductRow): CatalogItem {
+  return {
+    id: row.id,
+    section: row.section,
+    subsection: row.subsection,
+    name: row.name,
+    label: row.label,
+    caption: row.caption || '',
+    description: row.description || '',
+    priceTop: row.price_top,
+    priceBottom: row.price_bottom,
+    background: row.background,
+    glow: row.glow,
+    text: row.text_mode,
+    imageUrl: row.image_url,
+    published: row.published,
+    sortOrder: row.sort_order,
+  }
+}
+
+export function toProductRow(item: CatalogItem) {
+  return {
+    section: item.section,
+    subsection: item.subsection,
+    name: item.name,
+    label: item.label,
+    caption: item.caption,
+    description: item.description,
+    price_top: item.priceTop,
+    price_bottom: item.priceBottom,
+    background: item.background,
+    glow: item.glow,
+    text_mode: item.text,
+    image_url: item.imageUrl,
+    published: item.published,
+    sort_order: item.sortOrder,
+  }
+}
