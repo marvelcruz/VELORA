@@ -30,3 +30,21 @@ video {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+.admin-input {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 1rem;
+  background: rgba(0,0,0,.35);
+  padding: .8rem 1rem;
+  color: white;
+  outline: none;
+}
+
+.admin-input:focus {
+  border-color: #d3aa52;
+}
+
+.admin-input option {
+  color: #111;
+}
