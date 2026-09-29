@@ -46,34 +46,49 @@ const NAV_ITEMS = [
   { label: 'Contact', href: '#contact' },
 ] as const
 
-const STORY_MARKERS = [
+const TIMELINE = [
   {
     year: '1956',
     title: 'First stitch',
-    body: 'Custom suit tailoring begins the family craft.',
+    body: 'Mr. Sita Ram Chauhan started working as a custom suit tailor.',
   },
   {
     year: '1964',
-    title: 'The house forms',
-    body: 'Sunshine Tailors builds its reputation on fit and trust.',
+    title: 'Sunshine Tailors',
+    body: 'He established Sunshine Tailors, later becoming one of the most renowned names in Delhi tailoring.',
+  },
+  {
+    year: '1978',
+    title: 'Training begins',
+    body: 'His son, Mr. Anil Kumar, started training under Mr. Sita Ram.',
+  },
+  {
+    year: '1984',
+    title: 'Second store',
+    body: 'Sunshine Tailors expanded and launched the second store.',
   },
   {
     year: '2012',
-    title: 'Rivaado identity',
-    body: 'A sharper modern luxury language takes shape.',
+    title: 'Rivaado starts',
+    body: 'Rivaado was established by Manuj Chauhan, the third generation of the family.',
+  },
+  {
+    year: '2016',
+    title: 'Pan-India expansion',
+    body: 'Rivaado expanded pan-India and became one of the leading B2B brands.',
   },
   {
     year: '2022',
     title: 'Calgary bespoke',
-    body: 'Rivaado Bespoke Wear arrives for men and women.',
+    body: 'Manuj set up Rivaado Bespoke Wear in Calgary.',
   },
 ] as const
 
 const ATELIER_NOTES = [
-  ['Measure', 'Fit begins with posture, shoulder line and proportion.'],
-  ['Select', 'Cloth, lining, buttons and finishing details are chosen with intention.'],
-  ['Cut', 'Each garment is shaped to create structure without stiffness.'],
-  ['Finish', 'Final adjustments bring comfort, presence and personal identity.'],
+  ['Measure', 'Posture, shoulder line and proportions are read before cloth is cut.'],
+  ['Select', 'Fabric, lining, buttons and finishings are chosen with intention.'],
+  ['Shape', 'The garment is built for structure, comfort and presence.'],
+  ['Finish', 'Final adjustments bring the piece into the client’s life.'],
 ] as const
 
 const CATEGORY_SECTIONS = [
@@ -81,22 +96,31 @@ const CATEGORY_SECTIONS = [
     id: 'men',
     eyebrow: 'Men',
     title: "Men's bespoke tailoring",
+    pull: 'Commanding structure. Quiet confidence.',
     body:
       'Three-piece suits, tuxedos, overcoats and ceremonial tailoring cut around posture, proportion and presence.',
+    image: suitAvatar,
+    details: ['Three-piece suits', 'Tuxedos', 'Overcoats', 'Ceremonial wear'],
   },
   {
     id: 'women',
     eyebrow: 'Women',
     title: "Women's bespoke tailoring",
+    pull: 'Sharp silhouettes. Rich colour. Personal power.',
     body:
       'Power suits, skirt suits, dresses, coats and couture pieces with strong structure, rich color and refined detail.',
+    image: coutureAvatar,
+    details: ['Power suits', 'Skirt suits', 'Couture pieces', 'Tailored coats'],
   },
   {
     id: 'accessories',
     eyebrow: 'Accessories',
     title: 'Finishing details',
+    pull: 'The final detail is never small.',
     body:
       'Ties, pocket squares, lapel details, belts, bags, cuffs and styling pieces that complete the Rivaado look.',
+    image: tuxedoAvatar,
+    details: ['Ties', 'Pocket squares', 'Lapel details', 'Cuffs and styling'],
   },
 ] as const
 
@@ -136,12 +160,10 @@ export default function App() {
 
   const navigate = (direction: Direction) => {
     if (isAnimating) return
-
     setIsAnimating(true)
     setActiveIndex((prev) =>
       direction === 'next' ? (prev + 1) % 4 : (prev + 3) % 4,
     )
-
     window.setTimeout(() => setIsAnimating(false), 650)
   }
 
@@ -341,85 +363,74 @@ export default function App() {
               </h2>
             </div>
             <p className="max-w-md text-sm leading-7 text-white/60 sm:text-base">
-              Rivaado is not built around noise. It is built around measurement,
-              proportion and the kind of presence that does not need to announce
-              itself.
+              Rivaado is built around measurement, proportion and the kind of
+              presence that does not need to announce itself.
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
-            <div className="group relative min-h-[520px] overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-2xl shadow-black/40">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-2xl shadow-black/40">
               <picture>
                 <source media="(max-width: 640px)" srcSet="/video/rivaado-hero-poster-mobile.jpg" />
                 <img
                   src="/video/rivaado-hero-poster.jpg"
                   alt="Rivaado bespoke tailoring editorial"
-                  className="h-full min-h-[520px] w-full object-cover opacity-85 transition duration-700 group-hover:scale-[1.03]"
+                  className="h-[520px] w-full object-cover opacity-85"
                 />
               </picture>
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.78))]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.8))]" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <div className="grid grid-cols-3 overflow-hidden rounded-2xl border border-white/12 bg-black/45 backdrop-blur-md">
-                  <div className="border-r border-white/10 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/45">Origin</p>
-                    <p className="mt-2 text-2xl font-black text-white">1956</p>
-                  </div>
-                  <div className="border-r border-white/10 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/45">House</p>
-                    <p className="mt-2 text-2xl font-black text-white">Rivaado</p>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/45">Now</p>
-                    <p className="mt-2 text-2xl font-black text-white">Calgary</p>
-                  </div>
-                </div>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#caa149]">
+                  Legacy house
+                </p>
+                <p className="mt-4 max-w-md text-2xl leading-tight text-white sm:text-3xl">
+                  From family tailoring to a Calgary bespoke house for men and women.
+                </p>
               </div>
             </div>
 
-            <div className="flex flex-col justify-between rounded-[2rem] border border-white/10 bg-[#0d0b08]/90 p-6 sm:p-9 lg:p-11">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/45">
-                  The story
-                </p>
-                <div className="mt-8 grid gap-6 md:grid-cols-2">
-                  {STORY_MARKERS.map((item) => (
-                    <article key={item.year} className="border-t border-white/12 pt-5">
-                      <p className="text-3xl font-black tracking-[-0.04em] text-[#caa149]">
-                        {item.year}
-                      </p>
-                      <h3 className="mt-4 text-sm font-bold uppercase tracking-[0.22em] text-white">
-                        {item.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-7 text-white/55">{item.body}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-10 rounded-3xl border border-[#caa149]/25 bg-[#caa149]/10 p-6">
-                <p className="text-lg leading-8 text-white/78 sm:text-xl">
-                  The goal is not just a garment. It is the moment the shoulder,
-                  waist, cloth and detail finally feel like they belong to one
-                  person.
-                </p>
+            <div className="relative">
+              <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-[#caa149]/70 to-transparent sm:block" />
+              <div className="space-y-4 sm:pl-12">
+                {TIMELINE.map((item, index) => (
+                  <article
+                    key={item.year}
+                    className="group relative rounded-2xl border border-white/10 bg-[#11100d]/85 p-5 shadow-xl shadow-black/25 transition hover:border-[#caa149]/55 hover:bg-[#17140f] sm:p-6"
+                  >
+                    <div className="absolute -left-[2.9rem] top-7 hidden h-4 w-4 rounded-full border-2 border-[#caa149] bg-[#070604] sm:block" />
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
+                        <p className="text-4xl font-black leading-none text-[#caa149] sm:text-5xl">
+                          {item.year}
+                        </p>
+                        <h3 className="mt-3 text-sm font-black uppercase tracking-[0.24em] text-white">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <span className="hidden text-xs text-white/25 sm:block">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <p className="mt-4 max-w-xl text-sm leading-7 text-white/62">
+                      {item.body}
+                    </p>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {ATELIER_NOTES.map(([title, body], index) => (
-              <article
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {ATELIER_NOTES.map(([title, body]) => (
+              <div
                 key={title}
-                className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition hover:-translate-y-1 hover:border-[#caa149]/45 hover:bg-white/[0.055]"
+                className="rounded-2xl border border-white/10 bg-black/30 p-6 transition hover:border-[#caa149]/60 hover:bg-[#100d08]"
               >
-                <p className="text-xs font-bold uppercase tracking-[0.26em] text-[#caa149]">
-                  0{index + 1}
-                </p>
-                <h3 className="mt-8 text-2xl font-black uppercase tracking-[-0.03em] text-white">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#caa149]">
                   {title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-white/55">{body}</p>
-              </article>
+                </p>
+                <p className="mt-4 text-sm leading-7 text-white/62">{body}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -565,56 +576,108 @@ export default function App() {
         </div>
       </section>
 
-      <section className="bg-[#050505] px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
-          {CATEGORY_SECTIONS.map((item) => (
-            <article
-              key={item.id}
-              id={item.id}
-              className="group min-h-[360px] rounded-[2rem] border border-white/10 bg-white/[0.035] p-7 transition hover:-translate-y-1 hover:border-[#caa149]/45 sm:p-9"
+      <section className="bg-[#050403] px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-7xl space-y-10">
+          <div className="max-w-3xl">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-[#caa149]">
+              Collections
+            </p>
+            <h2
+              className="text-4xl leading-[0.95] tracking-[-0.04em] text-white sm:text-6xl"
+              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#caa149]">
-                {item.eyebrow}
-              </p>
-              <h2
-                className="mt-16 text-4xl uppercase leading-[0.95] tracking-[-0.04em] text-white sm:text-5xl"
-                style={{ fontFamily: "'Anton', sans-serif" }}
+              The same heritage, shaped for every wardrobe.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            {CATEGORY_SECTIONS.map((section, index) => (
+              <article
+                id={section.id}
+                key={section.id}
+                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0e0c09] p-6 shadow-2xl shadow-black/25 transition hover:-translate-y-1 hover:border-[#caa149]/65 sm:p-7"
               >
-                {item.title}
-              </h2>
-              <p className="mt-6 max-w-sm text-sm leading-7 text-white/58">
-                {item.body}
-              </p>
-            </article>
-          ))}
+                <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#caa149]/10 blur-3xl transition group-hover:bg-[#caa149]/20" />
+                <div className="mb-8 flex items-center justify-between">
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#caa149]">
+                    {section.eyebrow}
+                  </p>
+                  <span className="text-xs text-white/25">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <div className="relative mb-8 h-72 overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/35">
+                  <img
+                    src={section.image}
+                    alt={section.title}
+                    className="absolute bottom-0 left-1/2 h-[95%] -translate-x-1/2 object-contain transition duration-700 group-hover:scale-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.65))]" />
+                  <p
+                    className="absolute bottom-4 left-4 right-4 text-4xl uppercase leading-none tracking-[-0.04em] text-white/10"
+                    style={{ fontFamily: "'Anton', sans-serif" }}
+                  >
+                    {section.eyebrow}
+                  </p>
+                </div>
+
+                <h3
+                  className="text-3xl uppercase leading-none tracking-[-0.03em] text-white sm:text-4xl"
+                  style={{ fontFamily: "'Anton', sans-serif" }}
+                >
+                  {section.title}
+                </h3>
+                <p className="mt-4 text-lg leading-7 text-white/82">
+                  {section.pull}
+                </p>
+                <p className="mt-4 text-sm leading-7 text-white/55">
+                  {section.body}
+                </p>
+
+                <div className="mt-7 grid grid-cols-2 gap-2">
+                  {section.details.map((detail) => (
+                    <span
+                      key={detail}
+                      className="rounded-full border border-white/10 bg-black/25 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60"
+                    >
+                      {detail}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section id="contact" className="bg-black px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-[#caa149]/25 bg-[#caa149]/10 p-8 sm:p-12 lg:p-16">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#caa149]">
-            Calgary by appointment
-          </p>
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <h2
-              className="max-w-3xl text-5xl uppercase leading-[0.9] tracking-[-0.05em] text-white sm:text-7xl"
-              style={{ fontFamily: "'Anton', sans-serif" }}
-            >
-              Begin your bespoke journey.
-            </h2>
-            <a
-              href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
-              className="inline-flex w-fit items-center gap-3 rounded-full bg-[#caa149] px-6 py-4 text-xs font-black uppercase tracking-[0.2em] text-black no-underline transition hover:bg-white"
-            >
-              Book fitting
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </a>
-          </div>
-          <div className="mt-8 flex flex-col gap-3 text-sm text-white/60 sm:flex-row sm:gap-8">
-            <span>Info@rivaado.com</span>
-            <span>+1 825-883-7766</span>
-            <span>751 3 St SW C-212, Calgary</span>
-          </div>
+      <section id="contact" className="bg-black px-5 py-20 text-center sm:px-8 sm:py-28">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-[#caa149]">
+          Private fitting
+        </p>
+        <h2
+          className="mx-auto max-w-4xl text-5xl uppercase leading-[0.9] tracking-[-0.05em] text-white sm:text-7xl"
+          style={{ fontFamily: "'Anton', sans-serif" }}
+        >
+          Begin your bespoke journey
+        </h2>
+        <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
+          Book a consultation for men’s tailoring, women’s bespoke wear,
+          ceremonial dressing or accessories.
+        </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a
+            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
+            className="rounded-full bg-[#caa149] px-7 py-4 text-xs font-black uppercase tracking-[0.2em] text-black no-underline transition hover:bg-white"
+          >
+            Book consultation
+          </a>
+          <a
+            href="tel:+18258837766"
+            className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.2em] text-white no-underline transition hover:border-white hover:bg-white hover:text-black"
+          >
+            +1 825-883-7766
+          </a>
         </div>
       </section>
     </main>
