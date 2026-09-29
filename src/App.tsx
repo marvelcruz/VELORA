@@ -4,25 +4,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 type SectionKey = 'home' | 'about' | 'men' | 'women' | 'accessories' | 'contact'
 type ProductKind = 'men' | 'women' | 'accessories'
-type ProductShape =
-  | 'suit'
-  | 'shirt'
-  | 'tuxedo'
-  | 'overcoat'
-  | 'ceremonial'
-  | 'pantsuit'
-  | 'skirt-suit'
-  | 'dress'
-  | 'blouse'
-  | 'coat'
-  | 'shoe'
-  | 'tie'
-  | 'cuff'
-  | 'belt'
-  | 'square'
-  | 'lapel'
 
-type ProductOption = {
+type Look = {
   name: string
   label: string
   caption: string
@@ -31,28 +14,25 @@ type ProductOption = {
   priceBottom: string
   background: string
   glow: string
-  garment: string
-  shadow: string
-  accent: string
   text: 'light' | 'dark'
-  shape: ProductShape
+  image: string
+  imagePosition?: string
 }
 
-type ProductSubsection = {
+type Subsection = {
   id: string
   label: string
-  options: ProductOption[]
+  looks: Look[]
 }
 
-type ProductShowcaseData = {
+type ProductData = {
   key: ProductKind
   eyebrow: string
-  title: string
   sizes: string[]
-  subsections: ProductSubsection[]
+  subsections: Subsection[]
 }
 
-const NAV_ITEMS: { label: string; key: SectionKey }[] = [
+const navItems: { label: string; key: SectionKey }[] = [
   { label: 'Home', key: 'home' },
   { label: 'About', key: 'about' },
   { label: 'Men', key: 'men' },
@@ -61,151 +41,16 @@ const NAV_ITEMS: { label: string; key: SectionKey }[] = [
   { label: 'Contact', key: 'contact' },
 ]
 
-const HERO_VIDEO = {
+const heroVideo = {
   desktop: '/video/rivaado-hero-desktop.mp4',
   mobile: '/video/rivaado-hero-mobile.mp4',
   poster: '/video/rivaado-hero-poster.jpg',
   mobilePoster: '/video/rivaado-hero-poster-mobile.jpg',
 }
 
-const MEN_SUBSECTIONS: ProductSubsection[] = [
-  {
-    id: 'suits',
-    label: 'Suits',
-    options: [
-      product('Bespoke Suit', 'Suit', 'Structured Fit.\nModern Presence.', 'Two-piece and three-piece suits shaped around posture, proportion and personal style.', 'FROM $1,250', 'FULL BESPOKE', '#d70055', '#111111', '#050505', 'suit', 'light'),
-      product('Charcoal Suit', 'Suit', 'Cut Strong.\nMove Easy.', 'Charcoal tailoring with a modern slim structure and clean formal balance.', 'FROM $1,350', 'MODERN FIT', '#4d4b4d', '#272320', '#11100f', 'suit', 'light'),
-    ],
-  },
-  {
-    id: 'shirts',
-    label: 'Shirts',
-    options: [
-      product('White Dress Shirt', 'Shirt', 'Clean Collar.\nPrecise Lines.', 'Custom shirts with sharp collars, premium cotton and exact sleeve length.', 'FROM $220', 'CUSTOM FIT', '#e8e4dc', '#f8f6ef', '#bdb4a6', 'shirt', 'dark'),
-      product('Blue Dress Shirt', 'Shirt', 'Quiet Color.\nSharp Collar.', 'A refined blue shirt cut for suiting, formal layering and everyday polish.', 'FROM $240', 'CUSTOM FIT', '#b8c9dc', '#d8e4f2', '#8497ad', 'shirt', 'dark'),
-    ],
-  },
-  {
-    id: 'tuxedos',
-    label: 'Tuxedos',
-    options: [
-      product('Classic Tuxedo', 'Tuxedo', 'Black Tie.\nSharp Finish.', 'Formal tuxedos with satin lapels, balanced shoulders and evening proportions.', 'FROM $1,450', 'EVENING WEAR', '#101010', '#060606', '#000000', 'tuxedo', 'light'),
-      product('Ivory Tuxedo Jacket', 'Tuxedo', 'Evening White.\nClean Contrast.', 'Ivory dinner jackets with black trouser styling and polished formal presence.', 'FROM $1,550', 'BLACK TIE', '#e8e4dc', '#f6f1e7', '#bdb4a6', 'tuxedo', 'dark'),
-    ],
-  },
-  {
-    id: 'overcoats',
-    label: 'Overcoats',
-    options: [
-      product('Long Overcoat', 'Overcoat', 'Quiet Power.\nTailored Warmth.', 'Long coats built to sit cleanly over tailoring with weight, warmth and structure.', 'FROM $1,600', 'OUTERWEAR', '#3e3935', '#2e2925', '#11100f', 'overcoat', 'light'),
-      product('Navy Overcoat', 'Overcoat', 'Layered Line.\nWinter Finish.', 'A navy tailored outer layer with strong shoulders and clean long-line movement.', 'FROM $1,650', 'OUTERWEAR', '#11111f', '#111827', '#050811', 'overcoat', 'light'),
-    ],
-  },
-  {
-    id: 'ceremonial',
-    label: 'Ceremonial',
-    options: [
-      product('Ceremonial Wear', 'Ceremony', 'Heritage Cut.\nOccasion Ready.', 'Traditional and ceremonial silhouettes tailored for weddings, events and statement entrances.', 'FROM $1,800', 'SPECIAL ORDER', '#9d7427', '#d4a94a', '#6a4914', 'ceremonial', 'dark'),
-      product('Royal Ceremony Set', 'Ceremony', 'Gold Detail.\nFormal Impact.', 'Decorative ceremonial tailoring with premium cloth and event-ready structure.', 'FROM $2,100', 'BESPOKE CEREMONY', '#3f2461', '#6d4ca1', '#241233', 'ceremonial', 'light'),
-    ],
-  },
-]
+const img = (file: string) => `/looks/${file}`
 
-const WOMEN_SUBSECTIONS: ProductSubsection[] = [
-  {
-    id: 'pantsuits',
-    label: 'Pantsuits',
-    options: [
-      product('Emerald Pantsuit', 'Pantsuit', 'Strong Line.\nSoft Finish.', 'Tailored pantsuits with a strong shoulder, refined waist and modern wide-leg balance.', 'FROM $1,100', 'CUSTOM FIT', '#0b4a3f', '#0e5b4e', '#052a24', 'pantsuit', 'light'),
-      product('Cobalt Pantsuit', 'Pantsuit', 'Cool Tone.\nBold Cut.', 'Cobalt tailoring with clean structure, confident shape and refined movement.', 'FROM $1,200', 'CUSTOM FIT', '#112f6f', '#153d8f', '#071740', 'pantsuit', 'light'),
-    ],
-  },
-  {
-    id: 'skirt-suits',
-    label: 'Skirt Suits',
-    options: [
-      product('Ivory Skirt Suit', 'Skirt Suit', 'Elegant Shape.\nSharp Finish.', 'Skirt suits with clean tailoring, precise waist shaping and a feminine formal silhouette.', 'FROM $980', 'BESPOKE SET', '#ebe7dc', '#f5f2e8', '#b9b2a4', 'skirt-suit', 'dark'),
-      product('Burgundy Skirt Suit', 'Skirt Suit', 'Rich Color.\nFormal Shape.', 'A skirt suit with deeper color, sculpted waistline and polished finish.', 'FROM $1,080', 'BESPOKE SET', '#8c132d', '#9e1835', '#4b0718', 'skirt-suit', 'light'),
-    ],
-  },
-  {
-    id: 'dresses',
-    label: 'Dresses',
-    options: [
-      product('Evening Dress', 'Dress', 'One Line.\nFull Presence.', 'Elegant dresses cut for ceremony, evening wear and polished social occasions.', 'FROM $1,200', 'OCCASION WEAR', '#8c132d', '#9e1835', '#4b0718', 'dress', 'light'),
-      product('Ivory Ceremony Dress', 'Dress', 'Soft Finish.\nClean Drama.', 'A refined ivory dress silhouette for special occasions and elegant entrances.', 'FROM $1,350', 'OCCASION WEAR', '#ebe7dc', '#f5f2e8', '#b9b2a4', 'dress', 'dark'),
-    ],
-  },
-  {
-    id: 'blouses',
-    label: 'Blouses',
-    options: [
-      product('Silk Blouse', 'Blouse', 'Clean Collar.\nSoft Drape.', 'Blouses and shirts with refined collars, elegant drape and tailored proportion.', 'FROM $260', 'MADE TO FIT', '#112f6f', '#eef0fb', '#9ba3ca', 'blouse', 'light'),
-      product('Champagne Blouse', 'Blouse', 'Warm Tone.\nSoft Structure.', 'A warm blouse option with clean cuffs and a smooth luxury drape.', 'FROM $280', 'MADE TO FIT', '#caa149', '#f3dfad', '#9e7930', 'blouse', 'dark'),
-    ],
-  },
-  {
-    id: 'coats',
-    label: 'Coats',
-    options: [
-      product('Tailored Coat', 'Coat', 'Layered Luxury.\nClean Structure.', 'Women’s coats with sculpted shoulders, shaped waistlines and clean long-line movement.', 'FROM $1,450', 'OUTERWEAR', '#b57b52', '#c89065', '#70452c', 'coat', 'light'),
-      product('Black Long Coat', 'Coat', 'Long Line.\nQuiet Power.', 'A black tailored coat with crisp shoulders and a full-length dramatic line.', 'FROM $1,500', 'OUTERWEAR', '#101010', '#181818', '#030303', 'coat', 'light'),
-    ],
-  },
-]
-
-const ACCESSORY_SUBSECTIONS: ProductSubsection[] = [
-  {
-    id: 'shoes',
-    label: 'Shoes',
-    options: [
-      product('Dress Shoes', 'Shoes', 'Grounded Look.\nSharp Finish.', 'Polished footwear styling to complete formal, ceremonial and bespoke looks.', 'FROM $280', 'PAIR', '#2c211d', '#17110f', '#070504', 'shoe', 'light'),
-      product('Brown Dress Shoes', 'Shoes', 'Warm Leather.\nClean Finish.', 'Brown formal shoe styling for lighter suits, coats and relaxed formal looks.', 'FROM $300', 'PAIR', '#8b5a34', '#5d351d', '#24120a', 'shoe', 'light'),
-    ],
-  },
-  {
-    id: 'ties',
-    label: 'Ties',
-    options: [
-      product('Silk Tie', 'Tie', 'Finish Clean.\nStand Out.', 'Silk ties matched to suiting, shirts and occasion styling.', 'FROM $120', 'SILK', '#4f4039', '#5a4840', '#2a211d', 'tie', 'light'),
-      product('Burgundy Silk Tie', 'Tie', 'Deep Tone.\nFormal Finish.', 'A burgundy silk tie for tuxedos, charcoal suits and evening styling.', 'FROM $140', 'SILK', '#8c132d', '#9e1835', '#4b0718', 'tie', 'light'),
-    ],
-  },
-  {
-    id: 'cuffs',
-    label: 'Cuffs',
-    options: [
-      product('Cufflinks', 'Cuffs', 'Small Detail.\nBig Finish.', 'Cufflink details for formal shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#caa149', '#d5ad49', '#5f4617', 'cuff', 'dark'),
-      product('Silver Cuffs', 'Cuffs', 'Cool Metal.\nPrecise Detail.', 'Silver cuff details for crisp shirts and evening formalwear.', 'FROM $170', 'PAIR', '#d8d8d8', '#f1f1f1', '#9a9a9a', 'cuff', 'dark'),
-    ],
-  },
-  {
-    id: 'belts',
-    label: 'Belts',
-    options: [
-      product('Leather Belt', 'Belt', 'Clean Waist.\nFinished Fit.', 'Belts selected to finish trousers, suiting and full bespoke looks.', 'FROM $180', 'LEATHER', '#11111f', '#1b1715', '#050505', 'belt', 'light'),
-      product('Tan Leather Belt', 'Belt', 'Warm Leather.\nSmart Finish.', 'A tan belt option for lighter trousers, coats and casual bespoke dressing.', 'FROM $190', 'LEATHER', '#9d683e', '#7b4a24', '#3b2110', 'belt', 'light'),
-    ],
-  },
-  {
-    id: 'pocket-squares',
-    label: 'Pocket Squares',
-    options: [
-      product('Pocket Square', 'Pocket Square', 'Layered Finish.\nComplete Look.', 'Pocket squares in refined tones for tuxedos, suits and event styling.', 'FROM $95', 'SILK SET', '#e8e4dc', '#f5f2e8', '#a79d90', 'square', 'dark'),
-      product('Blue Pocket Square', 'Pocket Square', 'Cool Accent.\nClean Fold.', 'A blue silk square that adds contrast and polish to formal tailoring.', 'FROM $105', 'SILK SET', '#112f6f', '#153d8f', '#071740', 'square', 'light'),
-    ],
-  },
-  {
-    id: 'lapel-pins',
-    label: 'Lapel Pins',
-    options: [
-      product('Lapel Pin', 'Lapel Pin', 'Quiet Accent.\nLuxury Touch.', 'Lapel pins and floral accents for formal, wedding and ceremonial looks.', 'FROM $85', 'DETAIL', '#d70055', '#d70055', '#650026', 'lapel', 'light'),
-      product('Gold Lapel Pin', 'Lapel Pin', 'Gold Accent.\nSharp Detail.', 'A gold lapel detail for formal and celebratory finishing.', 'FROM $95', 'DETAIL', '#caa149', '#d5ad49', '#5f4617', 'lapel', 'dark'),
-    ],
-  },
-]
-
-function product(
+function look(
   name: string,
   label: string,
   caption: string,
@@ -213,53 +58,158 @@ function product(
   priceTop: string,
   priceBottom: string,
   background: string,
-  garment: string,
-  shadow: string,
-  shape: ProductShape,
+  glow: string,
   text: 'light' | 'dark',
-): ProductOption {
-  return {
-    name,
-    label,
-    caption,
-    description,
-    priceTop,
-    priceBottom,
-    background,
-    garment,
-    shadow,
-    shape,
-    text,
-    glow: text === 'dark' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.22)',
-    accent: text === 'dark' ? '#c79b37' : '#d5ac50',
-  }
+  image: string,
+  imagePosition = 'center top',
+): Look {
+  return { name, label, caption, description, priceTop, priceBottom, background, glow, text, image, imagePosition }
 }
 
-const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
+const products: Record<ProductKind, ProductData> = {
   men: {
     key: 'men',
     eyebrow: 'Men / Bespoke',
-    title: 'Wear Confidence Define Your Style.',
     sizes: ['S', 'M', 'L', 'XL'],
-    subsections: MEN_SUBSECTIONS,
+    subsections: [
+      {
+        id: 'suits',
+        label: 'Suits',
+        looks: [
+          look('Navy Open Suit', 'Navy Suit', 'Clean line.\nQuiet power.', 'A sharp navy suit with open-collar styling, lapel pin detail and runway presence.', 'FROM $1,250', 'BESPOKE SUIT', '#10192b', 'rgba(255,255,255,0.18)', 'light', img('look-06-navy-open-suit.webp')),
+          look('Pastel Pink Suit', 'Pastel Suit', 'Soft tone.\nStrong cut.', 'A blush tailored jacket styled with dark trousers and a statement flower finish.', 'FROM $1,350', 'CUSTOM SUIT', '#efc5c9', 'rgba(255,255,255,0.6)', 'dark', img('look-03-pastel-pink-suit.webp')),
+          look('Leopard Emblem Shirt', 'Graphic Shirt', 'Bold print.\nTailored base.', 'A clean white shirt with a strong graphic front, styled for a confident statement look.', 'FROM $320', 'STATEMENT SHIRT', '#f3eadf', 'rgba(255,255,255,0.65)', 'dark', img('look-01-leopard-shirt.webp')),
+        ],
+      },
+      {
+        id: 'shirts',
+        label: 'Shirts',
+        looks: [
+          look('Blue Scarf Shirt', 'Blue Shirt', 'Silk movement.\nSharp finish.', 'A vivid blue shirt with scarf styling, jewellery and polished runway energy.', 'FROM $240', 'CUSTOM SHIRT', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', img('look-04-blue-shirt-scarf.webp')),
+          look('Teal Shirt Vest', 'Teal Shirt', 'Color shirt.\nClean vest.', 'A bright teal shirt layered under a black vest with a red floral lapel accent.', 'FROM $260', 'CUSTOM SHIRT', '#057894', 'rgba(255,255,255,0.18)', 'light', img('look-07-teal-shirt-vest.webp')),
+          look('Navy Scarf Shirt', 'Scarf Shirt', 'Relaxed collar.\nLuxury detail.', 'A navy shirt with scarf and floral accessory styling for a softer bespoke direction.', 'FROM $260', 'STYLE SHIRT', '#12376d', 'rgba(255,255,255,0.18)', 'light', img('look-09-blue-scarf-shirt.webp')),
+        ],
+      },
+      {
+        id: 'tuxedos',
+        label: 'Tuxedos',
+        looks: [
+          look('Textured Tuxedo', 'Tuxedo', 'Black tie.\nPatterned finish.', 'A black textured tuxedo jacket with crisp white lapels and formal runway structure.', 'FROM $1,450', 'EVENING WEAR', '#111111', 'rgba(255,255,255,0.18)', 'light', img('look-02-textured-tuxedo.webp')),
+        ],
+      },
+      {
+        id: 'overcoats',
+        label: 'Overcoats',
+        looks: [
+          look('Plaid Long Blazer', 'Plaid Coat', 'Layered look.\nModern heritage.', 'A long plaid tailored layer over denim, finished with a strong floral accent.', 'FROM $1,600', 'OUTERWEAR', '#25334a', 'rgba(255,255,255,0.18)', 'light', img('look-05-plaid-blazer.webp')),
+          look('Leather Sleeve Coat', 'Mixed Coat', 'Texture mix.\nStrong craft.', 'A textured coat with leather sleeves, clean shirt styling and bespoke finishing details.', 'FROM $1,650', 'OUTERWEAR', '#b89a78', 'rgba(255,255,255,0.38)', 'dark', img('look-08-leather-sleeve-coat.webp')),
+        ],
+      },
+      {
+        id: 'ceremonial',
+        label: 'Ceremonial',
+        looks: [
+          look('Gold Couture Coat', 'Ceremony', 'Ornate cloth.\nEvent presence.', 'A richly embroidered gold coat for ceremonial, cultural and special occasion dressing.', 'FROM $1,800', 'CEREMONY', '#c6a36e', 'rgba(255,255,255,0.45)', 'dark', img('look-10-gold-couture.webp')),
+        ],
+      },
+    ],
   },
   women: {
     key: 'women',
     eyebrow: 'Women / Bespoke',
-    title: 'Wear Confidence Define Your Style.',
     sizes: ['XS', 'S', 'M', 'L'],
-    subsections: WOMEN_SUBSECTIONS,
+    subsections: [
+      {
+        id: 'pantsuits',
+        label: 'Pantsuits',
+        looks: [
+          look('Burgundy Tailored Set', 'Pantsuit', 'Sharp shape.\nRich tone.', 'A burgundy tailored women’s look with embroidered layers and polished editorial attitude.', 'FROM $1,100', 'CUSTOM FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', img('look-10-gold-couture.webp')),
+        ],
+      },
+      {
+        id: 'skirt-suits',
+        label: 'Skirt Suits',
+        looks: [
+          look('Gold Skirt Coat', 'Skirt Suit', 'Elegant cut.\nOrnate finish.', 'A couture-inspired women’s look with rich embroidery, tailored shape and ceremony detail.', 'FROM $980', 'BESPOKE SET', '#d5bd91', 'rgba(255,255,255,0.45)', 'dark', img('look-10-gold-couture.webp')),
+        ],
+      },
+      {
+        id: 'dresses',
+        label: 'Dresses',
+        looks: [
+          look('Gold Ceremony Dress', 'Dress', 'Soft gold.\nFull presence.', 'A gold ceremonial look presented as eveningwear inspiration for special occasions.', 'FROM $1,200', 'OCCASION WEAR', '#c6a36e', 'rgba(255,255,255,0.46)', 'dark', img('look-10-gold-couture.webp')),
+        ],
+      },
+      {
+        id: 'blouses',
+        label: 'Blouses',
+        looks: [
+          look('Soft Pink Styling', 'Blouse', 'Clean layers.\nSoft polish.', 'A soft tailored look that works as blouse-and-jacket styling inspiration.', 'FROM $260', 'MADE TO FIT', '#efc5c9', 'rgba(255,255,255,0.55)', 'dark', img('look-03-pastel-pink-suit.webp')),
+        ],
+      },
+      {
+        id: 'coats',
+        label: 'Coats',
+        looks: [
+          look('Gold Embroidered Coat', 'Coat', 'Luxury layer.\nCeremony ready.', 'A structured embroidered coat for statement entrances and formal occasions.', 'FROM $1,450', 'OUTERWEAR', '#c6a36e', 'rgba(255,255,255,0.4)', 'dark', img('look-10-gold-couture.webp')),
+        ],
+      },
+    ],
   },
   accessories: {
     key: 'accessories',
     eyebrow: 'Accessories / Finish',
-    title: 'Wear Confidence Define Your Style.',
     sizes: ['One', 'Pair', 'Set', 'Custom'],
-    subsections: ACCESSORY_SUBSECTIONS,
+    subsections: [
+      {
+        id: 'shoes',
+        label: 'Shoes',
+        looks: [
+          look('Formal Shoes', 'Shoes', 'Grounded finish.\nPolished step.', 'Use the shoe and trouser finish as a detail reference for complete bespoke styling.', 'FROM $280', 'PAIR', '#111827', 'rgba(255,255,255,0.18)', 'light', img('look-06-navy-open-suit.webp')),
+        ],
+      },
+      {
+        id: 'ties',
+        label: 'Ties',
+        looks: [
+          look('Silk Scarf Tie', 'Tie / Scarf', 'Neck detail.\nSoft movement.', 'Scarf and tie styling for shirts, tuxedos and relaxed evening dressing.', 'FROM $120', 'SILK', '#12376d', 'rgba(255,255,255,0.2)', 'light', img('look-09-blue-scarf-shirt.webp')),
+          look('Blue Silk Accent', 'Silk Tie', 'Bright color.\nLuxury neckwear.', 'A vivid neck detail used to finish a shirt-focused bespoke look.', 'FROM $140', 'SILK', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', img('look-04-blue-shirt-scarf.webp')),
+        ],
+      },
+      {
+        id: 'cuffs',
+        label: 'Cuffs',
+        looks: [
+          look('Gold Detail Cuffs', 'Cuffs', 'Small detail.\nBig finish.', 'Cuff and wrist styling details for shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#f3eadf', 'rgba(255,255,255,0.55)', 'dark', img('look-01-leopard-shirt.webp')),
+        ],
+      },
+      {
+        id: 'belts',
+        label: 'Belts',
+        looks: [
+          look('Leather Belt Styling', 'Belt', 'Clean waist.\nFinished fit.', 'Belts selected to complete trousers, suiting and casual bespoke looks.', 'FROM $180', 'LEATHER', '#b89a78', 'rgba(255,255,255,0.35)', 'dark', img('look-08-leather-sleeve-coat.webp')),
+        ],
+      },
+      {
+        id: 'pocket-squares',
+        label: 'Pocket Squares',
+        looks: [
+          look('White Lapel Finish', 'Pocket Square', 'Clean fold.\nFormal contrast.', 'Pocket-square-style details and white accents for tuxedo and eveningwear finishing.', 'FROM $95', 'SILK SET', '#111111', 'rgba(255,255,255,0.18)', 'light', img('look-02-textured-tuxedo.webp')),
+        ],
+      },
+      {
+        id: 'lapel-pins',
+        label: 'Lapel Pins',
+        looks: [
+          look('Red Flower Lapel', 'Lapel Pin', 'Statement flower.\nLuxury touch.', 'Floral lapel accents, brooches and finishing pieces for suits and ceremonial looks.', 'FROM $85', 'DETAIL', '#057894', 'rgba(255,255,255,0.18)', 'light', img('look-07-teal-shirt-vest.webp')),
+          look('White Flower Lapel', 'Lapel Flower', 'Soft accent.\nClean finish.', 'A white floral lapel detail for lighter jackets and softer formal styling.', 'FROM $95', 'DETAIL', '#efc5c9', 'rgba(255,255,255,0.45)', 'dark', img('look-03-pastel-pink-suit.webp')),
+        ],
+      },
+    ],
   },
 }
 
-const ABOUT_MARKERS = [
+const aboutMarkers = [
   ['1956', 'Custom suit tailoring begins.'],
   ['1964', 'Sunshine Tailors becomes the family house of fit.'],
   ['1978', 'The next generation learns the craft by hand.'],
@@ -277,12 +227,13 @@ function getInitialSection(): SectionKey {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<SectionKey>(getInitialSection)
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 700)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 700)
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    const resize = () => setIsMobile(window.innerWidth < 700)
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
   }, [])
 
   useEffect(() => {
@@ -301,26 +252,13 @@ export default function App() {
   return (
     <main className="relative h-[100svh] w-full overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
       <Header activeSection={activeSection} mode={headerMode} onNavigate={go} />
-
       <div className="absolute inset-0">
-        <Screen active={activeSection === 'home'}>
-          <HomeScreen isMobile={isMobile} onExplore={() => go('men')} />
-        </Screen>
-        <Screen active={activeSection === 'about'}>
-          <AboutScreen />
-        </Screen>
-        <Screen active={activeSection === 'men'}>
-          <ProductShowcase data={PRODUCTS.men} />
-        </Screen>
-        <Screen active={activeSection === 'women'}>
-          <ProductShowcase data={PRODUCTS.women} />
-        </Screen>
-        <Screen active={activeSection === 'accessories'}>
-          <ProductShowcase data={PRODUCTS.accessories} />
-        </Screen>
-        <Screen active={activeSection === 'contact'}>
-          <ContactScreen onBack={() => go('accessories')} />
-        </Screen>
+        <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} /></Screen>
+        <Screen active={activeSection === 'about'}><AboutScreen /></Screen>
+        <Screen active={activeSection === 'men'}><ProductShowcase data={products.men} /></Screen>
+        <Screen active={activeSection === 'women'}><ProductShowcase data={products.women} /></Screen>
+        <Screen active={activeSection === 'accessories'}><ProductShowcase data={products.accessories} /></Screen>
+        <Screen active={activeSection === 'contact'}><ContactScreen onBack={() => go('accessories')} /></Screen>
       </div>
     </main>
   )
@@ -328,62 +266,20 @@ export default function App() {
 
 function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
   const dark = mode === 'dark'
-
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-4 py-4 sm:px-8 sm:py-6">
-      <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border px-4 py-3 shadow-2xl backdrop-blur-xl sm:px-6 ${
-          dark ? 'border-black/10 bg-white/58 shadow-black/10' : 'border-white/30 bg-black/10 shadow-black/20'
-        }`}
-      >
-        <button type="button" onClick={() => onNavigate('home')} className={`text-xs font-black uppercase tracking-[0.28em] sm:text-sm ${dark ? 'text-black' : 'text-white'}`}>
-          RIVAADO
-        </button>
-
+      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border px-4 py-3 shadow-2xl backdrop-blur-xl sm:px-6 ${dark ? 'border-black/10 bg-white/60 text-black' : 'border-white/30 bg-black/15 text-white'}`}>
+        <button type="button" onClick={() => onNavigate('home')} className="text-xs font-black uppercase tracking-[0.28em] sm:text-sm">RIVAADO</button>
         <nav className="hidden items-center gap-6 sm:flex lg:gap-8" aria-label="Primary navigation">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => onNavigate(item.key)}
-              className={`text-[11px] font-black uppercase tracking-[0.2em] transition ${
-                activeSection === item.key ? (dark ? 'text-black' : 'text-white') : dark ? 'text-black/50 hover:text-black' : 'text-white/68 hover:text-white'
-              }`}
-            >
-              {item.label}
-            </button>
+          {navItems.map((item) => (
+            <button key={item.key} type="button" onClick={() => onNavigate(item.key)} className={`text-[11px] font-black uppercase tracking-[0.2em] transition ${activeSection === item.key ? 'opacity-100' : 'opacity-55 hover:opacity-100'}`}>{item.label}</button>
           ))}
         </nav>
-
-        <button
-          type="button"
-          onClick={() => onNavigate('contact')}
-          className={`hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.18em] transition sm:inline-flex ${
-            dark ? 'border-black/40 text-black hover:bg-black hover:text-white' : 'border-white/58 text-white hover:bg-white hover:text-black'
-          }`}
-        >
-          Book fitting
-        </button>
+        <button type="button" onClick={() => onNavigate('contact')} className="hidden rounded-full border border-current/45 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] transition hover:bg-white hover:text-black sm:inline-flex">Book fitting</button>
       </div>
-
       <nav className="mx-auto mt-3 flex max-w-7xl gap-2 overflow-x-auto pb-1 sm:hidden" aria-label="Mobile navigation">
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            onClick={() => onNavigate(item.key)}
-            className={`shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] backdrop-blur-md ${
-              activeSection === item.key
-                ? dark
-                  ? 'border-black bg-black text-white'
-                  : 'border-white bg-white text-black'
-                : dark
-                  ? 'border-black/15 bg-white/35 text-black/65'
-                  : 'border-white/18 bg-black/20 text-white/85'
-            }`}
-          >
-            {item.label}
-          </button>
+        {navItems.map((item) => (
+          <button key={item.key} type="button" onClick={() => onNavigate(item.key)} className={`shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] backdrop-blur-md ${activeSection === item.key ? 'border-white bg-white text-black' : 'border-white/20 bg-black/20 text-white/80'}`}>{item.label}</button>
         ))}
       </nav>
     </header>
@@ -391,38 +287,22 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
 }
 
 function Screen({ active, children }: { active: boolean; children: ReactNode }) {
-  return (
-    <section className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden={!active}>
-      {children}
-    </section>
-  )
+  return <section className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden={!active}>{children}</section>
 }
 
 function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () => void }) {
-  const src = isMobile ? HERO_VIDEO.mobile : HERO_VIDEO.desktop
-  const poster = isMobile ? HERO_VIDEO.mobilePoster : HERO_VIDEO.poster
-
+  const src = isMobile ? heroVideo.mobile : heroVideo.desktop
+  const poster = isMobile ? heroVideo.mobilePoster : heroVideo.poster
   return (
     <div className="relative h-full w-full overflow-hidden bg-black text-white">
       <video key={src} className="absolute inset-0 h-full w-full object-cover" src={src} poster={poster} autoPlay muted loop playsInline preload="auto" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.05),transparent_38%),linear-gradient(180deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.08)_42%,rgba(0,0,0,0.86)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.52),rgba(0,0,0,0.05)_44%,rgba(0,0,0,0.88))]" />
       <div className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-8 sm:px-10 sm:pb-12">
         <p className="mb-3 text-xs font-black uppercase tracking-[0.32em] text-white/70">Bespoke tailoring house</p>
-        <h1 className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white" style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}>
-          Rivaado
-        </h1>
+        <h1 className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white" style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}>Rivaado</h1>
         <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <p className="max-w-xl text-sm leading-6 text-white/75 sm:text-base sm:leading-7">
-            A cinematic bespoke experience for men and women — tailoring, couture, accessories and made-to-measure presence.
-          </p>
-          <button
-            type="button"
-            onClick={onExplore}
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-white/60 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-white hover:text-black"
-          >
-            Explore showcase
-            <ArrowRight size={16} strokeWidth={2.25} />
-          </button>
+          <p className="max-w-xl text-sm leading-6 text-white/75 sm:text-base sm:leading-7">A cinematic bespoke experience for men and women — tailoring, couture, accessories and made-to-measure presence.</p>
+          <button type="button" onClick={onExplore} className="inline-flex w-fit items-center gap-2 rounded-full border border-white/60 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-white hover:text-black">Explore showcase <ArrowRight size={16} strokeWidth={2.25} /></button>
         </div>
       </div>
     </div>
@@ -436,16 +316,11 @@ function AboutScreen() {
       <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
           <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-black/48">About Rivaado</p>
-          <h2 className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-black sm:text-7xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-            Seventy years of cloth, cut and quiet confidence.
-          </h2>
-          <p className="mt-7 max-w-xl text-sm font-semibold leading-7 text-black/58 sm:text-base">
-            Rivaado is built from family craft, precise measurement and modern luxury. The garment is the product, but presence is the outcome.
-          </p>
+          <h2 className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-black sm:text-7xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Seventy years of cloth, cut and quiet confidence.</h2>
+          <p className="mt-7 max-w-xl text-sm font-semibold leading-7 text-black/58 sm:text-base">Rivaado is built from family craft, precise measurement and modern luxury. The garment is the product, but presence is the outcome.</p>
         </div>
-
         <div className="grid gap-3 sm:grid-cols-5 lg:h-[560px] lg:items-end">
-          {ABOUT_MARKERS.map(([year, body], index) => (
+          {aboutMarkers.map(([year, body], index) => (
             <div key={year} className="rounded-[2rem] border border-black/12 bg-white/42 p-5 shadow-2xl shadow-black/10 backdrop-blur" style={{ minHeight: `${260 + (index % 3) * 46}px` }}>
               <p className="text-4xl font-black text-black">{year}</p>
               <p className="mt-5 text-xs font-bold leading-6 text-black/58 sm:text-sm">{body}</p>
@@ -457,125 +332,56 @@ function AboutScreen() {
   )
 }
 
-function ProductShowcase({ data }: { data: ProductShowcaseData }) {
-  const [subsectionIndex, setSubsectionIndex] = useState(0)
-  const [optionIndex, setOptionIndex] = useState(0)
-  const subsection = data.subsections[subsectionIndex]
-  const option = subsection.options[optionIndex]
-  const darkText = option.text === 'dark'
-  const sectionStyle: CSSProperties = {
-    background: `${option.background}`,
-    color: darkText ? '#101010' : '#ffffff',
-  }
+function ProductShowcase({ data }: { data: ProductData }) {
+  const [subIndex, setSubIndex] = useState(0)
+  const [lookIndex, setLookIndex] = useState(0)
+  const subsection = data.subsections[subIndex]
+  const activeLook = subsection.looks[lookIndex]
+  const darkText = activeLook.text === 'dark'
+  const style: CSSProperties = { background: activeLook.background, color: darkText ? '#101010' : '#fff' }
 
   const selectSubsection = (index: number) => {
-    setSubsectionIndex(index)
-    setOptionIndex(0)
+    setSubIndex(index)
+    setLookIndex(0)
   }
-
-  const previousOption = () => setOptionIndex((current) => (current + subsection.options.length - 1) % subsection.options.length)
-  const nextOption = () => setOptionIndex((current) => (current + 1) % subsection.options.length)
+  const previousLook = () => setLookIndex((current) => (current + subsection.looks.length - 1) % subsection.looks.length)
+  const nextLook = () => setLookIndex((current) => (current + 1) % subsection.looks.length)
 
   return (
-    <div className="relative h-full w-full overflow-hidden px-5 pt-28 transition-colors duration-500 sm:px-10" style={sectionStyle}>
-      <div
-        className="absolute inset-0 transition duration-500"
-        style={{
-          background: `radial-gradient(circle at 52% 42%, ${option.glow}, transparent 32%), radial-gradient(circle at 18% 86%, rgba(0,0,0,0.16), transparent 27%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08))`,
-        }}
-      />
-
+    <div className="relative h-full w-full overflow-hidden px-5 pt-28 transition-colors duration-500 sm:px-10" style={style}>
+      <div className="absolute inset-0 transition duration-500" style={{ background: `radial-gradient(circle at 52% 43%, ${activeLook.glow}, transparent 38%), linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.14))` }} />
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col">
         <div className="mt-16 flex flex-wrap justify-center gap-2 sm:mt-20">
-          {data.subsections.map((subsectionItem, index) => (
-            <button
-              key={subsectionItem.id}
-              type="button"
-              onClick={() => selectSubsection(index)}
-              className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] transition ${
-                index === subsectionIndex
-                  ? darkText
-                    ? 'border-black bg-black text-white'
-                    : 'border-white bg-white text-black'
-                  : darkText
-                    ? 'border-black/20 bg-white/20 text-black/55 hover:text-black'
-                    : 'border-white/20 bg-black/10 text-white/62 hover:text-white'
-              }`}
-            >
-              {subsectionItem.label}
-            </button>
+          {data.subsections.map((item, index) => (
+            <button key={item.id} type="button" onClick={() => selectSubsection(index)} className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] transition ${index === subIndex ? (darkText ? 'border-black bg-black text-white' : 'border-white bg-white text-black') : darkText ? 'border-black/20 bg-white/20 text-black/55 hover:text-black' : 'border-white/20 bg-black/10 text-white/62 hover:text-white'}`}>{item.label}</button>
           ))}
         </div>
-
         <div className="grid flex-1 items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
           <div className="relative z-20 pt-6 sm:pt-0">
-            <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/48' : 'text-white/70'}`}>
-              {data.eyebrow} / {subsection.label}
-            </p>
-            <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-              {option.label}
-            </h2>
-            <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{option.description}</p>
-
-            <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
-              Book fitting
-            </button>
-
-            <div className="mt-8 flex items-center gap-3" aria-label={`${subsection.label} options`}>
-              {subsection.options.map((item, index) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  onClick={() => setOptionIndex(index)}
-                  aria-label={item.name}
-                  title={item.name}
-                  className={`h-6 w-6 rounded-full border-2 transition ${index === optionIndex ? (darkText ? 'border-black scale-110' : 'border-white scale-110') : darkText ? 'border-black/30' : 'border-white/45'}`}
-                  style={{ backgroundColor: item.garment }}
-                />
+            <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/50' : 'text-white/70'}`}>{data.eyebrow} / {subsection.label}</p>
+            <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-6xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>{activeLook.label}</h2>
+            <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{activeLook.description}</p>
+            <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>Book fitting</button>
+            <div className="mt-8 flex items-center gap-3" aria-label={`${subsection.label} looks`}>
+              {subsection.looks.map((item, index) => (
+                <button key={item.name} type="button" onClick={() => setLookIndex(index)} title={item.name} className={`h-11 w-11 overflow-hidden rounded-full border-2 transition ${index === lookIndex ? (darkText ? 'scale-110 border-black' : 'scale-110 border-white') : darkText ? 'border-black/30' : 'border-white/45'}`}>
+                  <img src={item.image} alt="" className="h-full w-full object-cover" />
+                </button>
               ))}
             </div>
-
-            <div className={`mt-5 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'text-black/46' : 'text-white/55'}`}>{option.name}</div>
+            <div className={`mt-5 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'text-black/46' : 'text-white/55'}`}>{activeLook.name}</div>
           </div>
-
           <div className="relative flex min-h-[48vh] items-center justify-center lg:min-h-[640px]">
-            <button
-              type="button"
-              onClick={previousOption}
-              aria-label={`Previous ${subsection.label} option`}
-              className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
-            >
-              <ArrowLeft size={22} strokeWidth={2.4} />
-            </button>
-
-            <ProductIllustration productKey={data.key} option={option} />
-
-            <button
-              type="button"
-              onClick={nextOption}
-              aria-label={`Next ${subsection.label} option`}
-              className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}
-            >
-              <ArrowRight size={22} strokeWidth={2.4} />
-            </button>
+            <button type="button" onClick={previousLook} aria-label={`Previous ${subsection.label} look`} className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}><ArrowLeft size={22} strokeWidth={2.4} /></button>
+            <RunwayImage look={activeLook} darkText={darkText} />
+            <button type="button" onClick={nextLook} aria-label={`Next ${subsection.label} look`} className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}><ArrowRight size={22} strokeWidth={2.4} /></button>
           </div>
-
           <div className="relative z-20 hidden lg:block">
             <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/68'}`}>Starting at</p>
-            <p className="text-3xl font-black uppercase leading-tight">{option.priceTop}</p>
-            <p className="text-sm font-black uppercase opacity-80">{option.priceBottom}</p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              {data.sizes.map((size) => (
-                <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>
-                  {size}
-                </span>
-              ))}
-            </div>
-
-            <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}>
-              <MiniProduct productKey={data.key} option={option} />
-            </div>
+            <p className="text-3xl font-black uppercase leading-tight">{activeLook.priceTop}</p>
+            <p className="text-sm font-black uppercase opacity-80">{activeLook.priceBottom}</p>
+            <div className="mt-8 flex flex-wrap gap-3">{data.sizes.map((size) => <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>{size}</span>)}</div>
+            <div className={`mt-10 flex h-36 w-28 items-center justify-center overflow-hidden rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}><img src={activeLook.image} alt="" className="h-full w-full object-cover" style={{ objectPosition: activeLook.imagePosition }} /></div>
           </div>
         </div>
       </div>
@@ -583,188 +389,16 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
   )
 }
 
-function ProductIllustration({ productKey, option }: { productKey: ProductKind; option: ProductOption }) {
-  const slug = `${productKey}-${option.name.replace(/\s+/g, '-')}`
-  const isAccessory = productKey === 'accessories'
-  const lapel = option.text === 'dark' ? '#2d2d2d' : '#101010'
-  const stroke = option.text === 'dark' ? '#6f675c' : '#787878'
-
+function RunwayImage({ look, darkText }: { look: Look; darkText: boolean }) {
   return (
     <div className="relative flex h-[54vh] min-h-[400px] w-full items-center justify-center lg:h-[68vh]">
-      <svg className="h-full max-h-[620px] w-full max-w-[500px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={option.name}>
-        <defs>
-          <linearGradient id={`cloth-${slug}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor={option.garment} />
-            <stop offset="64%" stopColor={option.garment} />
-            <stop offset="100%" stopColor={option.shadow} />
-          </linearGradient>
-          <filter id={`shadow-${slug}`} x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="30" stdDeviation="24" floodColor="#000000" floodOpacity="0.22" />
-          </filter>
-        </defs>
-
-        {!isAccessory && (
-          <>
-            <path d="M260 72 C260 38 298 42 298 22" fill="none" stroke={option.accent} strokeWidth="14" strokeLinecap="round" />
-            <path d="M162 118 Q260 62 358 118" fill="none" stroke={option.accent} strokeWidth="17" strokeLinecap="round" />
-          </>
-        )}
-        <ellipse cx="260" cy="626" rx="136" ry="22" fill="#000" opacity="0.18" />
-
-        <g filter={`url(#shadow-${slug})`}>
-          {renderShape(option, `url(#cloth-${slug})`, lapel, stroke)}
-        </g>
-      </svg>
-
-      <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${option.text === 'dark' ? 'text-black/62' : 'text-white/72'}`}>
-        {option.caption.split('\n').map((line) => (
-          <div key={line}>{line}</div>
-        ))}
+      <div className={`relative h-full max-h-[660px] w-[min(78vw,420px)] overflow-hidden rounded-[2.5rem] border shadow-2xl ${darkText ? 'border-black/18 shadow-black/20' : 'border-white/20 shadow-black/40'}`}>
+        <img src={look.image} alt={look.name} className="h-full w-full object-cover" style={{ objectPosition: look.imagePosition }} draggable={false} />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/68 via-black/10 to-transparent p-6 text-center text-white">
+          <div className="text-sm font-black leading-tight">{look.caption.split('\n').map((line) => <div key={line}>{line}</div>)}</div>
+        </div>
       </div>
     </div>
-  )
-}
-
-function renderShape(option: ProductOption, fill: string, lapel: string, stroke: string) {
-  switch (option.shape) {
-    case 'shirt':
-    case 'blouse':
-      return (
-        <>
-          <path d="M156 136 L232 108 L260 146 L288 108 L364 136 L400 266 L348 296 L336 610 Q320 642 260 642 Q200 642 184 610 L172 296 L120 266 Z" fill={fill} />
-          <path d="M232 108 L260 146 L288 108 L304 176 L260 204 L216 176 Z" fill="#ffffff" opacity="0.75" />
-          <path d="M260 150 L260 610" stroke={stroke} strokeWidth="5" opacity="0.62" />
-          {[246, 306, 366, 426].map((cy) => <circle key={cy} cx="260" cy={cy} r="7" fill={stroke} opacity="0.72" />)}
-        </>
-      )
-    case 'overcoat':
-    case 'coat':
-      return (
-        <>
-          <path d="M132 128 L225 100 L260 146 L295 100 L388 128 L430 250 L374 294 L362 628 Q344 658 260 658 Q176 658 158 628 L146 294 L90 250 Z" fill={fill} />
-          <path d="M228 108 L260 150 L292 108 L318 244 L260 282 L202 244 Z" fill={lapel} opacity="0.65" />
-          <path d="M260 148 L260 632" stroke={stroke} strokeWidth="6" opacity="0.62" />
-          <path d="M178 350 Q260 392 342 350" fill="none" stroke={stroke} strokeWidth="7" opacity="0.35" />
-        </>
-      )
-    case 'ceremonial':
-      return (
-        <>
-          <path d="M150 128 L230 108 L260 136 L290 108 L370 128 L392 590 Q376 650 260 650 Q144 650 128 590 Z" fill={fill} />
-          <path d="M260 142 L260 612" stroke={option.accent} strokeWidth="6" opacity="0.7" />
-          {[196, 248, 300, 352, 404].map((cy) => <circle key={cy} cx="260" cy={cy} r="7" fill={option.accent} opacity="0.9" />)}
-          <path d="M185 188 Q260 226 335 188" stroke={option.accent} strokeWidth="6" fill="none" opacity="0.45" />
-          <path d="M182 466 Q260 510 338 466" stroke={option.accent} strokeWidth="6" fill="none" opacity="0.35" />
-        </>
-      )
-    case 'skirt-suit':
-      return (
-        <>
-          <path d="M150 134 L230 108 L260 144 L290 108 L370 134 L410 246 L356 286 L336 404 Q310 428 260 428 Q210 428 184 404 L164 286 L110 246 Z" fill={fill} />
-          <path d="M198 430 L322 430 L368 640 L152 640 Z" fill={fill} />
-          <path d="M232 110 L260 148 L288 110 L302 192 L260 224 L218 192 Z" fill={lapel} opacity="0.66" />
-          <path d="M260 148 L260 414" stroke={stroke} strokeWidth="5" opacity="0.64" />
-        </>
-      )
-    case 'dress':
-      return (
-        <>
-          <path d="M218 112 L260 146 L302 112 L340 288 L390 650 L130 650 L180 288 Z" fill={fill} />
-          <path d="M218 112 L260 148 L302 112 L286 192 L260 216 L234 192 Z" fill={lapel} opacity="0.45" />
-          <path d="M260 148 L260 620" stroke={stroke} strokeWidth="4" opacity="0.42" />
-        </>
-      )
-    case 'pantsuit':
-    case 'suit':
-    case 'tuxedo':
-      return (
-        <>
-          <path d="M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z" fill={fill} />
-          <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={lapel} opacity="0.75" />
-          <path d="M226 122 L260 154 L294 122" fill="none" stroke={stroke} strokeWidth="8" strokeLinecap="round" />
-          <path d="M260 146 L260 612" fill="none" stroke={stroke} strokeWidth="5" opacity="0.72" />
-          {[230, 290, 352].map((cy) => <circle key={cy} cx="260" cy={cy} r="8" fill={stroke} />)}
-          <path d="M172 318 Q260 354 348 318" fill="none" stroke={stroke} strokeWidth="6" opacity="0.35" />
-          <path d="M174 440 Q260 480 346 440" fill="none" stroke={stroke} strokeWidth="6" opacity="0.28" />
-        </>
-      )
-    case 'shoe':
-      return (
-        <>
-          <path d="M128 422 C210 398 282 406 356 438 C392 454 418 486 420 524 C328 552 224 552 104 528 C102 480 104 442 128 422 Z" fill={fill} />
-          <path d="M162 430 C220 396 268 378 318 386 C344 392 365 412 382 442 C300 430 228 434 146 466 Z" fill={option.shadow} opacity="0.72" />
-          <path d="M154 506 C242 524 328 526 410 510" stroke={option.accent} strokeWidth="7" fill="none" opacity="0.65" />
-        </>
-      )
-    case 'tie':
-      return (
-        <>
-          <path d="M228 116 L292 116 L310 306 L260 606 L210 306 Z" fill={fill} />
-          <path d="M226 116 L294 116 L280 170 L260 154 L240 170 Z" fill={lapel} opacity="0.64" />
-          <path d="M260 156 L260 570" stroke={option.accent} strokeWidth="5" opacity="0.45" />
-        </>
-      )
-    case 'cuff':
-      return (
-        <>
-          <circle cx="220" cy="350" r="78" fill={fill} />
-          <circle cx="306" cy="350" r="78" fill={fill} opacity="0.84" />
-          <circle cx="220" cy="350" r="34" fill={option.accent} opacity="0.75" />
-          <circle cx="306" cy="350" r="34" fill={option.accent} opacity="0.75" />
-        </>
-      )
-    case 'belt':
-      return (
-        <>
-          <path d="M96 320 H370 Q418 320 418 368 Q418 416 370 416 H96 Z" fill={fill} />
-          <rect x="328" y="302" width="86" height="132" rx="22" fill="none" stroke={option.accent} strokeWidth="16" />
-          <path d="M120 368 H324" stroke={option.shadow} strokeWidth="9" opacity="0.5" />
-        </>
-      )
-    case 'square':
-      return (
-        <>
-          <path d="M156 186 L368 136 L340 562 L120 506 Z" fill={fill} />
-          <path d="M156 186 L254 300 L368 136" stroke={option.accent} strokeWidth="8" fill="none" opacity="0.55" />
-          <path d="M124 506 L248 368 L340 562" stroke={option.accent} strokeWidth="8" fill="none" opacity="0.45" />
-        </>
-      )
-    case 'lapel':
-      return (
-        <>
-          <circle cx="260" cy="330" r="92" fill={fill} />
-          <circle cx="220" cy="292" r="56" fill={option.shadow} opacity="0.75" />
-          <circle cx="306" cy="292" r="56" fill={option.shadow} opacity="0.75" />
-          <path d="M260 414 C250 494 222 544 188 606" stroke={option.accent} strokeWidth="12" fill="none" strokeLinecap="round" />
-          <path d="M260 414 C292 492 328 538 382 594" stroke={option.accent} strokeWidth="9" fill="none" strokeLinecap="round" opacity="0.7" />
-        </>
-      )
-  }
-}
-
-function MiniProduct({ productKey, option }: { productKey: ProductKind; option: ProductOption }) {
-  return (
-    <svg viewBox="0 0 120 160" className="h-24 w-24" aria-hidden="true">
-      {productKey !== 'accessories' && <path d="M60 19 C60 7 76 8 76 2" fill="none" stroke={option.accent} strokeWidth="4" strokeLinecap="round" />}
-      {option.shape === 'shoe' ? (
-        <path d="M20 98 C42 88 70 90 96 104 C108 111 113 121 112 132 C80 140 44 138 12 130 C10 116 10 104 20 98 Z" fill={option.garment} />
-      ) : option.shape === 'tie' ? (
-        <path d="M52 24 L68 24 L74 70 L60 146 L46 70 Z" fill={option.garment} />
-      ) : option.shape === 'cuff' ? (
-        <><circle cx="44" cy="82" r="24" fill={option.garment} /><circle cx="76" cy="82" r="24" fill={option.garment} opacity="0.85" /></>
-      ) : option.shape === 'belt' ? (
-        <path d="M12 72 H92 Q108 72 108 88 Q108 104 92 104 H12 Z" fill={option.garment} />
-      ) : option.shape === 'square' ? (
-        <path d="M30 34 L92 22 L84 132 L24 118 Z" fill={option.garment} />
-      ) : option.shape === 'lapel' ? (
-        <circle cx="60" cy="76" r="38" fill={option.garment} />
-      ) : option.shape === 'dress' ? (
-        <path d="M48 26 L60 40 L72 26 L86 84 L100 150 L20 150 L34 84 Z" fill={option.garment} />
-      ) : (
-        <path d="M28 32 L52 22 L60 34 L68 22 L92 32 L106 62 L88 73 L86 132 Q84 145 72 150 L48 150 Q36 145 34 132 L32 73 L14 62 Z" fill={option.garment} />
-      )}
-      <ellipse cx="60" cy="152" rx="34" ry="6" fill="#000" opacity="0.2" />
-    </svg>
   )
 }
 
@@ -774,22 +408,12 @@ function ContactScreen({ onBack }: { onBack: () => void }) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,0,85,0.25),transparent_35%),radial-gradient(circle_at_18%_88%,rgba(202,161,73,0.16),transparent_28%)]" />
       <div className="relative mx-auto max-w-6xl">
         <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-white/50">Book fitting</p>
-        <h2 className="max-w-4xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-8xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-          Begin your bespoke fitting.
-        </h2>
-        <p className="mt-7 max-w-xl text-base font-semibold leading-8 text-white/62">
-          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial wear and refined finishing details.
-        </p>
+        <h2 className="max-w-4xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-8xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Begin your bespoke fitting.</h2>
+        <p className="mt-7 max-w-xl text-base font-semibold leading-8 text-white/62">Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial wear and refined finishing details.</p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <a href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request" className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline">
-            Email Rivaado
-          </a>
-          <a href="tel:+18258837766" className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white no-underline">
-            +1 825-883-7766
-          </a>
-          <button type="button" onClick={onBack} className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white/70">
-            Back
-          </button>
+          <a href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request" className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline">Email Rivaado</a>
+          <a href="tel:+18258837766" className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white no-underline">+1 825-883-7766</a>
+          <button type="button" onClick={onBack} className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white/70">Back</button>
         </div>
       </div>
     </div>
