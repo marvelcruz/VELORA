@@ -12,6 +12,7 @@ type ProductOption = {
   priceTop: string
   priceBottom: string
   background: string
+  glow: string
   garment: string
   shadow: string
   accent: string
@@ -58,8 +59,9 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,250',
         priceBottom: 'FROM $1,650',
         background: '#d70055',
-        garment: '#101010',
-        shadow: '#060606',
+        glow: 'rgba(255, 255, 255, 0.26)',
+        garment: '#111111',
+        shadow: '#050505',
         accent: '#d5ac50',
         text: 'light',
       },
@@ -70,6 +72,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,450',
         priceBottom: 'FROM $1,850',
         background: '#d70055',
+        glow: 'rgba(255, 255, 255, 0.28)',
         garment: '#f2eee2',
         shadow: '#c9bfae',
         accent: '#d5ac50',
@@ -82,6 +85,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,350',
         priceBottom: 'FROM $1,750',
         background: '#d70055',
+        glow: 'rgba(255, 255, 255, 0.24)',
         garment: '#6f1028',
         shadow: '#3a0815',
         accent: '#d5ac50',
@@ -94,6 +98,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,600',
         priceBottom: 'FROM $2,200',
         background: '#d70055',
+        glow: 'rgba(255, 255, 255, 0.22)',
         garment: '#3d3834',
         shadow: '#161412',
         accent: '#d5ac50',
@@ -115,6 +120,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $980',
         priceBottom: 'FROM $1,400',
         background: '#ebe7dc',
+        glow: 'rgba(255, 255, 255, 0.62)',
         garment: '#f5f2e8',
         shadow: '#b9b2a4',
         accent: '#c8a15b',
@@ -127,6 +133,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,100',
         priceBottom: 'FROM $1,550',
         background: '#ebe7dc',
+        glow: 'rgba(255, 255, 255, 0.58)',
         garment: '#0b4a3f',
         shadow: '#052a24',
         accent: '#c8a15b',
@@ -139,6 +146,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,180',
         priceBottom: 'FROM $1,700',
         background: '#ebe7dc',
+        glow: 'rgba(255, 255, 255, 0.58)',
         garment: '#8c132d',
         shadow: '#4b0718',
         accent: '#c8a15b',
@@ -151,6 +159,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $1,200',
         priceBottom: 'FROM $1,750',
         background: '#ebe7dc',
+        glow: 'rgba(255, 255, 255, 0.58)',
         garment: '#112f6f',
         shadow: '#071740',
         accent: '#c8a15b',
@@ -172,6 +181,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $120',
         priceBottom: 'FROM $300',
         background: '#4f4039',
+        glow: 'rgba(255, 255, 255, 0.18)',
         garment: '#5a4840',
         shadow: '#2a211d',
         accent: '#d5ac50',
@@ -184,6 +194,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $160',
         priceBottom: 'FROM $420',
         background: '#4f4039',
+        glow: 'rgba(255, 255, 255, 0.18)',
         garment: '#caa149',
         shadow: '#5f4617',
         accent: '#f1d17c',
@@ -196,6 +207,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $95',
         priceBottom: 'FROM $240',
         background: '#4f4039',
+        glow: 'rgba(255, 255, 255, 0.18)',
         garment: '#d70055',
         shadow: '#650026',
         accent: '#d5ac50',
@@ -208,6 +220,7 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
         priceTop: 'FROM $180',
         priceBottom: 'FROM $500',
         background: '#4f4039',
+        glow: 'rgba(255, 255, 255, 0.18)',
         garment: '#f5f2e8',
         shadow: '#a79d90',
         accent: '#d5ac50',
@@ -431,7 +444,7 @@ function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () 
 function AboutScreen() {
   return (
     <div className="relative flex h-full w-full items-center overflow-hidden bg-[#ebe7dc] px-5 pt-24 text-black sm:px-10 sm:pt-28">
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.055)_1px,transparent_1px),linear-gradient(180deg,rgba(0,0,0,0.045)_1px,transparent_1px)] bg-[length:72px_72px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(255,255,255,0.65),transparent_38%),radial-gradient(circle_at_75%_70%,rgba(202,161,73,0.16),transparent_34%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
           <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-black/48">About Rivaado</p>
@@ -450,7 +463,7 @@ function AboutScreen() {
           {ABOUT_MARKERS.map(([year, body], index) => (
             <div
               key={year}
-              className="rounded-[2rem] border border-black/12 bg-white/45 p-5 shadow-2xl shadow-black/10 backdrop-blur"
+              className="rounded-[2rem] border border-black/10 bg-white/40 p-5 shadow-2xl shadow-black/10 backdrop-blur"
               style={{ minHeight: `${260 + (index % 3) * 46}px` }}
             >
               <p className="text-4xl font-black text-black">{year}</p>
@@ -468,25 +481,16 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
   const option = data.options[optionIndex]
   const darkText = option.text === 'dark'
   const sectionStyle: CSSProperties = {
-    background: `radial-gradient(circle at 52% 43%, rgba(255,255,255,0.24), transparent 28%), ${option.background}`,
+    background: `radial-gradient(circle at 51% 45%, ${option.glow}, transparent 30%), linear-gradient(135deg, ${option.background} 0%, ${option.background} 58%, ${option.shadow} 140%)`,
     color: darkText ? '#101010' : '#ffffff',
   }
 
-  const previousOption = () => {
-    setOptionIndex((current) => (current + data.options.length - 1) % data.options.length)
-  }
-
-  const nextOption = () => {
-    setOptionIndex((current) => (current + 1) % data.options.length)
-  }
+  const previousOption = () => setOptionIndex((current) => (current + data.options.length - 1) % data.options.length)
+  const nextOption = () => setOptionIndex((current) => (current + 1) % data.options.length)
 
   return (
     <div className="relative h-full w-full overflow-hidden px-5 pt-28 sm:px-10" style={sectionStyle}>
-      <div
-        className={`absolute inset-0 bg-[linear-gradient(90deg,currentColor_1px,transparent_1px),linear-gradient(180deg,currentColor_1px,transparent_1px)] bg-[length:72px_72px] ${
-          darkText ? 'text-black/[0.07]' : 'text-white/[0.11]'
-        }`}
-      />
+      <div className={`absolute inset-0 ${darkText ? 'bg-black/[0.015]' : 'bg-black/[0.04]'}`} />
       <div className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-3xl" />
 
       <div className="relative z-10 mx-auto grid h-full max-w-7xl items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
@@ -520,13 +524,15 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
                 type="button"
                 onClick={() => setOptionIndex(index)}
                 aria-label={item.name}
-                className={`h-5 w-5 rounded-full border shadow ${optionIndex === index ? 'scale-110 border-white ring-2 ring-white/70' : 'border-white/60'}`}
+                className={`h-5 w-5 rounded-full border shadow transition ${
+                  index === optionIndex ? 'scale-110 border-white ring-2 ring-white/55' : 'border-white/55'
+                }`}
                 style={{ backgroundColor: item.garment }}
               />
             ))}
           </div>
 
-          <div className={`mt-20 hidden items-center gap-5 text-xs sm:flex ${darkText ? 'text-black/45' : 'text-white/55'}`}>
+          <div className={`mt-20 hidden items-center gap-5 text-xs sm:flex ${darkText ? 'text-black/40' : 'text-white/45'}`}>
             <span>◎</span>
             <span>×</span>
             <span>□</span>
@@ -592,7 +598,6 @@ function ProductShowcase({ data }: { data: ProductShowcaseData }) {
 
 function ProductIllustration({ option, kind }: { option: ProductOption; kind: ProductKind }) {
   const isAccessory = kind === 'accessories'
-  const isWomen = kind === 'women'
 
   return (
     <div className="relative flex h-[56vh] min-h-[430px] w-full items-center justify-center lg:h-[72vh]">
@@ -600,7 +605,7 @@ function ProductIllustration({ option, kind }: { option: ProductOption; kind: Pr
         <defs>
           <linearGradient id={`cloth-${kind}-${option.label.replace(/\s+/g, '-')}`} x1="0" x2="1" y1="0" y2="1">
             <stop offset="0%" stopColor={option.garment} />
-            <stop offset="58%" stopColor={option.garment} />
+            <stop offset="60%" stopColor={option.garment} />
             <stop offset="100%" stopColor={option.shadow} />
           </linearGradient>
           <filter id={`soft-shadow-${kind}`} x="-30%" y="-30%" width="160%" height="160%">
@@ -612,32 +617,29 @@ function ProductIllustration({ option, kind }: { option: ProductOption; kind: Pr
         <path d="M162 118 Q260 62 358 118" fill="none" stroke={option.accent} strokeWidth="17" strokeLinecap="round" />
         <ellipse cx="260" cy="626" rx="136" ry="22" fill="#000" opacity="0.18" />
 
-        {isAccessory ? (
-          <g filter={`url(#soft-shadow-${kind})`}>
-            <path d="M222 126 L298 126 L316 238 L284 604 Q280 632 260 652 Q240 632 236 604 L204 238 Z" fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`} />
-            <path d="M228 126 L260 176 L292 126" fill="#111" opacity="0.22" />
-            <path d="M260 176 L260 616" stroke="rgba(255,255,255,0.45)" strokeWidth="5" />
-          </g>
-        ) : (
-          <g filter={`url(#soft-shadow-${kind})`}>
-            <path
-              d={
-                isWomen
-                  ? 'M151 134 L232 106 L260 142 L288 106 L369 134 L418 248 L364 286 L346 594 Q343 630 312 650 L208 650 Q177 630 174 594 L156 286 L102 248 Z'
-                  : 'M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z'
-              }
-              fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`}
-            />
-            <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={isWomen ? '#ffffff' : '#111111'} opacity="0.76" />
-            <path d="M226 122 L260 154 L294 122" fill="none" stroke={isWomen ? '#d2c7b8' : '#5a5a5a'} strokeWidth="8" strokeLinecap="round" />
-            <path d="M260 146 L260 612" fill="none" stroke={isWomen ? '#d8d0c4' : '#707070'} strokeWidth="5" opacity="0.72" />
-            {[230, 290, 352].map((cy) => (
-              <circle key={cy} cx="260" cy={cy} r="8" fill={isWomen ? '#d8d0c4' : '#8c8c8c'} />
-            ))}
-            <path d="M172 318 Q260 354 348 318" fill="none" stroke={isWomen ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.42" />
-            <path d="M174 440 Q260 480 346 440" fill="none" stroke={isWomen ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.34" />
-          </g>
-        )}
+        <g filter={`url(#soft-shadow-${kind})`}>
+          {isAccessory ? (
+            <>
+              <path d="M232 118 L288 118 L312 500 L260 626 L208 500 Z" fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`} />
+              <path d="M232 118 L260 154 L288 118 L278 202 L260 226 L242 202 Z" fill="#111" opacity="0.35" />
+            </>
+          ) : (
+            <>
+              <path
+                d="M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z"
+                fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`}
+              />
+              <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={kind === 'women' ? '#ffffff' : '#111111'} opacity="0.72" />
+              <path d="M226 122 L260 154 L294 122" fill="none" stroke={kind === 'women' ? '#d2c7b8' : '#5a5a5a'} strokeWidth="8" strokeLinecap="round" />
+              <path d="M260 146 L260 612" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#707070'} strokeWidth="5" opacity="0.72" />
+              {[230, 290, 352].map((cy) => (
+                <circle key={cy} cx="260" cy={cy} r="8" fill={kind === 'women' ? '#d8d0c4' : '#8c8c8c'} />
+              ))}
+              <path d="M172 318 Q260 354 348 318" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.42" />
+              <path d="M174 440 Q260 480 346 440" fill="none" stroke={kind === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.34" />
+            </>
+          )}
+        </g>
       </svg>
 
       <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${option.text === 'dark' ? 'text-black/58' : 'text-white/68'}`}>
@@ -654,7 +656,7 @@ function MiniProduct({ option, kind }: { option: ProductOption; kind: ProductKin
     <svg viewBox="0 0 120 160" className="h-24 w-24" aria-hidden="true">
       <path d="M60 19 C60 7 76 8 76 2" fill="none" stroke={option.accent} strokeWidth="4" strokeLinecap="round" />
       {kind === 'accessories' ? (
-        <path d="M46 30 L74 30 L80 68 L66 146 L60 154 L54 146 L40 68 Z" fill={option.garment} />
+        <path d="M52 25 L68 25 L76 118 L60 150 L44 118 Z" fill={option.garment} />
       ) : (
         <path d="M28 32 L52 22 L60 34 L68 22 L92 32 L106 62 L88 73 L86 132 Q84 145 72 150 L48 150 Q36 145 34 132 L32 73 L14 62 Z" fill={option.garment} />
       )}
@@ -666,7 +668,7 @@ function MiniProduct({ option, kind }: { option: ProductOption; kind: ProductKin
 function ContactScreen({ onBack }: { onBack: () => void }) {
   return (
     <div className="relative flex h-full w-full items-center overflow-hidden bg-[#111] px-5 pt-24 text-white sm:px-10 sm:pt-28">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,0,85,0.25),transparent_35%),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:auto,72px_72px,72px_72px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,0,85,0.25),transparent_35%),radial-gradient(circle_at_30%_75%,rgba(202,161,73,0.14),transparent_38%)]" />
       <div className="relative mx-auto max-w-6xl">
         <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-white/50">Book fitting</p>
         <h2
@@ -676,16 +678,26 @@ function ContactScreen({ onBack }: { onBack: () => void }) {
           Begin your bespoke fitting.
         </h2>
         <p className="mt-7 max-w-xl text-base font-semibold leading-8 text-white/62">
-          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial pieces and finishing details.
+          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial wear and finishing details.
         </p>
-        <div className="mt-10 flex flex-wrap gap-4">
-          <a className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline" href="mailto:Info@rivaado.com">
-            Info@rivaado.com
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <a
+            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
+            className="rounded-full bg-white px-7 py-4 text-center text-xs font-black uppercase tracking-[0.18em] text-black no-underline"
+          >
+            Email Rivaado
           </a>
-          <a className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white no-underline" href="tel:+18258837766">
+          <a
+            href="tel:+18258837766"
+            className="rounded-full border border-white/40 px-7 py-4 text-center text-xs font-black uppercase tracking-[0.18em] text-white no-underline"
+          >
             +1 825-883-7766
           </a>
-          <button type="button" onClick={onBack} className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">
+          <button
+            type="button"
+            onClick={onBack}
+            className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white/70"
+          >
             Back
           </button>
         </div>
