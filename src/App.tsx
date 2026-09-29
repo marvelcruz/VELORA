@@ -5,20 +5,26 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 type SectionKey = 'home' | 'about' | 'men' | 'women' | 'accessories' | 'contact'
 type ProductKind = 'men' | 'women' | 'accessories'
 
-type ProductShowcaseData = {
-  key: ProductKind
-  eyebrow: string
-  title: string
-  description: string
+type ProductOption = {
+  name: string
+  label: string
   caption: string
   priceTop: string
   priceBottom: string
   background: string
   garment: string
   shadow: string
+  accent: string
   text: 'light' | 'dark'
-  swatches: string[]
+}
+
+type ProductShowcaseData = {
+  key: ProductKind
+  eyebrow: string
+  title: string
+  description: string
   sizes: string[]
+  options: ProductOption[]
 }
 
 const NAV_ITEMS: { label: string; key: SectionKey }[] = [
@@ -43,45 +49,171 @@ const PRODUCTS: Record<ProductKind, ProductShowcaseData> = {
     eyebrow: 'Men / Bespoke',
     title: 'Wear Confidence Define Your Style.',
     description: 'Three-piece suits, tuxedos and overcoats made around posture, proportion and presence.',
-    caption: 'Dress Better.\nFeel Boss.',
-    priceTop: 'FROM $1,250',
-    priceBottom: 'FROM $1,650',
-    background: '#d70055',
-    garment: '#d70055',
-    shadow: '#8d0037',
-    text: 'light',
-    swatches: ['#d70055', '#f1f1ee', '#6a554b', '#222222'],
     sizes: ['36', '38', '40', '42'],
+    options: [
+      {
+        name: 'Midnight Tuxedo',
+        label: 'Peak Lapel',
+        caption: 'Dress Better.\nFeel Boss.',
+        priceTop: 'FROM $1,250',
+        priceBottom: 'FROM $1,650',
+        background: '#d70055',
+        garment: '#101010',
+        shadow: '#060606',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Ivory Dinner Jacket',
+        label: 'Evening White',
+        caption: 'Clean Lines.\nSharp Presence.',
+        priceTop: 'FROM $1,450',
+        priceBottom: 'FROM $1,850',
+        background: '#d70055',
+        garment: '#f2eee2',
+        shadow: '#c9bfae',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Burgundy Three Piece',
+        label: 'Modern Suit',
+        caption: 'Cut Strong.\nMove Easy.',
+        priceTop: 'FROM $1,350',
+        priceBottom: 'FROM $1,750',
+        background: '#d70055',
+        garment: '#6f1028',
+        shadow: '#3a0815',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Charcoal Overcoat',
+        label: 'Layered Fit',
+        caption: 'Quiet Power.\nTailored Warmth.',
+        priceTop: 'FROM $1,600',
+        priceBottom: 'FROM $2,200',
+        background: '#d70055',
+        garment: '#3d3834',
+        shadow: '#161412',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+    ],
   },
   women: {
     key: 'women',
     eyebrow: 'Women / Couture',
     title: 'Wear Confidence Define Your Style.',
     description: 'Power suits, skirt suits, dresses and tailored separates shaped with color, line and elegance.',
-    caption: 'Dress Better.\nFeel Boss.',
-    priceTop: 'FROM $980',
-    priceBottom: 'FROM $1,400',
-    background: '#ebe7dc',
-    garment: '#f5f2e8',
-    shadow: '#b9b2a4',
-    text: 'dark',
-    swatches: ['#f5f2e8', '#d70055', '#5c4c43', '#262626'],
     sizes: ['XS', 'S', 'M', 'L'],
+    options: [
+      {
+        name: 'Ivory Skirt Suit',
+        label: 'Tailored Skirt',
+        caption: 'Elegant Shape.\nSharp Finish.',
+        priceTop: 'FROM $980',
+        priceBottom: 'FROM $1,400',
+        background: '#ebe7dc',
+        garment: '#f5f2e8',
+        shadow: '#b9b2a4',
+        accent: '#c8a15b',
+        text: 'dark',
+      },
+      {
+        name: 'Emerald Pantsuit',
+        label: 'Power Tailoring',
+        caption: 'Color Forward.\nBuilt Strong.',
+        priceTop: 'FROM $1,100',
+        priceBottom: 'FROM $1,550',
+        background: '#ebe7dc',
+        garment: '#0b4a3f',
+        shadow: '#052a24',
+        accent: '#c8a15b',
+        text: 'dark',
+      },
+      {
+        name: 'Burgundy Long Suit',
+        label: 'Statement Line',
+        caption: 'Rich Color.\nFull Presence.',
+        priceTop: 'FROM $1,180',
+        priceBottom: 'FROM $1,700',
+        background: '#ebe7dc',
+        garment: '#8c132d',
+        shadow: '#4b0718',
+        accent: '#c8a15b',
+        text: 'dark',
+      },
+      {
+        name: 'Cobalt Evening Suit',
+        label: 'Blue Edition',
+        caption: 'Cool Tone.\nBold Cut.',
+        priceTop: 'FROM $1,200',
+        priceBottom: 'FROM $1,750',
+        background: '#ebe7dc',
+        garment: '#112f6f',
+        shadow: '#071740',
+        accent: '#c8a15b',
+        text: 'dark',
+      },
+    ],
   },
   accessories: {
     key: 'accessories',
     eyebrow: 'Accessories / Finish',
     title: 'Wear Confidence Define Your Style.',
     description: 'Ties, cuffs, lapel details, pocket squares and finishing pieces that complete the look.',
-    caption: 'Dress Better.\nFeel Boss.',
-    priceTop: 'FROM $120',
-    priceBottom: 'FROM $300',
-    background: '#4f4039',
-    garment: '#5a4840',
-    shadow: '#2a211d',
-    text: 'light',
-    swatches: ['#5a4840', '#d70055', '#f5f2e8', '#222222'],
     sizes: ['Tie', 'Cuff', 'Lapel', 'Set'],
+    options: [
+      {
+        name: 'Silk Tie Set',
+        label: 'Tie',
+        caption: 'Finish Clean.\nStand Out.',
+        priceTop: 'FROM $120',
+        priceBottom: 'FROM $300',
+        background: '#4f4039',
+        garment: '#5a4840',
+        shadow: '#2a211d',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Gold Cuff Detail',
+        label: 'Cuff',
+        caption: 'Small Detail.\nBig Finish.',
+        priceTop: 'FROM $160',
+        priceBottom: 'FROM $420',
+        background: '#4f4039',
+        garment: '#caa149',
+        shadow: '#5f4617',
+        accent: '#f1d17c',
+        text: 'light',
+      },
+      {
+        name: 'Lapel Flower',
+        label: 'Lapel',
+        caption: 'Quiet Accent.\nLuxury Touch.',
+        priceTop: 'FROM $95',
+        priceBottom: 'FROM $240',
+        background: '#4f4039',
+        garment: '#d70055',
+        shadow: '#650026',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+      {
+        name: 'Pocket Square Set',
+        label: 'Set',
+        caption: 'Layered Finish.\nComplete Look.',
+        priceTop: 'FROM $180',
+        priceBottom: 'FROM $500',
+        background: '#4f4039',
+        garment: '#f5f2e8',
+        shadow: '#a79d90',
+        accent: '#d5ac50',
+        text: 'light',
+      },
+    ],
   },
 }
 
@@ -138,15 +270,15 @@ export default function App() {
         </Screen>
 
         <Screen active={activeSection === 'men'}>
-          <ProductShowcase data={PRODUCTS.men} onPrev={() => go('about')} onNext={() => go('women')} />
+          <ProductShowcase data={PRODUCTS.men} />
         </Screen>
 
         <Screen active={activeSection === 'women'}>
-          <ProductShowcase data={PRODUCTS.women} onPrev={() => go('men')} onNext={() => go('accessories')} />
+          <ProductShowcase data={PRODUCTS.women} />
         </Screen>
 
         <Screen active={activeSection === 'accessories'}>
-          <ProductShowcase data={PRODUCTS.accessories} onPrev={() => go('women')} onNext={() => go('contact')} />
+          <ProductShowcase data={PRODUCTS.accessories} />
         </Screen>
 
         <Screen active={activeSection === 'contact'}>
@@ -331,11 +463,21 @@ function AboutScreen() {
   )
 }
 
-function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; onPrev: () => void; onNext: () => void }) {
-  const darkText = data.text === 'dark'
+function ProductShowcase({ data }: { data: ProductShowcaseData }) {
+  const [optionIndex, setOptionIndex] = useState(0)
+  const option = data.options[optionIndex]
+  const darkText = option.text === 'dark'
   const sectionStyle: CSSProperties = {
-    background: `radial-gradient(circle at 52% 43%, rgba(255,255,255,0.24), transparent 28%), ${data.background}`,
+    background: `radial-gradient(circle at 52% 43%, rgba(255,255,255,0.24), transparent 28%), ${option.background}`,
     color: darkText ? '#101010' : '#ffffff',
+  }
+
+  const previousOption = () => {
+    setOptionIndex((current) => (current + data.options.length - 1) % data.options.length)
+  }
+
+  const nextOption = () => {
+    setOptionIndex((current) => (current + 1) % data.options.length)
   }
 
   return (
@@ -371,9 +513,16 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
             Book fitting
           </button>
 
-          <div className="mt-8 flex items-center gap-3">
-            {data.swatches.map((color) => (
-              <span key={color} className="h-5 w-5 rounded-full border border-white/60 shadow" style={{ backgroundColor: color }} />
+          <div className="mt-8 flex items-center gap-3" aria-label={`${data.key} options`}>
+            {data.options.map((item, index) => (
+              <button
+                key={item.name}
+                type="button"
+                onClick={() => setOptionIndex(index)}
+                aria-label={item.name}
+                className={`h-5 w-5 rounded-full border shadow ${optionIndex === index ? 'scale-110 border-white ring-2 ring-white/70' : 'border-white/60'}`}
+                style={{ backgroundColor: item.garment }}
+              />
             ))}
           </div>
 
@@ -389,8 +538,8 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
         <div className="relative flex min-h-[50vh] items-center justify-center lg:min-h-[680px]">
           <button
             type="button"
-            onClick={onPrev}
-            aria-label="Previous section"
+            onClick={previousOption}
+            aria-label={`Previous ${data.key} option`}
             className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${
               darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'
             }`}
@@ -398,12 +547,12 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
             <ArrowLeft size={22} strokeWidth={2.4} />
           </button>
 
-          <ProductIllustration data={data} />
+          <ProductIllustration option={option} kind={data.key} />
 
           <button
             type="button"
-            onClick={onNext}
-            aria-label="Next section"
+            onClick={nextOption}
+            aria-label={`Next ${data.key} option`}
             className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${
               darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'
             }`}
@@ -416,8 +565,8 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
           <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/65'}`}>
             Starting at
           </p>
-          <p className="text-3xl font-black uppercase leading-tight">{data.priceTop}</p>
-          <p className="text-sm font-black uppercase opacity-80">{data.priceBottom}</p>
+          <p className="text-3xl font-black uppercase leading-tight">{option.priceTop}</p>
+          <p className="text-sm font-black uppercase opacity-80">{option.priceBottom}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             {data.sizes.map((size) => (
@@ -433,7 +582,7 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
           </div>
 
           <div className={`mt-10 flex h-32 w-32 items-center justify-center rounded-[2rem] border ${darkText ? 'border-black/25' : 'border-white/35'}`}>
-            <MiniProduct data={data} />
+            <MiniProduct option={option} kind={data.key} />
           </div>
         </div>
       </div>
@@ -441,45 +590,58 @@ function ProductShowcase({ data, onPrev, onNext }: { data: ProductShowcaseData; 
   )
 }
 
-function ProductIllustration({ data }: { data: ProductShowcaseData }) {
+function ProductIllustration({ option, kind }: { option: ProductOption; kind: ProductKind }) {
+  const isAccessory = kind === 'accessories'
+  const isWomen = kind === 'women'
+
   return (
     <div className="relative flex h-[56vh] min-h-[430px] w-full items-center justify-center lg:h-[72vh]">
-      <svg className="h-full max-h-[680px] w-full max-w-[520px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={`${data.eyebrow} garment`}>
+      <svg className="h-full max-h-[680px] w-full max-w-[520px] drop-shadow-2xl" viewBox="0 0 520 700" role="img" aria-label={option.name}>
         <defs>
-          <linearGradient id={`cloth-${data.key}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor={data.garment} />
-            <stop offset="52%" stopColor={data.garment} />
-            <stop offset="100%" stopColor={data.shadow} />
+          <linearGradient id={`cloth-${kind}-${option.label.replace(/\s+/g, '-')}`} x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor={option.garment} />
+            <stop offset="58%" stopColor={option.garment} />
+            <stop offset="100%" stopColor={option.shadow} />
           </linearGradient>
-          <filter id={`soft-shadow-${data.key}`} x="-30%" y="-30%" width="160%" height="160%">
+          <filter id={`soft-shadow-${kind}`} x="-30%" y="-30%" width="160%" height="160%">
             <feDropShadow dx="0" dy="32" stdDeviation="26" floodColor="#000000" floodOpacity="0.22" />
           </filter>
         </defs>
 
-        <path d="M260 72 C260 38 298 42 298 22" fill="none" stroke={data.key === 'women' ? '#c8a15b' : '#d5ac50'} strokeWidth="14" strokeLinecap="round" />
-        <path d="M162 118 Q260 62 358 118" fill="none" stroke={data.key === 'women' ? '#c8a15b' : '#d5ac50'} strokeWidth="17" strokeLinecap="round" />
-
+        <path d="M260 72 C260 38 298 42 298 22" fill="none" stroke={option.accent} strokeWidth="14" strokeLinecap="round" />
+        <path d="M162 118 Q260 62 358 118" fill="none" stroke={option.accent} strokeWidth="17" strokeLinecap="round" />
         <ellipse cx="260" cy="626" rx="136" ry="22" fill="#000" opacity="0.18" />
-        <g filter={`url(#soft-shadow-${data.key})`}>
-          <path
-            d="M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z"
-            fill={`url(#cloth-${data.key})`}
-          />
-          <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={data.key === 'men' ? '#111111' : data.key === 'women' ? '#ffffff' : '#2b211e'} opacity="0.78" />
-          <path d="M226 122 L260 154 L294 122" fill="none" stroke={data.key === 'women' ? '#d2c7b8' : '#5a5a5a'} strokeWidth="8" strokeLinecap="round" />
-          <path d="M260 146 L260 612" fill="none" stroke={data.key === 'women' ? '#d8d0c4' : '#707070'} strokeWidth="5" opacity="0.72" />
-          {[230, 290, 352].map((cy) => (
-            <circle key={cy} cx="260" cy={cy} r="8" fill={data.key === 'women' ? '#d8d0c4' : '#8c8c8c'} />
-          ))}
-          <path d="M172 318 Q260 354 348 318" fill="none" stroke={data.key === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.42" />
-          <path d="M174 440 Q260 480 346 440" fill="none" stroke={data.key === 'women' ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.34" />
-          <path d="M128 246 L158 292" stroke="#000" strokeWidth="5" opacity="0.12" />
-          <path d="M392 246 L362 292" stroke="#000" strokeWidth="5" opacity="0.12" />
-        </g>
+
+        {isAccessory ? (
+          <g filter={`url(#soft-shadow-${kind})`}>
+            <path d="M222 126 L298 126 L316 238 L284 604 Q280 632 260 652 Q240 632 236 604 L204 238 Z" fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`} />
+            <path d="M228 126 L260 176 L292 126" fill="#111" opacity="0.22" />
+            <path d="M260 176 L260 616" stroke="rgba(255,255,255,0.45)" strokeWidth="5" />
+          </g>
+        ) : (
+          <g filter={`url(#soft-shadow-${kind})`}>
+            <path
+              d={
+                isWomen
+                  ? 'M151 134 L232 106 L260 142 L288 106 L369 134 L418 248 L364 286 L346 594 Q343 630 312 650 L208 650 Q177 630 174 594 L156 286 L102 248 Z'
+                  : 'M151 134 L232 106 L260 142 L288 106 L369 134 L425 256 L363 296 L357 596 Q356 630 324 650 L196 650 Q164 630 163 596 L157 296 L95 256 Z'
+              }
+              fill={`url(#cloth-${kind}-${option.label.replace(/\s+/g, '-')})`}
+            />
+            <path d="M232 106 L260 142 L288 106 L300 194 L260 230 L220 194 Z" fill={isWomen ? '#ffffff' : '#111111'} opacity="0.76" />
+            <path d="M226 122 L260 154 L294 122" fill="none" stroke={isWomen ? '#d2c7b8' : '#5a5a5a'} strokeWidth="8" strokeLinecap="round" />
+            <path d="M260 146 L260 612" fill="none" stroke={isWomen ? '#d8d0c4' : '#707070'} strokeWidth="5" opacity="0.72" />
+            {[230, 290, 352].map((cy) => (
+              <circle key={cy} cx="260" cy={cy} r="8" fill={isWomen ? '#d8d0c4' : '#8c8c8c'} />
+            ))}
+            <path d="M172 318 Q260 354 348 318" fill="none" stroke={isWomen ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.42" />
+            <path d="M174 440 Q260 480 346 440" fill="none" stroke={isWomen ? '#d8d0c4' : '#656565'} strokeWidth="6" opacity="0.34" />
+          </g>
+        )}
       </svg>
 
-      <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${data.text === 'dark' ? 'text-black/58' : 'text-white/68'}`}>
-        {data.caption.split('\n').map((line) => (
+      <div className={`absolute bottom-[8%] text-center text-sm font-black leading-tight ${option.text === 'dark' ? 'text-black/58' : 'text-white/68'}`}>
+        {option.caption.split('\n').map((line) => (
           <div key={line}>{line}</div>
         ))}
       </div>
@@ -487,11 +649,15 @@ function ProductIllustration({ data }: { data: ProductShowcaseData }) {
   )
 }
 
-function MiniProduct({ data }: { data: ProductShowcaseData }) {
+function MiniProduct({ option, kind }: { option: ProductOption; kind: ProductKind }) {
   return (
     <svg viewBox="0 0 120 160" className="h-24 w-24" aria-hidden="true">
-      <path d="M60 19 C60 7 76 8 76 2" fill="none" stroke="#d5ac50" strokeWidth="4" strokeLinecap="round" />
-      <path d="M28 32 L52 22 L60 34 L68 22 L92 32 L106 62 L88 73 L86 132 Q84 145 72 150 L48 150 Q36 145 34 132 L32 73 L14 62 Z" fill={data.garment} />
+      <path d="M60 19 C60 7 76 8 76 2" fill="none" stroke={option.accent} strokeWidth="4" strokeLinecap="round" />
+      {kind === 'accessories' ? (
+        <path d="M46 30 L74 30 L80 68 L66 146 L60 154 L54 146 L40 68 Z" fill={option.garment} />
+      ) : (
+        <path d="M28 32 L52 22 L60 34 L68 22 L92 32 L106 62 L88 73 L86 132 Q84 145 72 150 L48 150 Q36 145 34 132 L32 73 L14 62 Z" fill={option.garment} />
+      )}
       <ellipse cx="60" cy="152" rx="34" ry="6" fill="#000" opacity="0.2" />
     </svg>
   )
@@ -510,21 +676,17 @@ function ContactScreen({ onBack }: { onBack: () => void }) {
           Begin your bespoke fitting.
         </h2>
         <p className="mt-7 max-w-xl text-base font-semibold leading-8 text-white/62">
-          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial dressing and finishing details.
+          Men, women and accessories by appointment. Calgary bespoke tailoring, ceremonial pieces and finishing details.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <a
-            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
-            className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline"
-          >
-            Email Rivaado
+          <a className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-black no-underline" href="mailto:Info@rivaado.com">
+            Info@rivaado.com
           </a>
-          <button
-            type="button"
-            onClick={onBack}
-            className="rounded-full border border-white/30 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white"
-          >
-            Back to accessories
+          <a className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white no-underline" href="tel:+18258837766">
+            +1 825-883-7766
+          </a>
+          <button type="button" onClick={onBack} className="rounded-full border border-white/35 px-7 py-4 text-xs font-black uppercase tracking-[0.18em] text-white">
+            Back
           </button>
         </div>
       </div>
