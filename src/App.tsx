@@ -15,22 +15,13 @@ type Look = {
   background: string
   glow: string
   text: 'light' | 'dark'
-  image: string
-  imagePosition?: string
+  cell: number
 }
 
-type Subsection = {
-  id: string
-  label: string
-  looks: Look[]
-}
+type Subsection = { id: string; label: string; looks: Look[] }
+type ProductData = { key: ProductKind; eyebrow: string; sizes: string[]; subsections: Subsection[] }
 
-type ProductData = {
-  key: ProductKind
-  eyebrow: string
-  sizes: string[]
-  subsections: Subsection[]
-}
+const approvedBoard = '/looks/approved-rivaado-board.webp'
 
 const navItems: { label: string; key: SectionKey }[] = [
   { label: 'Home', key: 'home' },
@@ -48,8 +39,6 @@ const heroVideo = {
   mobilePoster: '/video/rivaado-hero-poster-mobile.jpg',
 }
 
-const img = (file: string) => `/looks/${file}`
-
 function look(
   name: string,
   label: string,
@@ -60,24 +49,23 @@ function look(
   background: string,
   glow: string,
   text: 'light' | 'dark',
-  image: string,
-  imagePosition = 'center top',
+  cell: number,
 ): Look {
-  return { name, label, caption, description, priceTop, priceBottom, background, glow, text, image, imagePosition }
+  return { name, label, caption, description, priceTop, priceBottom, background, glow, text, cell }
 }
 
-const looks = {
-  leopard: img('look-01-leopard-shirt.webp'),
-  tuxedoBlack: img('look-02-textured-tuxedo.webp'),
-  pinkSuit: img('look-03-pastel-pink-suit.webp'),
-  blueScarf: img('look-04-blue-shirt-scarf.webp'),
-  plaid: img('look-05-plaid-blazer.webp'),
-  navySuit: img('look-06-navy-open-suit.webp'),
-  tealVest: img('look-07-teal-shirt-vest.webp'),
-  leatherCoat: img('look-08-leather-sleeve-coat.webp'),
-  patternTuxedo: img('look-09-blue-scarf-shirt.webp'),
-  burgundyWomen: img('look-10-gold-couture.webp'),
-}
+const cells = {
+  leopard: 0,
+  tuxedoBlack: 1,
+  pinkSuit: 2,
+  blueScarf: 3,
+  plaid: 4,
+  blackSuit: 5,
+  tealVest: 6,
+  leatherCoat: 7,
+  patternTuxedo: 8,
+  burgundyWomen: 9,
+} as const
 
 const products: Record<ProductKind, ProductData> = {
   men: {
@@ -89,41 +77,40 @@ const products: Record<ProductKind, ProductData> = {
         id: 'suits',
         label: 'Suits',
         looks: [
-          look('Navy Open Suit', 'Navy Suit', 'Clean line.\nQuiet power.', 'A sharp navy suit with open-collar styling, lapel pin detail and runway presence.', 'FROM $1,250', 'BESPOKE SUIT', '#10192b', 'rgba(255,255,255,0.18)', 'light', looks.navySuit),
-          look('Pastel Pink Suit', 'Pastel Suit', 'Soft tone.\nStrong cut.', 'A blush tailored jacket styled with dark trousers and a statement flower finish.', 'FROM $1,350', 'CUSTOM SUIT', '#efc5c9', 'rgba(255,255,255,0.6)', 'dark', looks.pinkSuit),
-          look('Black Open Suit', 'Open Suit', 'Minimal black.\nSharp detail.', 'A clean black open-collar suit finished with lapel jewellery and a confident silhouette.', 'FROM $1,350', 'BESPOKE SUIT', '#0d0d0d', 'rgba(255,255,255,0.16)', 'light', looks.navySuit),
+          look('Black Open Suit', 'Black Suit', 'Clean line.\nQuiet power.', 'A clean black open-collar suit finished with lapel jewellery and a confident silhouette.', 'FROM $1,250', 'BESPOKE SUIT', '#111827', 'rgba(255,255,255,0.18)', 'light', cells.blackSuit),
+          look('Pastel Pink Suit', 'Pastel Suit', 'Soft tone.\nStrong cut.', 'A blush tailored jacket styled with dark trousers and a statement flower finish.', 'FROM $1,350', 'CUSTOM SUIT', '#efc5c9', 'rgba(255,255,255,0.58)', 'dark', cells.pinkSuit),
         ],
       },
       {
         id: 'shirts',
         label: 'Shirts',
         looks: [
-          look('Leopard Emblem Shirt', 'Graphic Shirt', 'Bold print.\nTailored base.', 'A clean white shirt with a strong graphic front, styled for a confident statement look.', 'FROM $320', 'STATEMENT SHIRT', '#f3eadf', 'rgba(255,255,255,0.65)', 'dark', looks.leopard),
-          look('Blue Scarf Shirt', 'Blue Shirt', 'Silk movement.\nSharp finish.', 'A vivid blue shirt with scarf styling, jewellery and polished runway energy.', 'FROM $240', 'CUSTOM SHIRT', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
-          look('Teal Shirt Vest', 'Teal Shirt', 'Color shirt.\nClean vest.', 'A bright teal shirt layered under a black vest with a red floral lapel accent.', 'FROM $260', 'CUSTOM SHIRT', '#057894', 'rgba(255,255,255,0.18)', 'light', looks.tealVest),
+          look('Leopard Emblem Shirt', 'Graphic Shirt', 'Bold print.\nTailored base.', 'A clean white shirt with a strong graphic front, styled for a confident statement look.', 'FROM $320', 'STATEMENT SHIRT', '#f3eadf', 'rgba(255,255,255,0.65)', 'dark', cells.leopard),
+          look('Blue Scarf Shirt', 'Blue Shirt', 'Silk movement.\nSharp finish.', 'A vivid blue shirt with scarf styling, jewellery and polished runway energy.', 'FROM $240', 'CUSTOM SHIRT', '#0d72ad', 'rgba(255,255,255,0.20)', 'light', cells.blueScarf),
+          look('Teal Shirt Vest', 'Teal Shirt', 'Color shirt.\nClean vest.', 'A bright teal shirt layered under a black vest with a red floral lapel accent.', 'FROM $260', 'CUSTOM SHIRT', '#057894', 'rgba(255,255,255,0.18)', 'light', cells.tealVest),
         ],
       },
       {
         id: 'tuxedos',
         label: 'Tuxedos',
         looks: [
-          look('Textured Tuxedo', 'Tuxedo', 'Black tie.\nPatterned finish.', 'A black textured tuxedo jacket with crisp white lapels and formal runway structure.', 'FROM $1,450', 'EVENING WEAR', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.tuxedoBlack),
-          look('Diamond Pattern Tuxedo', 'Pattern Tuxedo', 'Diamond pattern.\nFormal finish.', 'A patterned black-and-white tuxedo jacket built for eveningwear, ceremonies and standout entrances.', 'FROM $1,550', 'EVENING WEAR', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
+          look('Textured Tuxedo', 'Tuxedo', 'Black tie.\nPatterned finish.', 'A black textured tuxedo jacket with crisp white lapels and formal runway structure.', 'FROM $1,450', 'EVENING WEAR', '#111111', 'rgba(255,255,255,0.18)', 'light', cells.tuxedoBlack),
+          look('Diamond Pattern Tuxedo', 'Pattern Tuxedo', 'Diamond pattern.\nFormal finish.', 'A patterned black-and-white tuxedo jacket built for eveningwear, ceremonies and standout entrances.', 'FROM $1,550', 'EVENING WEAR', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', cells.patternTuxedo),
         ],
       },
       {
         id: 'overcoats',
         label: 'Overcoats',
         looks: [
-          look('Plaid Long Blazer', 'Plaid Coat', 'Layered look.\nModern heritage.', 'A long plaid tailored layer over denim, finished with a strong floral accent.', 'FROM $1,600', 'OUTERWEAR', '#25334a', 'rgba(255,255,255,0.18)', 'light', looks.plaid),
-          look('Leather Sleeve Coat', 'Mixed Coat', 'Texture mix.\nStrong craft.', 'A textured coat with leather sleeves, clean shirt styling and bespoke finishing details.', 'FROM $1,650', 'OUTERWEAR', '#b89a78', 'rgba(255,255,255,0.38)', 'dark', looks.leatherCoat),
+          look('Plaid Long Blazer', 'Plaid Coat', 'Layered look.\nModern heritage.', 'A long plaid tailored layer over denim, finished with a strong floral accent.', 'FROM $1,600', 'OUTERWEAR', '#25334a', 'rgba(255,255,255,0.18)', 'light', cells.plaid),
+          look('Leather Sleeve Coat', 'Mixed Coat', 'Texture mix.\nStrong craft.', 'A textured coat with leather sleeves, clean shirt styling and bespoke finishing details.', 'FROM $1,650', 'OUTERWEAR', '#b89a78', 'rgba(255,255,255,0.38)', 'dark', cells.leatherCoat),
         ],
       },
       {
         id: 'ceremonial',
         label: 'Ceremonial',
         looks: [
-          look('Pattern Ceremony Tuxedo', 'Ceremony', 'Formal pattern.\nEvent presence.', 'A patterned tuxedo direction for ceremonial entrances, formal evenings and statement dressing.', 'FROM $1,800', 'CEREMONY', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
+          look('Pattern Ceremony Tuxedo', 'Ceremony', 'Formal pattern.\nEvent presence.', 'A patterned tuxedo direction for ceremonial entrances, formal evenings and statement dressing.', 'FROM $1,800', 'CEREMONY', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', cells.patternTuxedo),
         ],
       },
     ],
@@ -133,41 +120,11 @@ const products: Record<ProductKind, ProductData> = {
     eyebrow: 'Women / Bespoke',
     sizes: ['XS', 'S', 'M', 'L'],
     subsections: [
-      {
-        id: 'pantsuits',
-        label: 'Pantsuits',
-        looks: [
-          look('Burgundy Tailored Set', 'Pantsuit', 'Sharp shape.\nRich tone.', 'A burgundy tailored women’s look with embroidered layers and polished editorial attitude.', 'FROM $1,100', 'CUSTOM FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
-        ],
-      },
-      {
-        id: 'skirt-suits',
-        label: 'Skirt Suits',
-        looks: [
-          look('Burgundy Skirt Set', 'Skirt Suit', 'Structured skirt.\nLuxury layer.', 'A burgundy skirt-suit direction with a tailored jacket and embroidered statement detailing.', 'FROM $980', 'BESPOKE SET', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
-        ],
-      },
-      {
-        id: 'dresses',
-        label: 'Dresses',
-        looks: [
-          look('Burgundy Dress Styling', 'Dress', 'Rich color.\nEvent ready.', 'A dress-led women’s look inspired by the burgundy tailored set and ceremonial detailing.', 'FROM $1,200', 'OCCASION WEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
-        ],
-      },
-      {
-        id: 'blouses',
-        label: 'Blouses',
-        looks: [
-          look('Printed Burgundy Blouse', 'Blouse', 'Patterned top.\nClean polish.', 'A blouse-and-jacket styling direction using the burgundy patterned top as the focal detail.', 'FROM $260', 'MADE TO FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
-        ],
-      },
-      {
-        id: 'coats',
-        label: 'Coats',
-        looks: [
-          look('Burgundy Embroidered Coat', 'Coat', 'Luxury layer.\nCeremony ready.', 'A structured burgundy embroidered coat for statement entrances and formal occasions.', 'FROM $1,450', 'OUTERWEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
-        ],
-      },
+      { id: 'pantsuits', label: 'Pantsuits', looks: [look('Burgundy Tailored Set', 'Pantsuit', 'Sharp shape.\nRich tone.', 'A burgundy tailored women’s look with embroidered layers and polished editorial attitude.', 'FROM $1,100', 'CUSTOM FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', cells.burgundyWomen)] },
+      { id: 'skirt-suits', label: 'Skirt Suits', looks: [look('Burgundy Skirt Set', 'Skirt Suit', 'Structured skirt.\nLuxury layer.', 'A burgundy skirt-suit direction with a tailored jacket and embroidered statement detailing.', 'FROM $980', 'BESPOKE SET', '#7f172b', 'rgba(255,255,255,0.25)', 'light', cells.burgundyWomen)] },
+      { id: 'dresses', label: 'Dresses', looks: [look('Burgundy Dress Styling', 'Dress', 'Rich color.\nEvent ready.', 'A dress-led women’s look inspired by the burgundy tailored set and ceremonial detailing.', 'FROM $1,200', 'OCCASION WEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', cells.burgundyWomen)] },
+      { id: 'blouses', label: 'Blouses', looks: [look('Printed Burgundy Blouse', 'Blouse', 'Patterned top.\nClean polish.', 'A blouse-and-jacket styling direction using the burgundy patterned top as the focal detail.', 'FROM $260', 'MADE TO FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', cells.burgundyWomen)] },
+      { id: 'coats', label: 'Coats', looks: [look('Burgundy Embroidered Coat', 'Coat', 'Luxury layer.\nCeremony ready.', 'A structured burgundy embroidered coat for statement entrances and formal occasions.', 'FROM $1,450', 'OUTERWEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', cells.burgundyWomen)] },
     ],
   },
   accessories: {
@@ -175,52 +132,12 @@ const products: Record<ProductKind, ProductData> = {
     eyebrow: 'Accessories / Finish',
     sizes: ['One', 'Pair', 'Set', 'Custom'],
     subsections: [
-      {
-        id: 'shoes',
-        label: 'Shoes',
-        looks: [
-          look('Formal Shoes', 'Shoes', 'Grounded finish.\nPolished step.', 'Use the shoe and trouser finish as a detail reference for complete bespoke styling.', 'FROM $280', 'PAIR', '#10192b', 'rgba(255,255,255,0.18)', 'light', looks.navySuit),
-        ],
-      },
-      {
-        id: 'ties',
-        label: 'Ties',
-        looks: [
-          look('Silk Scarf Tie', 'Tie / Scarf', 'Neck detail.\nSoft movement.', 'Scarf and tie styling for shirts, tuxedos and relaxed evening dressing.', 'FROM $120', 'SILK', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
-          look('Black Bow Tie', 'Bow Tie', 'Formal knot.\nBlack-tie finish.', 'A black bow-tie look for tuxedos, ceremonies and polished evening styling.', 'FROM $140', 'SILK', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
-        ],
-      },
-      {
-        id: 'cuffs',
-        label: 'Cuffs',
-        looks: [
-          look('Gold Detail Cuffs', 'Cuffs', 'Small detail.\nBig finish.', 'Cuff and wrist styling details for shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#f3eadf', 'rgba(255,255,255,0.55)', 'dark', looks.leopard),
-        ],
-      },
-      {
-        id: 'belts',
-        label: 'Belts',
-        looks: [
-          look('Leather Belt Styling', 'Belt', 'Clean waist.\nFinished fit.', 'Belts selected to complete trousers, suiting and casual bespoke looks.', 'FROM $180', 'LEATHER', '#b89a78', 'rgba(255,255,255,0.35)', 'dark', looks.leatherCoat),
-          look('Blue Shirt Belt', 'Belt', 'Warm leather.\nClean contrast.', 'A tan belt styling reference for bright shirt looks and relaxed formalwear.', 'FROM $190', 'LEATHER', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
-        ],
-      },
-      {
-        id: 'pocket-squares',
-        label: 'Pocket Squares',
-        looks: [
-          look('White Lapel Finish', 'Pocket Square', 'Clean fold.\nFormal contrast.', 'Pocket-square-style details and white accents for tuxedo and eveningwear finishing.', 'FROM $95', 'SILK SET', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.tuxedoBlack),
-        ],
-      },
-      {
-        id: 'lapel-pins',
-        label: 'Lapel Pins',
-        looks: [
-          look('White Flower Lapel', 'Lapel Flower', 'Soft accent.\nClean finish.', 'A white floral lapel detail for lighter jackets and softer formal styling.', 'FROM $95', 'DETAIL', '#efc5c9', 'rgba(255,255,255,0.45)', 'dark', looks.pinkSuit),
-          look('Red Flower Lapel', 'Lapel Pin', 'Statement flower.\nLuxury touch.', 'Floral lapel accents, brooches and finishing pieces for suits and ceremonial looks.', 'FROM $85', 'DETAIL', '#057894', 'rgba(255,255,255,0.18)', 'light', looks.tealVest),
-          look('Purple Flower Lapel', 'Lapel Detail', 'Color accent.\nTailored finish.', 'A purple lapel flower detail used to soften a plaid tailored jacket.', 'FROM $95', 'DETAIL', '#25334a', 'rgba(255,255,255,0.18)', 'light', looks.plaid),
-        ],
-      },
+      { id: 'shoes', label: 'Shoes', looks: [look('Formal Shoes', 'Shoes', 'Grounded finish.\nPolished step.', 'Use the shoe and trouser finish as a detail reference for complete bespoke styling.', 'FROM $280', 'PAIR', '#111827', 'rgba(255,255,255,0.18)', 'light', cells.blackSuit)] },
+      { id: 'ties', label: 'Ties', looks: [look('Silk Scarf Tie', 'Tie / Scarf', 'Neck detail.\nSoft movement.', 'Scarf and tie styling for shirts, tuxedos and relaxed evening dressing.', 'FROM $120', 'SILK', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', cells.blueScarf), look('Black Bow Tie', 'Bow Tie', 'Formal knot.\nBlack-tie finish.', 'A black bow-tie look for tuxedos, ceremonies and polished evening styling.', 'FROM $140', 'SILK', '#111111', 'rgba(255,255,255,0.18)', 'light', cells.patternTuxedo)] },
+      { id: 'cuffs', label: 'Cuffs', looks: [look('Gold Detail Cuffs', 'Cuffs', 'Small detail.\nBig finish.', 'Cuff and wrist styling details for shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#f3eadf', 'rgba(255,255,255,0.55)', 'dark', cells.leopard)] },
+      { id: 'belts', label: 'Belts', looks: [look('Leather Belt Styling', 'Belt', 'Clean waist.\nFinished fit.', 'Belts selected to complete trousers, suiting and casual bespoke looks.', 'FROM $180', 'LEATHER', '#b89a78', 'rgba(255,255,255,0.35)', 'dark', cells.leatherCoat), look('Blue Shirt Belt', 'Belt', 'Warm leather.\nClean contrast.', 'A tan belt styling reference for bright shirt looks and relaxed formalwear.', 'FROM $190', 'LEATHER', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', cells.blueScarf)] },
+      { id: 'pocket-squares', label: 'Pocket Squares', looks: [look('White Lapel Finish', 'Pocket Square', 'Clean fold.\nFormal contrast.', 'Pocket-square-style details and white accents for tuxedo and eveningwear finishing.', 'FROM $95', 'SILK SET', '#111111', 'rgba(255,255,255,0.18)', 'light', cells.tuxedoBlack)] },
+      { id: 'lapel-pins', label: 'Lapel Pins', looks: [look('White Flower Lapel', 'Lapel Flower', 'Soft accent.\nClean finish.', 'A white floral lapel detail for lighter jackets and softer formal styling.', 'FROM $95', 'DETAIL', '#efc5c9', 'rgba(255,255,255,0.45)', 'dark', cells.pinkSuit), look('Red Flower Lapel', 'Lapel Pin', 'Statement flower.\nLuxury touch.', 'Floral lapel accents, brooches and finishing pieces for suits and ceremonial looks.', 'FROM $85', 'DETAIL', '#057894', 'rgba(255,255,255,0.18)', 'light', cells.tealVest), look('Purple Flower Lapel', 'Lapel Detail', 'Color accent.\nTailored finish.', 'A purple lapel flower detail used to soften a plaid tailored jacket.', 'FROM $95', 'DETAIL', '#25334a', 'rgba(255,255,255,0.18)', 'light', cells.plaid)] },
     ],
   },
 }
@@ -239,6 +156,17 @@ function getInitialSection(): SectionKey {
   if (typeof window === 'undefined') return 'home'
   const hash = window.location.hash.replace('#', '') as SectionKey
   return sectionOrder.includes(hash) ? hash : 'home'
+}
+
+function cropStyle(cell: number): CSSProperties {
+  const col = cell % 5
+  const row = Math.floor(cell / 5)
+  return {
+    backgroundImage: `url(${approvedBoard})`,
+    backgroundSize: '500% 200%',
+    backgroundPosition: `${col * 25}% ${row * 100}%`,
+    backgroundRepeat: 'no-repeat',
+  }
 }
 
 export default function App() {
@@ -355,11 +283,7 @@ function ProductShowcase({ data }: { data: ProductData }) {
   const activeLook = subsection.looks[lookIndex]
   const darkText = activeLook.text === 'dark'
   const style: CSSProperties = { background: activeLook.background, color: darkText ? '#101010' : '#fff' }
-
-  const selectSubsection = (index: number) => {
-    setSubIndex(index)
-    setLookIndex(0)
-  }
+  const selectSubsection = (index: number) => { setSubIndex(index); setLookIndex(0) }
   const previousLook = () => setLookIndex((current) => (current + subsection.looks.length - 1) % subsection.looks.length)
   const nextLook = () => setLookIndex((current) => (current + 1) % subsection.looks.length)
 
@@ -381,7 +305,7 @@ function ProductShowcase({ data }: { data: ProductData }) {
             <div className="mt-8 flex items-center gap-3" aria-label={`${subsection.label} looks`}>
               {subsection.looks.map((item, index) => (
                 <button key={item.name} type="button" onClick={() => setLookIndex(index)} title={item.name} className={`h-11 w-11 overflow-hidden rounded-full border-2 transition ${index === lookIndex ? (darkText ? 'scale-110 border-black' : 'scale-110 border-white') : darkText ? 'border-black/30' : 'border-white/45'}`}>
-                  <img src={item.image} alt="" className="h-full w-full object-cover" />
+                  <div className="h-full w-full" style={cropStyle(item.cell)} />
                 </button>
               ))}
             </div>
@@ -397,7 +321,7 @@ function ProductShowcase({ data }: { data: ProductData }) {
             <p className="text-3xl font-black uppercase leading-tight">{activeLook.priceTop}</p>
             <p className="text-sm font-black uppercase opacity-80">{activeLook.priceBottom}</p>
             <div className="mt-8 flex flex-wrap gap-3">{data.sizes.map((size) => <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>{size}</span>)}</div>
-            <div className={`mt-10 flex h-36 w-28 items-center justify-center overflow-hidden rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}><img src={activeLook.image} alt="" className="h-full w-full object-cover" style={{ objectPosition: activeLook.imagePosition }} /></div>
+            <div className={`mt-10 h-36 w-28 overflow-hidden rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}><div className="h-full w-full" style={cropStyle(activeLook.cell)} /></div>
           </div>
         </div>
       </div>
@@ -409,7 +333,7 @@ function RunwayImage({ look, darkText }: { look: Look; darkText: boolean }) {
   return (
     <div className="relative flex h-[54vh] min-h-[400px] w-full items-center justify-center lg:h-[68vh]">
       <div className={`relative h-full max-h-[660px] w-[min(78vw,420px)] overflow-hidden rounded-[2.5rem] border shadow-2xl ${darkText ? 'border-black/18 shadow-black/20' : 'border-white/20 shadow-black/40'}`}>
-        <img src={look.image} alt={look.name} className="h-full w-full object-cover" style={{ objectPosition: look.imagePosition }} draggable={false} />
+        <div className="h-full w-full" style={cropStyle(look.cell)} />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/68 via-black/10 to-transparent p-6 text-center text-white">
           <div className="text-sm font-black leading-tight">{look.caption.split('\n').map((line) => <div key={line}>{line}</div>)}</div>
         </div>
