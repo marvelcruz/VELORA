@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import suitAvatar from '../assets/rivaado-avatar-suit.webp'
-import tuxedoAvatar from '../assets/rivaado-avatar-tuxedo.webp'
-import coatAvatar from '../assets/rivaado-avatar-coat.webp'
-import coutureAvatar from '../assets/rivaado-avatar-couture.webp'
 
 type SectionKey = 'home' | 'about' | 'men' | 'women' | 'accessories' | 'contact'
+type ProductKind = 'men' | 'women' | 'accessories'
 
-type ShowcaseLook = {
-  name: string
-  line: string
-  visual: string
-  bg: string
-  accent: string
-  price: string
-  swatches: string[]
-  detail: string
+type ProductLook = {
+  key: ProductKind
+  label: string
   tag: string
+  headline: string
+  detail: string
+  price: string
   sizes: string[]
+  colors: string[]
+  backgrounds: string[]
+  activeTab: string
+  miniLabel: string
 }
 
 const NAV_ITEMS: { label: string; key: SectionKey }[] = [
@@ -37,42 +35,48 @@ const HERO_VIDEO = {
   mobilePoster: '/video/rivaado-hero-poster-mobile.jpg',
 }
 
-const SHOWCASE: Record<'men' | 'women' | 'accessories', ShowcaseLook> = {
+const PRODUCTS: Record<ProductKind, ProductLook> = {
   men: {
-    name: 'Men Bespoke',
-    line: 'Dress Better. Feel Boss.',
-    visual: suitAvatar,
-    bg: '#c81652',
-    accent: '#2a0613',
+    key: 'men',
+    label: 'Men',
+    tag: 'Men / Bespoke',
+    headline: 'Wear Confidence Define Your Style.',
+    detail:
+      'Three-piece suits, tuxedos and overcoats made around posture, proportion and presence.',
     price: 'FROM $1,250',
-    swatches: ['#111111', '#7b1f2d', '#f1e6c8', '#4a4238'],
-    detail: 'Three-piece suits, tuxedos and overcoats cut around posture, proportion and presence.',
-    tag: 'Men / Tailoring',
     sizes: ['36', '38', '40', '42'],
+    colors: ['#101010', '#7b1f2d', '#efe6d2', '#4a3c32'],
+    backgrounds: ['#d70755', '#8f1e2e', '#ece7dc', '#6b5a50'],
+    activeTab: 'Men',
+    miniLabel: 'Dress Better. Feel Boss.',
   },
   women: {
-    name: 'Women Bespoke',
-    line: 'Power In Every Cut.',
-    visual: coutureAvatar,
-    bg: '#f2ead4',
-    accent: '#7e1536',
-    price: 'FROM $980',
-    swatches: ['#0b4a3f', '#112f6f', '#8c132d', '#f6efe1'],
-    detail: 'Power suits, skirt suits, coats and couture silhouettes with rich color and strong shape.',
+    key: 'women',
+    label: 'Women',
     tag: 'Women / Couture',
+    headline: 'Wear Confidence Define Your Style.',
+    detail:
+      'Power suits, skirt suits, coats and couture silhouettes with strong shape and rich color.',
+    price: 'FROM $980',
     sizes: ['XS', 'S', 'M', 'L'],
+    colors: ['#0b4a3f', '#112f6f', '#8c132d', '#f6efe1'],
+    backgrounds: ['#eee9d9', '#12463e', '#b51c42', '#c8b891'],
+    activeTab: 'Women',
+    miniLabel: 'Sharp Lines. Soft Power.',
   },
   accessories: {
-    name: 'Accessories',
-    line: 'Finish The Presence.',
-    visual: tuxedoAvatar,
-    bg: '#34312d',
-    accent: '#caa149',
-    price: 'FROM $120',
-    swatches: ['#caa149', '#ffffff', '#161616', '#772432'],
-    detail: 'Ties, pocket squares, cuffs, lapel details and styling pieces that complete the look.',
+    key: 'accessories',
+    label: 'Accessories',
     tag: 'Accessories / Finish',
+    headline: 'Wear Confidence Define Your Style.',
+    detail:
+      'Ties, pocket squares, cuffs, lapel details and styling pieces that complete the look.',
+    price: 'FROM $120',
     sizes: ['Tie', 'Cuff', 'Lapel', 'Set'],
+    colors: ['#caa149', '#111111', '#ffffff', '#772432'],
+    backgrounds: ['#34312d', '#111111', '#e8e2d7', '#5b1329'],
+    activeTab: 'Accessories',
+    miniLabel: 'Finish The Presence.',
   },
 }
 
@@ -89,27 +93,21 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 700)
 
   useEffect(() => {
-    ;[suitAvatar, tuxedoAvatar, coatAvatar, coutureAvatar].forEach((src) => {
-      const image = new Image()
-      image.src = src
-    })
-  }, [])
-
-  useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 700)
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  const go = (key: SectionKey) => setActiveSection(key)
-
   return (
-    <main className="relative h-[100svh] w-full overflow-hidden bg-black text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <Header activeSection={activeSection} onNavigate={go} />
+    <main
+      className="relative h-[100svh] w-full overflow-hidden bg-black text-white"
+      style={{ fontFamily: "'Inter', sans-serif" }}
+    >
+      <Header activeSection={activeSection} onNavigate={setActiveSection} />
 
       <div className="absolute inset-0">
         <Screen active={activeSection === 'home'}>
-          <HomeScreen isMobile={isMobile} onExplore={() => go('men')} />
+          <HomeScreen isMobile={isMobile} onExplore={() => setActiveSection('men')} />
         </Screen>
 
         <Screen active={activeSection === 'about'}>
@@ -117,19 +115,31 @@ export default function App() {
         </Screen>
 
         <Screen active={activeSection === 'men'}>
-          <ProductShowcase look={SHOWCASE.men} onPrev={() => go('about')} onNext={() => go('women')} />
+          <ProductShowcase
+            product={PRODUCTS.men}
+            onPrev={() => setActiveSection('about')}
+            onNext={() => setActiveSection('women')}
+          />
         </Screen>
 
         <Screen active={activeSection === 'women'}>
-          <ProductShowcase look={SHOWCASE.women} onPrev={() => go('men')} onNext={() => go('accessories')} />
+          <ProductShowcase
+            product={PRODUCTS.women}
+            onPrev={() => setActiveSection('men')}
+            onNext={() => setActiveSection('accessories')}
+          />
         </Screen>
 
         <Screen active={activeSection === 'accessories'}>
-          <ProductShowcase look={SHOWCASE.accessories} onPrev={() => go('women')} onNext={() => go('contact')} />
+          <ProductShowcase
+            product={PRODUCTS.accessories}
+            onPrev={() => setActiveSection('women')}
+            onNext={() => setActiveSection('contact')}
+          />
         </Screen>
 
         <Screen active={activeSection === 'contact'}>
-          <ContactScreen onBack={() => go('accessories')} />
+          <ContactScreen onBack={() => setActiveSection('accessories')} />
         </Screen>
       </div>
     </main>
@@ -145,7 +155,7 @@ function Header({
 }) {
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-4 py-4 sm:px-8 sm:py-6">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border border-black/10 bg-white/12 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border border-white/12 bg-black/32 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:px-6">
         <button
           type="button"
           onClick={() => onNavigate('home')}
@@ -198,13 +208,7 @@ function Header({
   )
 }
 
-function Screen({
-  active,
-  children,
-}: {
-  active: boolean
-  children: React.ReactNode
-}) {
+function Screen({ active, children }: { active: boolean; children: ReactNode }) {
   return (
     <section
       className={`absolute inset-0 transition duration-500 ${
@@ -242,7 +246,9 @@ function HomeScreen({
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.08)_42%,rgba(0,0,0,0.86)_100%)]" />
       <div className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-8 sm:px-10 sm:pb-12">
-        <p className="mb-3 text-xs font-black uppercase tracking-[0.32em] text-white/70">Bespoke tailoring house</p>
+        <p className="mb-3 text-xs font-black uppercase tracking-[0.32em] text-white/70">
+          Bespoke tailoring house
+        </p>
         <h1
           className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white"
           style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}
@@ -251,7 +257,8 @@ function HomeScreen({
         </h1>
         <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <p className="max-w-xl text-sm leading-6 text-white/75 sm:text-base sm:leading-7">
-            A cinematic bespoke experience for men and women — tailoring, couture, accessories and made-to-measure presence.
+            A cinematic bespoke experience for men and women — tailoring, couture, accessories and
+            made-to-measure presence.
           </p>
           <button
             type="button"
@@ -273,7 +280,9 @@ function AboutScreen() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(202,161,73,0.18),transparent_32%),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[length:auto,80px_80px,80px_80px]" />
       <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-[#caa149]">About Rivaado</p>
+          <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-[#caa149]">
+            About Rivaado
+          </p>
           <h2
             className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-7xl"
             style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
@@ -281,7 +290,8 @@ function AboutScreen() {
             Seventy years of cloth, cut and quiet confidence.
           </h2>
           <p className="mt-7 max-w-xl text-sm leading-7 text-white/62 sm:text-base">
-            Rivaado is built from family craft, precise measurement and modern luxury. The garment is the product, but presence is the outcome.
+            Rivaado is built from family craft, precise measurement and modern luxury. The garment
+            is the product, but presence is the outcome.
           </p>
         </div>
 
@@ -303,140 +313,306 @@ function AboutScreen() {
 }
 
 function ProductShowcase({
-  look,
+  product,
   onPrev,
   onNext,
 }: {
-  look: ShowcaseLook
+  product: ProductLook
   onPrev: () => void
   onNext: () => void
 }) {
-  const sectionStyle: CSSProperties = {
-    background: `radial-gradient(circle at 55% 40%, rgba(255,255,255,0.2), transparent 28%), ${look.bg}`,
-    color: look.bg === '#f2ead4' ? '#111' : '#fff',
+  const [colorIndex, setColorIndex] = useState(0)
+  const color = product.colors[colorIndex]
+  const background = product.backgrounds[colorIndex]
+  const isLight = isLightColor(background)
+
+  const pageStyle: CSSProperties = {
+    background: background,
+    color: isLight ? '#141414' : '#fff',
   }
-  const isLight = look.bg === '#f2ead4'
 
   return (
-    <div className="relative h-full w-full overflow-hidden px-5 pt-28 sm:px-10" style={sectionStyle}>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[length:72px_72px]" />
-      <div className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/12 blur-3xl" />
+    <div className="relative h-full w-full overflow-hidden px-5 pt-28 sm:px-10" style={pageStyle}>
+      <div
+        className="absolute inset-0 opacity-45"
+        style={{
+          backgroundImage:
+            'linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(180deg, rgba(255,255,255,0.14) 1px, transparent 1px)',
+          backgroundSize: '72px 72px',
+        }}
+      />
+      <div className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/18 blur-3xl" />
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col">
-        <div className="flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.18em] sm:gap-6">
-          {['New', 'Bespoke', 'Collection', 'Atelier', 'About us'].map((tab, index) => (
-            <span
-              key={tab}
-              className={`rounded-full px-3 py-1 ${
-                index === 1
-                  ? isLight
-                    ? 'bg-black text-white'
-                    : 'bg-white text-black'
-                  : isLight
-                    ? 'text-black/55'
-                    : 'text-white/65'
-              }`}
-            >
-              {tab}
-            </span>
-          ))}
+        <div className="flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.18em] sm:gap-7">
+          {['Home', 'Men', 'Women', 'Accessories', 'About Us'].map((tab) => {
+            const active =
+              tab.toLowerCase() === product.activeTab.toLowerCase() ||
+              (product.key === 'men' && tab === 'Men') ||
+              (product.key === 'women' && tab === 'Women') ||
+              (product.key === 'accessories' && tab === 'Accessories')
+
+            return (
+              <button
+                key={tab}
+                type="button"
+                className={`rounded-full px-3 py-1 ${active ? activePillClass(isLight) : mutedTextClass(isLight)}`}
+              >
+                {tab}
+              </button>
+            )
+          })}
         </div>
 
-        <div className="grid flex-1 items-center gap-6 lg:grid-cols-[0.85fr_1.25fr_0.7fr]">
+        <div className="grid flex-1 items-center gap-6 lg:grid-cols-[0.86fr_1.22fr_0.72fr]">
           <div className="relative z-20">
-            <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${isLight ? 'text-black/45' : 'text-white/65'}`}>
-              {look.tag}
+            <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${mutedTextClass(isLight)}`}>
+              {product.tag}
             </p>
             <h2
               className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-5xl"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
-              Wear Confidence Define Your Style.
+              {product.headline}
             </h2>
-            <p className={`mt-5 max-w-md text-sm leading-7 ${isLight ? 'text-black/62' : 'text-white/70'}`}>
-              {look.detail}
+            <p className={`mt-6 max-w-md text-sm font-semibold leading-7 ${bodyTextClass(isLight)}`}>
+              {product.detail}
             </p>
+
             <button
               type="button"
-              className={`mt-7 rounded-full px-5 py-3 text-xs font-black uppercase tracking-[0.18em] ${
-                isLight ? 'bg-black text-white' : 'bg-white text-black'
+              className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.16em] shadow-xl transition ${
+                isLight ? 'bg-black text-white hover:bg-black/80' : 'bg-white text-black hover:bg-white/85'
               }`}
             >
               Book fitting
             </button>
 
-            <div className="mt-9 flex items-center gap-3">
-              {look.swatches.map((swatch) => (
-                <span
+            <div className="mt-8 flex items-center gap-3">
+              {product.colors.map((swatch, index) => (
+                <button
                   key={swatch}
-                  className="h-4 w-4 rounded-full border border-white/45 shadow-lg"
+                  type="button"
+                  onClick={() => setColorIndex(index)}
+                  className={`h-5 w-5 rounded-full border transition ${
+                    colorIndex === index
+                      ? isLight
+                        ? 'border-black scale-110'
+                        : 'border-white scale-110'
+                      : isLight
+                        ? 'border-black/30'
+                        : 'border-white/35'
+                  }`}
                   style={{ backgroundColor: swatch }}
+                  aria-label={`Select ${product.label} color ${index + 1}`}
                 />
               ))}
             </div>
           </div>
 
-          <div className="relative flex h-[50vh] min-h-[340px] items-center justify-center lg:h-[68vh]">
+          <div className="relative flex min-h-[420px] items-center justify-center lg:min-h-[620px]">
             <button
               type="button"
               onClick={onPrev}
-              className={`absolute left-0 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full ${
-                isLight ? 'bg-black/10 text-black' : 'bg-white/15 text-white'
+              className={`absolute left-0 z-30 hidden h-12 w-12 items-center justify-center rounded-full backdrop-blur sm:flex ${
+                isLight ? 'bg-black/14 text-black hover:bg-black/22' : 'bg-white/20 text-white hover:bg-white/28'
               }`}
               aria-label="Previous section"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={22} strokeWidth={2.2} />
             </button>
 
-            <div className="absolute bottom-[11%] h-12 w-[46%] rounded-full bg-black/28 blur-2xl" />
-            <img
-              src={look.visual}
-              alt={look.name}
-              className="relative z-20 h-full max-h-[680px] w-auto object-contain drop-shadow-[0_50px_45px_rgba(0,0,0,0.34)]"
-              draggable={false}
-            />
+            <div className="relative flex h-[56vh] min-h-[360px] w-full items-center justify-center sm:h-[66vh]">
+              <div
+                className="absolute bottom-[8%] h-10 w-[44%] rounded-full blur-xl"
+                style={{ backgroundColor: isLight ? 'rgba(0,0,0,0.22)' : 'rgba(0,0,0,0.38)' }}
+              />
+              <ProductIllustration kind={product.key} color={color} isLight={isLight} />
+              <div className={`absolute bottom-[6%] text-center text-sm font-bold ${bodyTextClass(isLight)}`}>
+                <p className="opacity-70">{product.label}</p>
+                <p className="font-black">{product.miniLabel}</p>
+              </div>
+            </div>
 
             <button
               type="button"
               onClick={onNext}
-              className={`absolute right-0 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full ${
-                isLight ? 'bg-black/10 text-black' : 'bg-white/15 text-white'
+              className={`absolute right-0 z-30 hidden h-12 w-12 items-center justify-center rounded-full backdrop-blur sm:flex ${
+                isLight ? 'bg-black/14 text-black hover:bg-black/22' : 'bg-white/20 text-white hover:bg-white/28'
               }`}
               aria-label="Next section"
             >
-              <ArrowRight size={18} />
+              <ArrowRight size={22} strokeWidth={2.2} />
             </button>
-
-            <div className="absolute bottom-5 left-1/2 z-30 -translate-x-1/2 text-center">
-              <p className={`text-xs ${isLight ? 'text-black/45' : 'text-white/55'}`}>{look.name}</p>
-              <p className="text-sm font-black">{look.line}</p>
-            </div>
           </div>
 
-          <div className="relative z-20 flex flex-col items-start gap-7 lg:items-end">
+          <div className="relative z-20 flex flex-col items-start gap-8 lg:items-end">
             <div className="text-left lg:text-right">
-              <p className={`text-xs font-black uppercase tracking-[0.28em] ${isLight ? 'text-black/45' : 'text-white/55'}`}>
+              <p className={`text-xs font-black uppercase tracking-[0.24em] ${mutedTextClass(isLight)}`}>
                 Starting at
               </p>
-              <p className="mt-2 text-2xl font-black">{look.price}</p>
+              <p className="mt-2 text-2xl font-black uppercase sm:text-3xl">{product.price}</p>
             </div>
 
-            <div className="flex gap-2">
-              {look.sizes.map((size) => (
-                <span
+            <div className="flex flex-wrap gap-3 lg:justify-end">
+              {product.sizes.map((size) => (
+                <button
                   key={size}
-                  className={`grid h-11 min-w-11 place-items-center rounded-full px-3 text-[10px] font-black uppercase ${
-                    isLight ? 'bg-black text-white' : 'bg-white text-black'
+                  type="button"
+                  className={`flex h-14 min-w-14 items-center justify-center rounded-full px-4 text-xs font-black uppercase shadow-xl transition ${
+                    isLight ? 'bg-black text-white hover:bg-black/80' : 'bg-white text-black hover:bg-white/85'
                   }`}
                 >
                   {size}
-                </span>
+                </button>
               ))}
             </div>
 
-            <div className={`mt-auto hidden rounded-3xl border p-3 lg:block ${isLight ? 'border-black/10 bg-black/5' : 'border-white/12 bg-white/8'}`}>
-              <img src={look.visual} alt="" className="h-24 w-20 object-contain" draggable={false} />
+            <div className={`hidden rounded-[2rem] border p-4 sm:block ${isLight ? 'border-black/28' : 'border-white/40'}`}>
+              <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-[1.4rem] bg-white/12 backdrop-blur">
+                <ProductIllustration kind={product.key} color={color} isLight={isLight} miniature />
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div className={`absolute bottom-7 left-0 flex items-center gap-3 text-[11px] font-black ${mutedTextClass(isLight)}`}>
+          <span>◎</span>
+          <span>✕</span>
+          <span>□</span>
+          <span>◐</span>
+          <span>↗</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProductIllustration({
+  kind,
+  color,
+  isLight,
+  miniature = false,
+}: {
+  kind: ProductKind
+  color: string
+  isLight: boolean
+  miniature?: boolean
+}) {
+  const scale = miniature ? 'h-24 w-24' : 'h-[430px] w-[360px] sm:h-[560px] sm:w-[470px]'
+  const stroke = isLight ? '#171717' : '#ffffff'
+
+  if (kind === 'accessories') {
+    return (
+      <div className={`relative ${scale}`}>
+        <svg viewBox="0 0 360 460" className="h-full w-full overflow-visible drop-shadow-2xl">
+          <path
+            d="M160 70 C190 110 198 170 180 230 C162 170 170 110 160 70Z"
+            fill={color}
+            stroke={stroke}
+            strokeOpacity="0.25"
+            strokeWidth="2"
+          />
+          <path d="M160 70 L205 115 L180 380 L130 335 L160 70Z" fill={color} opacity="0.95" />
+          <path d="M205 115 L235 330 L180 380 L205 115Z" fill={color} opacity="0.72" />
+          <rect x="34" y="170" width="112" height="112" rx="12" fill={color} opacity="0.82" />
+          <path d="M34 170 L146 282 M146 170 L34 282" stroke={stroke} strokeOpacity="0.22" />
+          <circle cx="276" cy="205" r="42" fill={color} opacity="0.88" />
+          <circle cx="276" cy="205" r="23" fill="none" stroke={stroke} strokeOpacity="0.3" strokeWidth="10" />
+          <ellipse cx="183" cy="424" rx="112" ry="18" fill="rgba(0,0,0,0.24)" />
+        </svg>
+      </div>
+    )
+  }
+
+  const isWomen = kind === 'women'
+
+  return (
+    <div className={`relative ${scale}`}>
+      <svg viewBox="0 0 420 560" className="h-full w-full overflow-visible drop-shadow-2xl">
+        <path
+          d="M210 33 C205 14 230 12 232 31 C234 48 211 49 211 64"
+          fill="none"
+          stroke={stroke}
+          strokeOpacity="0.54"
+          strokeWidth="8"
+          strokeLinecap="round"
+        />
+        <path d="M136 94 C166 69 188 64 210 64 C232 64 254 69 284 94" fill="none" stroke="#c89b55" strokeWidth="10" strokeLinecap="round" />
+        <path
+          d={
+            isWomen
+              ? 'M117 112 L77 198 L104 222 L118 188 L105 455 C105 480 128 496 156 486 L210 462 L264 486 C292 496 315 480 315 455 L302 188 L336 222 L363 198 L303 112 C277 96 247 86 210 86 C173 86 143 96 117 112Z'
+              : 'M110 112 L54 194 L88 222 L116 174 L98 462 C98 490 124 505 154 492 L210 470 L266 492 C296 505 322 490 322 462 L304 174 L332 222 L366 194 L310 112 C282 98 248 88 210 88 C172 88 138 98 110 112Z'
+          }
+          fill={color}
+        />
+        <path
+          d={isWomen ? 'M151 126 C175 150 192 160 210 162 C228 160 245 150 269 126 L248 268 L210 462 L172 268Z' : 'M152 119 C175 145 193 158 210 160 C227 158 245 145 268 119 L250 290 L210 470 L170 290Z'}
+          fill="rgba(255,255,255,0.18)"
+        />
+        <path d="M210 160 L210 464" stroke={stroke} strokeOpacity="0.22" strokeWidth="3" />
+        <path d="M176 109 C189 131 200 146 210 160 C220 146 231 131 244 109" fill="none" stroke={stroke} strokeOpacity="0.35" strokeWidth="5" />
+        <path d="M151 210 C184 222 236 222 269 210" fill="none" stroke={stroke} strokeOpacity="0.17" strokeWidth="5" />
+        <path d="M157 318 C190 330 230 330 263 318" fill="none" stroke={stroke} strokeOpacity="0.14" strokeWidth="5" />
+        <circle cx="210" cy="205" r="5" fill={stroke} opacity="0.42" />
+        <circle cx="210" cy="242" r="5" fill={stroke} opacity="0.42" />
+        <circle cx="210" cy="279" r="5" fill={stroke} opacity="0.42" />
+        <ellipse cx="210" cy="522" rx="115" ry="19" fill="rgba(0,0,0,0.24)" />
+      </svg>
+    </div>
+  )
+}
+
+function ContactScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="relative flex h-full w-full items-center overflow-hidden bg-[#090807] px-5 pt-28 sm:px-10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(202,161,73,0.18),transparent_34%)]" />
+      <div className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+        <div>
+          <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-[#caa149]">Private fitting</p>
+          <h2
+            className="max-w-3xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-7xl"
+            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+          >
+            Begin your bespoke appointment.
+          </h2>
+          <p className="mt-7 max-w-xl text-sm leading-7 text-white/62 sm:text-base">
+            Calgary · Bespoke for men and women · By appointment
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
+              className="rounded-full bg-white px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-black no-underline"
+            >
+              Email Rivaado
+            </a>
+            <a
+              href="tel:+18258837766"
+              className="rounded-full border border-white/45 px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-white no-underline"
+            >
+              +1 825-883-7766
+            </a>
+            <button
+              type="button"
+              onClick={onBack}
+              className="rounded-full border border-[#caa149]/50 px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-[#caa149]"
+            >
+              Back
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-[2.2rem] border border-white/10 bg-white/[0.035] p-7 backdrop-blur">
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-white/40">Showroom</p>
+          <p className="mt-5 text-2xl font-black leading-9 text-white">
+            THE CORE, 751 3 St SW C-212, Calgary, AB T2P 4K8, Canada
+          </p>
+          <div className="mt-8 grid grid-cols-2 gap-3 text-sm font-bold text-white/62">
+            <div className="rounded-2xl bg-black/35 p-4">Consultation</div>
+            <div className="rounded-2xl bg-black/35 p-4">Fabric selection</div>
+            <div className="rounded-2xl bg-black/35 p-4">Measurements</div>
+            <div className="rounded-2xl bg-black/35 p-4">Final fitting</div>
           </div>
         </div>
       </div>
@@ -444,37 +620,22 @@ function ProductShowcase({
   )
 }
 
-function ContactScreen({ onBack }: { onBack: () => void }) {
-  return (
-    <div className="relative flex h-full w-full items-center overflow-hidden bg-[#080604] px-5 pt-28 sm:px-10">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(202,161,73,0.22),transparent_32%)]" />
-      <div className="relative mx-auto max-w-5xl">
-        <p className="mb-4 text-xs font-black uppercase tracking-[0.34em] text-[#caa149]">Private appointment</p>
-        <h2
-          className="max-w-4xl text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-8xl"
-          style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-        >
-          Begin your bespoke fitting.
-        </h2>
-        <p className="mt-7 max-w-2xl text-base leading-8 text-white/62">
-          Calgary · Bespoke tailoring for men and women · By appointment.
-        </p>
-        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
-            className="rounded-full bg-[#caa149] px-7 py-4 text-center text-xs font-black uppercase tracking-[0.2em] text-black no-underline"
-          >
-            Book fitting
-          </a>
-          <button
-            type="button"
-            onClick={onBack}
-            className="rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-[0.2em] text-white"
-          >
-            Back
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+function isLightColor(hex: string) {
+  const value = hex.replace('#', '')
+  const r = parseInt(value.slice(0, 2), 16)
+  const g = parseInt(value.slice(2, 4), 16)
+  const b = parseInt(value.slice(4, 6), 16)
+  return (r * 299 + g * 587 + b * 114) / 1000 > 165
+}
+
+function activePillClass(isLight: boolean) {
+  return isLight ? 'bg-black text-white' : 'bg-white text-black'
+}
+
+function mutedTextClass(isLight: boolean) {
+  return isLight ? 'text-black/55' : 'text-white/65'
+}
+
+function bodyTextClass(isLight: boolean) {
+  return isLight ? 'text-black/65' : 'text-white/70'
 }
