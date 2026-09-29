@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Admin from './Admin'
-import { fromProductRow, itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type ProductRow, type SectionKey } from './catalog'\nimport { supabase } from './supabase'
+import { fromProductRow, itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type ProductRow, type SectionKey } from './catalog'
+import { supabase } from './supabase'
 
 const navItems: { label: string; key: Exclude<SectionKey, 'admin'> }[] = [
   { label: 'Home', key: 'home' },
