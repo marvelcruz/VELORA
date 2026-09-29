@@ -10,9 +10,14 @@ body,
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inter', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  background: #000;
 }
 
 button,
@@ -20,7 +25,8 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-img {
+img,
+video {
   user-select: none;
   -webkit-user-drag: none;
 }
