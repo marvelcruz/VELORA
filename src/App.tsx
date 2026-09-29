@@ -40,6 +40,36 @@ const LOOKS = [
   },
 ] as const
 
+const NAV_ITEMS = [
+  { label: 'Men', href: '#men' },
+  { label: 'Women', href: '#women' },
+  { label: 'Accessories', href: '#accessories' },
+] as const
+
+const CATEGORY_SECTIONS = [
+  {
+    id: 'men',
+    eyebrow: 'Men',
+    title: "Men's bespoke tailoring",
+    body:
+      'Three-piece suits, tuxedos, overcoats and ceremonial tailoring cut around posture, proportion and presence.',
+  },
+  {
+    id: 'women',
+    eyebrow: 'Women',
+    title: "Women's bespoke tailoring",
+    body:
+      'Power suits, skirt suits, dresses, coats and couture pieces with strong structure, rich color and refined detail.',
+  },
+  {
+    id: 'accessories',
+    eyebrow: 'Accessories',
+    title: 'Finishing details',
+    body:
+      'Ties, pocket squares, lapel details, belts, bags, cuffs and styling pieces that complete the Rivaado look.',
+  },
+] as const
+
 type Direction = 'next' | 'prev'
 type Role = 'center' | 'left' | 'right' | 'back'
 
@@ -172,6 +202,48 @@ export default function App() {
       className="w-full overflow-x-hidden bg-black text-white"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
+      <header className="fixed inset-x-0 top-0 z-50 px-4 py-4 sm:px-8 sm:py-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border border-white/15 bg-black/25 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur-md sm:px-6">
+          <a
+            href="#home"
+            className="text-xs font-semibold uppercase tracking-[0.25em] text-white no-underline sm:text-sm"
+          >
+            RIVAADO
+          </a>
+
+          <nav className="hidden items-center gap-8 sm:flex" aria-label="Primary navigation">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80 no-underline transition hover:text-white"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <a
+            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
+            className="hidden rounded-full border border-white/55 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white no-underline transition hover:bg-white hover:text-black sm:inline-flex"
+          >
+            Book fitting
+          </a>
+        </div>
+
+        <nav className="mx-auto mt-3 flex max-w-7xl justify-center gap-2 sm:hidden" aria-label="Mobile navigation">
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="rounded-full border border-white/15 bg-black/30 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/85 no-underline backdrop-blur-md"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </header>
+
       <section className="relative h-[100svh] min-h-[620px] w-full overflow-hidden bg-black">
         <video
           key={heroVideoSrc}
@@ -187,20 +259,6 @@ export default function App() {
         />
 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.1)_40%,rgba(0,0,0,0.82)_100%)]" />
-        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-5 sm:px-9 sm:py-7">
-          <a
-            href="#home"
-            className="text-xs font-semibold uppercase tracking-[0.25em] text-white no-underline"
-          >
-            RIVAADO
-          </a>
-          <a
-            href="mailto:Info@rivaado.com?subject=Rivaado%20fitting%20request"
-            className="rounded-full border border-white/55 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white no-underline backdrop-blur-sm transition hover:bg-white hover:text-black sm:text-xs"
-          >
-            Book fitting
-          </a>
-        </div>
 
         <div
           id="home"
@@ -276,7 +334,7 @@ export default function App() {
           </div>
 
           <div
-            className="absolute top-6 left-4 sm:left-8 text-xs font-semibold uppercase text-white"
+            className="absolute top-24 left-4 sm:left-8 text-xs font-semibold uppercase text-white"
             style={{
               zIndex: 60,
               opacity: 0.9,
@@ -371,6 +429,43 @@ export default function App() {
                 strokeWidth={2.25}
               />
             </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#080604] px-5 py-20 text-white sm:px-9 sm:py-28">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-white/45">
+            Tailoring categories
+          </p>
+          <h2
+            className="max-w-4xl uppercase leading-[0.9] tracking-[-0.04em] text-white"
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+            }}
+          >
+            Men. Women. Accessories.
+          </h2>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {CATEGORY_SECTIONS.map((section) => (
+              <article
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-32 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:p-8"
+              >
+                <p className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-white/45">
+                  {section.eyebrow}
+                </p>
+                <h3 className="mb-4 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+                  {section.title}
+                </h3>
+                <p className="text-sm leading-7 text-white/62 sm:text-base">
+                  {section.body}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
