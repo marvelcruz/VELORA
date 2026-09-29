@@ -66,6 +66,19 @@ function look(
   return { name, label, caption, description, priceTop, priceBottom, background, glow, text, image, imagePosition }
 }
 
+const looks = {
+  leopard: img('look-01-leopard-shirt.webp'),
+  tuxedoBlack: img('look-02-textured-tuxedo.webp'),
+  pinkSuit: img('look-03-pastel-pink-suit.webp'),
+  blueScarf: img('look-04-blue-shirt-scarf.webp'),
+  plaid: img('look-05-plaid-blazer.webp'),
+  navySuit: img('look-06-navy-open-suit.webp'),
+  tealVest: img('look-07-teal-shirt-vest.webp'),
+  leatherCoat: img('look-08-leather-sleeve-coat.webp'),
+  patternTuxedo: img('look-09-blue-scarf-shirt.webp'),
+  burgundyWomen: img('look-10-gold-couture.webp'),
+}
+
 const products: Record<ProductKind, ProductData> = {
   men: {
     key: 'men',
@@ -76,40 +89,41 @@ const products: Record<ProductKind, ProductData> = {
         id: 'suits',
         label: 'Suits',
         looks: [
-          look('Navy Open Suit', 'Navy Suit', 'Clean line.\nQuiet power.', 'A sharp navy suit with open-collar styling, lapel pin detail and runway presence.', 'FROM $1,250', 'BESPOKE SUIT', '#10192b', 'rgba(255,255,255,0.18)', 'light', img('look-06-navy-open-suit.webp')),
-          look('Pastel Pink Suit', 'Pastel Suit', 'Soft tone.\nStrong cut.', 'A blush tailored jacket styled with dark trousers and a statement flower finish.', 'FROM $1,350', 'CUSTOM SUIT', '#efc5c9', 'rgba(255,255,255,0.6)', 'dark', img('look-03-pastel-pink-suit.webp')),
-          look('Leopard Emblem Shirt', 'Graphic Shirt', 'Bold print.\nTailored base.', 'A clean white shirt with a strong graphic front, styled for a confident statement look.', 'FROM $320', 'STATEMENT SHIRT', '#f3eadf', 'rgba(255,255,255,0.65)', 'dark', img('look-01-leopard-shirt.webp')),
+          look('Navy Open Suit', 'Navy Suit', 'Clean line.\nQuiet power.', 'A sharp navy suit with open-collar styling, lapel pin detail and runway presence.', 'FROM $1,250', 'BESPOKE SUIT', '#10192b', 'rgba(255,255,255,0.18)', 'light', looks.navySuit),
+          look('Pastel Pink Suit', 'Pastel Suit', 'Soft tone.\nStrong cut.', 'A blush tailored jacket styled with dark trousers and a statement flower finish.', 'FROM $1,350', 'CUSTOM SUIT', '#efc5c9', 'rgba(255,255,255,0.6)', 'dark', looks.pinkSuit),
+          look('Black Open Suit', 'Open Suit', 'Minimal black.\nSharp detail.', 'A clean black open-collar suit finished with lapel jewellery and a confident silhouette.', 'FROM $1,350', 'BESPOKE SUIT', '#0d0d0d', 'rgba(255,255,255,0.16)', 'light', looks.navySuit),
         ],
       },
       {
         id: 'shirts',
         label: 'Shirts',
         looks: [
-          look('Blue Scarf Shirt', 'Blue Shirt', 'Silk movement.\nSharp finish.', 'A vivid blue shirt with scarf styling, jewellery and polished runway energy.', 'FROM $240', 'CUSTOM SHIRT', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', img('look-04-blue-shirt-scarf.webp')),
-          look('Teal Shirt Vest', 'Teal Shirt', 'Color shirt.\nClean vest.', 'A bright teal shirt layered under a black vest with a red floral lapel accent.', 'FROM $260', 'CUSTOM SHIRT', '#057894', 'rgba(255,255,255,0.18)', 'light', img('look-07-teal-shirt-vest.webp')),
-          look('Navy Scarf Shirt', 'Scarf Shirt', 'Relaxed collar.\nLuxury detail.', 'A navy shirt with scarf and floral accessory styling for a softer bespoke direction.', 'FROM $260', 'STYLE SHIRT', '#12376d', 'rgba(255,255,255,0.18)', 'light', img('look-09-blue-scarf-shirt.webp')),
+          look('Leopard Emblem Shirt', 'Graphic Shirt', 'Bold print.\nTailored base.', 'A clean white shirt with a strong graphic front, styled for a confident statement look.', 'FROM $320', 'STATEMENT SHIRT', '#f3eadf', 'rgba(255,255,255,0.65)', 'dark', looks.leopard),
+          look('Blue Scarf Shirt', 'Blue Shirt', 'Silk movement.\nSharp finish.', 'A vivid blue shirt with scarf styling, jewellery and polished runway energy.', 'FROM $240', 'CUSTOM SHIRT', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
+          look('Teal Shirt Vest', 'Teal Shirt', 'Color shirt.\nClean vest.', 'A bright teal shirt layered under a black vest with a red floral lapel accent.', 'FROM $260', 'CUSTOM SHIRT', '#057894', 'rgba(255,255,255,0.18)', 'light', looks.tealVest),
         ],
       },
       {
         id: 'tuxedos',
         label: 'Tuxedos',
         looks: [
-          look('Textured Tuxedo', 'Tuxedo', 'Black tie.\nPatterned finish.', 'A black textured tuxedo jacket with crisp white lapels and formal runway structure.', 'FROM $1,450', 'EVENING WEAR', '#111111', 'rgba(255,255,255,0.18)', 'light', img('look-02-textured-tuxedo.webp')),
+          look('Textured Tuxedo', 'Tuxedo', 'Black tie.\nPatterned finish.', 'A black textured tuxedo jacket with crisp white lapels and formal runway structure.', 'FROM $1,450', 'EVENING WEAR', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.tuxedoBlack),
+          look('Diamond Pattern Tuxedo', 'Pattern Tuxedo', 'Diamond pattern.\nFormal finish.', 'A patterned black-and-white tuxedo jacket built for eveningwear, ceremonies and standout entrances.', 'FROM $1,550', 'EVENING WEAR', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
         ],
       },
       {
         id: 'overcoats',
         label: 'Overcoats',
         looks: [
-          look('Plaid Long Blazer', 'Plaid Coat', 'Layered look.\nModern heritage.', 'A long plaid tailored layer over denim, finished with a strong floral accent.', 'FROM $1,600', 'OUTERWEAR', '#25334a', 'rgba(255,255,255,0.18)', 'light', img('look-05-plaid-blazer.webp')),
-          look('Leather Sleeve Coat', 'Mixed Coat', 'Texture mix.\nStrong craft.', 'A textured coat with leather sleeves, clean shirt styling and bespoke finishing details.', 'FROM $1,650', 'OUTERWEAR', '#b89a78', 'rgba(255,255,255,0.38)', 'dark', img('look-08-leather-sleeve-coat.webp')),
+          look('Plaid Long Blazer', 'Plaid Coat', 'Layered look.\nModern heritage.', 'A long plaid tailored layer over denim, finished with a strong floral accent.', 'FROM $1,600', 'OUTERWEAR', '#25334a', 'rgba(255,255,255,0.18)', 'light', looks.plaid),
+          look('Leather Sleeve Coat', 'Mixed Coat', 'Texture mix.\nStrong craft.', 'A textured coat with leather sleeves, clean shirt styling and bespoke finishing details.', 'FROM $1,650', 'OUTERWEAR', '#b89a78', 'rgba(255,255,255,0.38)', 'dark', looks.leatherCoat),
         ],
       },
       {
         id: 'ceremonial',
         label: 'Ceremonial',
         looks: [
-          look('Gold Couture Coat', 'Ceremony', 'Ornate cloth.\nEvent presence.', 'A richly embroidered gold coat for ceremonial, cultural and special occasion dressing.', 'FROM $1,800', 'CEREMONY', '#c6a36e', 'rgba(255,255,255,0.45)', 'dark', img('look-10-gold-couture.webp')),
+          look('Pattern Ceremony Tuxedo', 'Ceremony', 'Formal pattern.\nEvent presence.', 'A patterned tuxedo direction for ceremonial entrances, formal evenings and statement dressing.', 'FROM $1,800', 'CEREMONY', '#1a1a1a', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
         ],
       },
     ],
@@ -123,35 +137,35 @@ const products: Record<ProductKind, ProductData> = {
         id: 'pantsuits',
         label: 'Pantsuits',
         looks: [
-          look('Burgundy Tailored Set', 'Pantsuit', 'Sharp shape.\nRich tone.', 'A burgundy tailored women’s look with embroidered layers and polished editorial attitude.', 'FROM $1,100', 'CUSTOM FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', img('look-10-gold-couture.webp')),
+          look('Burgundy Tailored Set', 'Pantsuit', 'Sharp shape.\nRich tone.', 'A burgundy tailored women’s look with embroidered layers and polished editorial attitude.', 'FROM $1,100', 'CUSTOM FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
         ],
       },
       {
         id: 'skirt-suits',
         label: 'Skirt Suits',
         looks: [
-          look('Gold Skirt Coat', 'Skirt Suit', 'Elegant cut.\nOrnate finish.', 'A couture-inspired women’s look with rich embroidery, tailored shape and ceremony detail.', 'FROM $980', 'BESPOKE SET', '#d5bd91', 'rgba(255,255,255,0.45)', 'dark', img('look-10-gold-couture.webp')),
+          look('Burgundy Skirt Set', 'Skirt Suit', 'Structured skirt.\nLuxury layer.', 'A burgundy skirt-suit direction with a tailored jacket and embroidered statement detailing.', 'FROM $980', 'BESPOKE SET', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
         ],
       },
       {
         id: 'dresses',
         label: 'Dresses',
         looks: [
-          look('Gold Ceremony Dress', 'Dress', 'Soft gold.\nFull presence.', 'A gold ceremonial look presented as eveningwear inspiration for special occasions.', 'FROM $1,200', 'OCCASION WEAR', '#c6a36e', 'rgba(255,255,255,0.46)', 'dark', img('look-10-gold-couture.webp')),
+          look('Burgundy Dress Styling', 'Dress', 'Rich color.\nEvent ready.', 'A dress-led women’s look inspired by the burgundy tailored set and ceremonial detailing.', 'FROM $1,200', 'OCCASION WEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
         ],
       },
       {
         id: 'blouses',
         label: 'Blouses',
         looks: [
-          look('Soft Pink Styling', 'Blouse', 'Clean layers.\nSoft polish.', 'A soft tailored look that works as blouse-and-jacket styling inspiration.', 'FROM $260', 'MADE TO FIT', '#efc5c9', 'rgba(255,255,255,0.55)', 'dark', img('look-03-pastel-pink-suit.webp')),
+          look('Printed Burgundy Blouse', 'Blouse', 'Patterned top.\nClean polish.', 'A blouse-and-jacket styling direction using the burgundy patterned top as the focal detail.', 'FROM $260', 'MADE TO FIT', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
         ],
       },
       {
         id: 'coats',
         label: 'Coats',
         looks: [
-          look('Gold Embroidered Coat', 'Coat', 'Luxury layer.\nCeremony ready.', 'A structured embroidered coat for statement entrances and formal occasions.', 'FROM $1,450', 'OUTERWEAR', '#c6a36e', 'rgba(255,255,255,0.4)', 'dark', img('look-10-gold-couture.webp')),
+          look('Burgundy Embroidered Coat', 'Coat', 'Luxury layer.\nCeremony ready.', 'A structured burgundy embroidered coat for statement entrances and formal occasions.', 'FROM $1,450', 'OUTERWEAR', '#7f172b', 'rgba(255,255,255,0.25)', 'light', looks.burgundyWomen),
         ],
       },
     ],
@@ -165,44 +179,46 @@ const products: Record<ProductKind, ProductData> = {
         id: 'shoes',
         label: 'Shoes',
         looks: [
-          look('Formal Shoes', 'Shoes', 'Grounded finish.\nPolished step.', 'Use the shoe and trouser finish as a detail reference for complete bespoke styling.', 'FROM $280', 'PAIR', '#111827', 'rgba(255,255,255,0.18)', 'light', img('look-06-navy-open-suit.webp')),
+          look('Formal Shoes', 'Shoes', 'Grounded finish.\nPolished step.', 'Use the shoe and trouser finish as a detail reference for complete bespoke styling.', 'FROM $280', 'PAIR', '#10192b', 'rgba(255,255,255,0.18)', 'light', looks.navySuit),
         ],
       },
       {
         id: 'ties',
         label: 'Ties',
         looks: [
-          look('Silk Scarf Tie', 'Tie / Scarf', 'Neck detail.\nSoft movement.', 'Scarf and tie styling for shirts, tuxedos and relaxed evening dressing.', 'FROM $120', 'SILK', '#12376d', 'rgba(255,255,255,0.2)', 'light', img('look-09-blue-scarf-shirt.webp')),
-          look('Blue Silk Accent', 'Silk Tie', 'Bright color.\nLuxury neckwear.', 'A vivid neck detail used to finish a shirt-focused bespoke look.', 'FROM $140', 'SILK', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', img('look-04-blue-shirt-scarf.webp')),
+          look('Silk Scarf Tie', 'Tie / Scarf', 'Neck detail.\nSoft movement.', 'Scarf and tie styling for shirts, tuxedos and relaxed evening dressing.', 'FROM $120', 'SILK', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
+          look('Black Bow Tie', 'Bow Tie', 'Formal knot.\nBlack-tie finish.', 'A black bow-tie look for tuxedos, ceremonies and polished evening styling.', 'FROM $140', 'SILK', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.patternTuxedo),
         ],
       },
       {
         id: 'cuffs',
         label: 'Cuffs',
         looks: [
-          look('Gold Detail Cuffs', 'Cuffs', 'Small detail.\nBig finish.', 'Cuff and wrist styling details for shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#f3eadf', 'rgba(255,255,255,0.55)', 'dark', img('look-01-leopard-shirt.webp')),
+          look('Gold Detail Cuffs', 'Cuffs', 'Small detail.\nBig finish.', 'Cuff and wrist styling details for shirts, tuxedos and ceremonial dressing.', 'FROM $160', 'PAIR', '#f3eadf', 'rgba(255,255,255,0.55)', 'dark', looks.leopard),
         ],
       },
       {
         id: 'belts',
         label: 'Belts',
         looks: [
-          look('Leather Belt Styling', 'Belt', 'Clean waist.\nFinished fit.', 'Belts selected to complete trousers, suiting and casual bespoke looks.', 'FROM $180', 'LEATHER', '#b89a78', 'rgba(255,255,255,0.35)', 'dark', img('look-08-leather-sleeve-coat.webp')),
+          look('Leather Belt Styling', 'Belt', 'Clean waist.\nFinished fit.', 'Belts selected to complete trousers, suiting and casual bespoke looks.', 'FROM $180', 'LEATHER', '#b89a78', 'rgba(255,255,255,0.35)', 'dark', looks.leatherCoat),
+          look('Blue Shirt Belt', 'Belt', 'Warm leather.\nClean contrast.', 'A tan belt styling reference for bright shirt looks and relaxed formalwear.', 'FROM $190', 'LEATHER', '#0d72ad', 'rgba(255,255,255,0.2)', 'light', looks.blueScarf),
         ],
       },
       {
         id: 'pocket-squares',
         label: 'Pocket Squares',
         looks: [
-          look('White Lapel Finish', 'Pocket Square', 'Clean fold.\nFormal contrast.', 'Pocket-square-style details and white accents for tuxedo and eveningwear finishing.', 'FROM $95', 'SILK SET', '#111111', 'rgba(255,255,255,0.18)', 'light', img('look-02-textured-tuxedo.webp')),
+          look('White Lapel Finish', 'Pocket Square', 'Clean fold.\nFormal contrast.', 'Pocket-square-style details and white accents for tuxedo and eveningwear finishing.', 'FROM $95', 'SILK SET', '#111111', 'rgba(255,255,255,0.18)', 'light', looks.tuxedoBlack),
         ],
       },
       {
         id: 'lapel-pins',
         label: 'Lapel Pins',
         looks: [
-          look('Red Flower Lapel', 'Lapel Pin', 'Statement flower.\nLuxury touch.', 'Floral lapel accents, brooches and finishing pieces for suits and ceremonial looks.', 'FROM $85', 'DETAIL', '#057894', 'rgba(255,255,255,0.18)', 'light', img('look-07-teal-shirt-vest.webp')),
-          look('White Flower Lapel', 'Lapel Flower', 'Soft accent.\nClean finish.', 'A white floral lapel detail for lighter jackets and softer formal styling.', 'FROM $95', 'DETAIL', '#efc5c9', 'rgba(255,255,255,0.45)', 'dark', img('look-03-pastel-pink-suit.webp')),
+          look('White Flower Lapel', 'Lapel Flower', 'Soft accent.\nClean finish.', 'A white floral lapel detail for lighter jackets and softer formal styling.', 'FROM $95', 'DETAIL', '#efc5c9', 'rgba(255,255,255,0.45)', 'dark', looks.pinkSuit),
+          look('Red Flower Lapel', 'Lapel Pin', 'Statement flower.\nLuxury touch.', 'Floral lapel accents, brooches and finishing pieces for suits and ceremonial looks.', 'FROM $85', 'DETAIL', '#057894', 'rgba(255,255,255,0.18)', 'light', looks.tealVest),
+          look('Purple Flower Lapel', 'Lapel Detail', 'Color accent.\nTailored finish.', 'A purple lapel flower detail used to soften a plaid tailored jacket.', 'FROM $95', 'DETAIL', '#25334a', 'rgba(255,255,255,0.18)', 'light', looks.plaid),
         ],
       },
     ],
