@@ -160,6 +160,12 @@ export default function App() {
   }
 
   const active = LOOKS[activeIndex]
+  const heroVideoSrc = isMobile
+    ? '/video/rivaado-hero-mobile.mp4'
+    : '/video/rivaado-hero-desktop.mp4'
+  const heroPosterSrc = isMobile
+    ? '/video/rivaado-hero-poster-mobile.jpg'
+    : '/video/rivaado-hero-poster.jpg'
 
   return (
     <main
@@ -168,26 +174,17 @@ export default function App() {
     >
       <section className="relative h-[100svh] min-h-[620px] w-full overflow-hidden bg-black">
         <video
+          key={heroVideoSrc}
           className="absolute inset-0 h-full w-full object-cover"
+          src={heroVideoSrc}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster={
-            isMobile
-              ? '/video/rivaado-hero-poster-mobile.jpg'
-              : '/video/rivaado-hero-poster.jpg'
-          }
+          poster={heroPosterSrc}
           aria-label="Rivaado bespoke tailoring campaign film"
-        >
-          <source
-            src="/video/rivaado-hero-mobile.mp4"
-            type="video/mp4"
-            media="(max-width: 639px)"
-          />
-          <source src="/video/rivaado-hero-desktop.mp4" type="video/mp4" />
-        </video>
+        />
 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.1)_40%,rgba(0,0,0,0.82)_100%)]" />
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-5 sm:px-9 sm:py-7">
