@@ -16,6 +16,8 @@ const drawerPrimary: { label: string; key: Exclude<SectionKey, 'admin'>; externa
   { label: 'About', key: 'about' },
 ]
 
+const accessoryMenuItems = ['Ties', 'Cufflinks', 'Belts', 'Bow–Ties', 'Scarfs', 'Socks', 'All accessories'] as const
+
 const drawerSecondary: { label: string; key: Exclude<SectionKey, 'admin'>; accent?: boolean }[] = [
   { label: 'Digital body profile', key: 'contact', accent: true },
   { label: 'Order samples', key: 'samples' },
@@ -124,7 +126,7 @@ export default function App() {
         <Screen active={activeSection === 'about'}><AboutScreen /></Screen>
         <Screen active={activeSection === 'men'}><ProductShowcase section="men" catalog={catalog} /></Screen>
         <Screen active={activeSection === 'women'}><ProductShowcase section="women" catalog={catalog} /></Screen>
-        <Screen active={activeSection === 'accessories'}><ProductShowcase section="accessories" catalog={catalog} /></Screen>
+        <Screen active={activeSection === 'accessories'}><AccessoriesScreen onNavigate={go} /></Screen>
         <Screen active={activeSection === 'samples'}><SamplesScreen onNavigate={go} /></Screen>
         <Screen active={activeSection === 'contact'}><ContactScreen onBack={() => go('accessories')} /></Screen>
       </div>
@@ -391,15 +393,7 @@ function DesktopDrawerPanel({ active, onNavigate }: { active: string; onNavigate
     },
     Accessories: {
       title: 'Shop accessories',
-      items: [
-        { label: 'Ties' },
-        { label: 'Cufflinks' },
-        { label: 'Belts' },
-        { label: 'Bow–Ties' },
-        { label: 'Scarfs' },
-        { label: 'Socks' },
-        { label: 'All accessories' },
-      ],
+      items: accessoryMenuItems.map((label) => ({ label })),
     },
     Footwear: {
       title: 'Shop shoes',
@@ -1791,6 +1785,84 @@ function AboutScreen() {
           ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+function AccessoriesScreen({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  const accessoryCards = [
+    { label: 'Ties', image: '/looks/look-04-blue-shirt-scarf.webp' },
+    { label: 'Cufflinks', image: '/looks/look-02-textured-tuxedo.webp' },
+    { label: 'Belts', image: '/looks/look-08-leather-sleeve-coat.webp' },
+    { label: 'Bow–Ties', image: '/looks/look-06-navy-open-suit.webp' },
+    { label: 'Scarfs', image: '/looks/look-09-blue-scarf-shirt.webp' },
+    { label: 'Socks', image: '/looks/look-05-plaid-blazer.webp' },
+    { label: 'All accessories', image: '/looks/look-07-teal-shirt-vest.webp' },
+  ]
+
+  return (
+    <div className="h-full w-full overflow-y-auto bg-white pt-[118px] text-[#202124] md:pt-[104px]">
+      <section className="border-t border-black/8 bg-white px-6 py-14 sm:px-10 lg:px-14 lg:py-20">
+        <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[330px_1fr] lg:gap-20">
+          <div className="lg:sticky lg:top-[128px] lg:self-start">
+            <p className="text-[13px] font-medium text-black/48">Accessories</p>
+            <h1 className="mt-3 text-[clamp(2.5rem,4vw,4.6rem)] font-normal tracking-[-0.055em]">Shop accessories</h1>
+            <nav className="mt-10 border-t border-black/10">
+              {accessoryMenuItems.map((item) => (
+                <button
+                  type="button"
+                  key={item}
+                  className="flex w-full items-center justify-between border-b border-black/10 py-5 text-left text-[18px] tracking-[-0.025em] transition hover:pl-2"
+                >
+                  <span>{item}</span>
+                  <ArrowRight size={17} strokeWidth={1.4} />
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          <div>
+            <div className="grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {accessoryCards.map((item) => (
+                <button type="button" key={item.label} className="group text-left">
+                  <div className="aspect-[0.92] overflow-hidden bg-[#eeeae3]">
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-4">
+                    <span className="text-[17px] font-medium tracking-[-0.025em]">{item.label}</span>
+                    <ArrowRight size={17} strokeWidth={1.4} />
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-16 flex min-h-[340px] items-end overflow-hidden bg-[#eee9df] p-8 sm:p-10">
+              <div className="max-w-[520px]">
+                <p className="text-[13px] font-medium uppercase tracking-[0.13em] text-black/48">RIVAADO finishing details</p>
+                <h2 className="mt-4 text-[clamp(2.2rem,3.4vw,4rem)] font-normal leading-[1.04] tracking-[-0.05em]">
+                  The details that finish the look.
+                </h2>
+                <p className="mt-5 max-w-[470px] text-[15px] leading-7 text-black/68">
+                  Complete your tailored wardrobe with ties, cufflinks, belts, bow ties, scarfs and socks selected to work with your bespoke pieces.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('contact')}
+                  className="mt-7 rounded-full bg-[#202124] px-7 py-3 text-sm font-medium text-white"
+                >
+                  Ask Rivaado
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <SiteFooter />
     </div>
   )
 }
