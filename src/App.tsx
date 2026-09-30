@@ -16,6 +16,17 @@ const drawerPrimary: { label: string; key: Exclude<SectionKey, 'admin'>; externa
   { label: 'About', key: 'about' },
 ]
 
+const womenDrawerPrimary: { label: string; key: Exclude<SectionKey, 'admin'>; external?: boolean }[] = [
+  { label: 'Highlights', key: 'women' },
+  { label: 'Clothing', key: 'women' },
+  { label: 'Occasion', key: 'women' },
+  { label: 'Footwear', key: 'accessories' },
+  { label: 'Custom', key: 'women' },
+  { label: 'Accessories', key: 'accessories' },
+  { label: 'Men', key: 'men', external: true },
+  { label: 'About', key: 'about' },
+]
+
 const accessoryMenuItems = ['Ties', 'Cufflinks', 'Belts', 'Bow–Ties', 'Scarfs', 'Socks', 'All accessories'] as const
 
 const drawerSecondary: { label: string; key: Exclude<SectionKey, 'admin'>; accent?: boolean }[] = [
@@ -97,6 +108,7 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false)
   const [catalog, setCatalog] = useState<CatalogItem[]>(seedCatalog)
   const [siteCopy, setSiteCopy] = useState<SiteCopy>(defaultSiteCopy)
+  const [audience, setAudience] = useState<'men' | 'women'>(() => getInitialSection() === 'women' ? 'women' : 'men')
 
   useEffect(() => {
     const resize = () => setIsMobile(window.innerWidth < 700)
@@ -150,6 +162,8 @@ export default function App() {
   }, [])
 
   const go = (key: SectionKey) => {
+    if (key === 'women') setAudience('women')
+    if (key === 'men' || key === 'home') setAudience('men')
     setActiveSection(key)
     window.history.replaceState(null, '', key === 'home' ? window.location.pathname : `#${key}`)
   }
@@ -162,7 +176,7 @@ export default function App() {
 
   return (
     <main className="relative h-[100svh] w-full overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <Header activeSection={activeSection} mode={headerMode} onNavigate={go} />
+      <Header activeSection={activeSection} audience={audience} mode={headerMode} onNavigate={go} />
       <div className="absolute inset-0">
         <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} onNavigate={go} copy={siteCopy} /></Screen>
         <Screen active={activeSection === 'about'}><AboutScreen /></Screen>
@@ -176,11 +190,16 @@ export default function App() {
   )
 }
 
-function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
+function Header({ activeSection, audience, mode, onNavigate }: { activeSection: SectionKey; audience: 'men' | 'women'; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawerActive, setDrawerActive] = useState('Highlights')
   const dark = mode === 'dark'
-  const womenMode = activeSection === 'women'
+  const womenMode = audience === 'women'
+  const primaryMenu = womenMode ? womenDrawerPrimary : drawerPrimary
+
+  useEffect(() => {
+    setDrawerActive('Highlights')
+  }, [womenMode])
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -202,7 +221,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
           <div className="absolute left-3 flex items-center rounded-full border border-white/14 bg-white/[0.04] p-[3px] sm:left-5">
             <button
               type="button"
-              onClick={() => onNavigate('home')}
+              onClick={() => onNavigate('men')}
               aria-pressed={!womenMode}
               className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.06em] transition sm:px-4 ${!womenMode ? 'bg-white text-[#171719]' : 'text-white/52 hover:text-white'}`}
             >
@@ -288,7 +307,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
             className="fixed inset-0 z-[70] hidden bg-black/46 md:block"
           />
 
-          <aside className="fixed inset-y-0 left-0 z-[90] hidden w-[700px] bg-white text-[#202624] shadow-[16px_0_40px_rgba(0,0,0,.08)] md:flex">
+          <aside className={`fixed inset-y-0 left-0 z-[90] hidden bg-white text-[#202624] shadow-[16px_0_40px_rgba(0,0,0,.08)] md:flex ${womenMode ? 'w-[min(1220px,calc(100vw-28px))]' : 'w-[700px]'}`}>
             <div className="flex w-[350px] shrink-0 flex-col border-r border-black/8 bg-white">
               <div className="flex h-[96px] items-center px-9">
                 <button
@@ -303,13 +322,13 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
 
               <div className="flex-1 overflow-y-auto px-10 pb-7">
                 <nav aria-label="Main menu" className="space-y-[26px]">
-                  {drawerPrimary.map((item) => (
+                  {primaryMenu.map((item) => (
                     <button
                       type="button"
                       key={item.label}
-                      onMouseEnter={() => item.label !== 'Women' && setDrawerActive(item.label)}
-                      onFocus={() => item.label !== 'Women' && setDrawerActive(item.label)}
-                      onClick={() => item.label === 'Women' ? navigateFromMenu('women') : setDrawerActive(item.label)}
+                      onMouseEnter={() => !item.external && setDrawerActive(item.label)}
+                      onFocus={() => !item.external && setDrawerActive(item.label)}
+                      onClick={() => item.external ? navigateFromMenu(item.key) : setDrawerActive(item.label)}
                       className={`block text-left text-[21px] font-normal leading-none tracking-[-0.025em] transition-colors hover:text-[#202624] ${
                         drawerActive === item.label
                           ? 'font-medium text-[#202624]'
@@ -344,7 +363,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
               </div>
             </div>
 
-            <DesktopDrawerPanel active={drawerActive} onNavigate={navigateFromMenu} />
+            <DesktopDrawerPanel active={drawerActive} womenMode={womenMode} onNavigate={navigateFromMenu} />
           </aside>
 
           <aside className="fixed inset-0 z-[100] flex flex-col bg-white text-[#202624] md:hidden">
@@ -360,7 +379,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
 
               <button
                 type="button"
-                onClick={() => navigateFromMenu('home')}
+                onClick={() => navigateFromMenu(womenMode ? 'women' : 'men')}
                 className="absolute left-1/2 -translate-x-1/2 text-[24px] font-semibold tracking-[-0.055em]"
               >
                 Rivaado
@@ -373,7 +392,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
 
             <div className="flex-1 overflow-y-auto px-6 pb-[105px] pt-[68px]">
               <nav aria-label="Main menu" className="space-y-[38px]">
-                {drawerPrimary.map((item) => (
+                {primaryMenu.map((item) => (
                   <button
                     type="button"
                     key={item.label}
@@ -419,7 +438,11 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
   )
 }
 
-function DesktopDrawerPanel({ active, onNavigate }: { active: string; onNavigate: (section: Exclude<SectionKey, 'admin'>) => void }) {
+function DesktopDrawerPanel({ active, womenMode, onNavigate }: { active: string; womenMode: boolean; onNavigate: (section: Exclude<SectionKey, 'admin'>) => void }) {
+  if (womenMode) {
+    return <WomenDrawerPanel active={active} onNavigate={onNavigate} />
+  }
+
   const simplePanels: Record<string, { title: string; items: { label: string; accent?: boolean; badge?: string }[] }> = {
     Clothing: {
       title: 'Shop by product',
@@ -549,6 +572,138 @@ function DesktopDrawerPanel({ active, onNavigate }: { active: string; onNavigate
           <div className="mt-2 text-[16px] tracking-[-0.025em] text-[#202624]">Wedding Collection 2026</div>
         </button>
       ) : null}
+    </div>
+  )
+}
+
+function WomenDrawerPanel({ active, onNavigate }: { active: string; onNavigate: (section: Exclude<SectionKey, 'admin'>) => void }) {
+  const data: Record<string, { title: string; items: string[]; collections?: string[]; cards?: { label: string; image: string }[] }> = {
+    Highlights: {
+      title: 'Women’s highlights',
+      items: ['New arrivals', 'Bespoke essentials', 'Made to Keep', 'Wedding Collection 2026'],
+      cards: [
+        { label: 'Women’s tailoring', image: '/looks/look-03-pastel-pink-suit.webp' },
+        { label: 'Outfit ideas', image: '/looks/look-10-gold-couture.webp' },
+        { label: 'Modern suiting', image: '/looks/look-06-navy-open-suit.webp' },
+        { label: 'Occasion dressing', image: '/looks/look-07-teal-shirt-vest.webp' },
+      ],
+    },
+    Clothing: {
+      title: 'Shop by product',
+      items: ['Suits', 'Shirts & Tops', 'Blazers', 'Pants', 'Jeans', 'Skirts', 'Dresses', 'Outerwear'],
+      collections: ['New Arrivals', 'All suits', 'Business Shirts', 'Casual Shirts', 'Essentials'],
+      cards: [
+        { label: 'Women Suits', image: '/looks/look-03-pastel-pink-suit.webp' },
+        { label: 'Women Pantsuits', image: '/looks/look-06-navy-open-suit.webp' },
+        { label: 'Skirt suits', image: '/looks/look-10-gold-couture.webp' },
+        { label: 'Tuxedos', image: '/looks/look-02-textured-tuxedo.webp' },
+        { label: 'Linen Suits', image: '/looks/look-04-blue-shirt-scarf.webp' },
+        { label: 'Tweed Suits', image: '/looks/look-05-plaid-blazer.webp' },
+        { label: 'Pinstripe Suits', image: '/looks/look-08-leather-sleeve-coat.webp' },
+        { label: 'White Suits', image: '/looks/look-09-blue-scarf-shirt.webp' },
+      ],
+    },
+    Occasion: {
+      title: 'Shop by occasion',
+      items: ['Party', 'Wedding', 'Work', 'Weekend'],
+      collections: ['Wedding Collection 2026', 'Workwear', 'Evening tailoring'],
+      cards: [
+        { label: 'Wedding Collection 2026', image: '/looks/look-03-pastel-pink-suit.webp' },
+        { label: 'Work', image: '/looks/look-06-navy-open-suit.webp' },
+        { label: 'Party', image: '/looks/look-10-gold-couture.webp' },
+      ],
+    },
+    Footwear: {
+      title: 'Shop shoes',
+      items: ['Shoes', 'Dress boot'],
+      collections: ['All shoes', 'Stylish Boots', 'Stylish Shoes', 'Formal Shoes'],
+      cards: [
+        { label: "Women's Shoes", image: '/looks/look-09-blue-scarf-shirt.webp' },
+        { label: 'Oxford Shoes', image: '/looks/look-05-plaid-blazer.webp' },
+        { label: 'Monk Shoes', image: '/looks/look-08-leather-sleeve-coat.webp' },
+        { label: 'Brogues', image: '/looks/look-04-blue-shirt-scarf.webp' },
+      ],
+    },
+    Custom: {
+      title: 'Custom clothing',
+      items: ['Custom Suits', 'Custom Dress Shirts', 'Custom Blazers', 'Custom Pants', 'Custom Coats', 'Custom Dresses'],
+      collections: ['Create your own', 'Fit guarantee', 'Fabric library'],
+      cards: [
+        { label: 'Build a suit', image: '/looks/look-03-pastel-pink-suit.webp' },
+        { label: 'Build a blazer', image: '/looks/look-05-plaid-blazer.webp' },
+        { label: 'Build a shirt', image: '/looks/look-04-blue-shirt-scarf.webp' },
+      ],
+    },
+    Accessories: {
+      title: 'Shop accessories',
+      items: ['Ties', 'Cufflinks', 'Belts', 'Bow–Ties', 'Scarfs', 'Socks'],
+      collections: ['All accessories', 'Finishing details'],
+      cards: [
+        { label: 'Scarfs', image: '/looks/look-09-blue-scarf-shirt.webp' },
+        { label: 'Belts', image: '/looks/look-08-leather-sleeve-coat.webp' },
+        { label: 'Finishing details', image: '/looks/look-07-teal-shirt-vest.webp' },
+      ],
+    },
+    About: {
+      title: 'About RIVAADO',
+      items: ['Our mission', 'Our values', 'How it works', 'Perfect Fit Guarantee', 'FAQ'],
+      collections: ['The house', 'Craftsmanship'],
+      cards: [
+        { label: 'The RIVAADO house', image: '/looks/look-06-navy-open-suit.webp' },
+        { label: 'How it works', image: '/looks/look-03-pastel-pink-suit.webp' },
+      ],
+    },
+  }
+
+  const panel = data[active] || data.Clothing
+  const target = active === 'Footwear' || active === 'Accessories' ? 'accessories' : active === 'About' ? 'about' : 'women'
+
+  return (
+    <div className="flex min-w-0 flex-1 bg-white">
+      <div className="w-[370px] shrink-0 border-r border-black/8 bg-[#f7f5ef] px-7 pb-10 pt-[118px]">
+        <h2 className="text-[22px] font-medium tracking-[-0.03em]">{panel.title}</h2>
+        <div className="mt-7 space-y-[22px]">
+          {panel.items.map((item, index) => (
+            <button
+              type="button"
+              key={item}
+              onClick={() => onNavigate(target)}
+              className={`block text-left text-[16px] tracking-[-0.02em] transition ${index === 0 ? 'text-[#202624]' : 'text-[#9b9f9d] hover:text-[#202624]'}`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="min-w-0 flex-1 overflow-y-auto px-10 pb-12 pt-[118px]">
+        <h2 className="text-[22px] font-medium tracking-[-0.03em]">{active === 'Highlights' ? 'Explore women' : 'Design your own'}</h2>
+
+        <div className="mt-8 grid grid-cols-3 gap-x-4 gap-y-7">
+          {(panel.cards || []).map((card) => (
+            <button type="button" key={card.label} onClick={() => onNavigate(target)} className="group text-left">
+              <div className="aspect-[1.78] overflow-hidden bg-[#eeeae3]">
+                <img src={card.image} alt={card.label} className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]" />
+              </div>
+              <div className="mt-2 text-[14px] tracking-[-0.02em] text-[#202624]">{card.label}</div>
+            </button>
+          ))}
+        </div>
+
+        {panel.collections?.length ? (
+          <div className="mt-12 border-t border-black/8 pt-8">
+            <h3 className="text-[22px] font-medium tracking-[-0.03em]">Collections</h3>
+            <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-5">
+              {panel.collections.map((item, index) => (
+                <button type="button" key={item} onClick={() => onNavigate(target)} className="flex items-center gap-2 text-left text-[15px]">
+                  <span>{item}</span>
+                  {index === 0 && item === 'New Arrivals' ? <span className="rounded-full bg-[#c65b43] px-2 py-[2px] text-[9px] font-semibold text-white">new</span> : null}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }
