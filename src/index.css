@@ -88,3 +88,16 @@ video {
     filter: none;
   }
 }
+
+
+.category-rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-rail::-webkit-scrollbar {
+  display: none;
+}
