@@ -837,7 +837,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
               <button
                 type="button"
                 key={catalog.title + catalog.subtitle}
-                onClick={() => document.getElementById('fabric-catalog-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                onClick={() => document.getElementById('fabric-pack-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 className="text-center"
               >
                 <div className="aspect-[0.82] overflow-hidden bg-[#d9b071]">
@@ -955,7 +955,7 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
             </button>
             <button
               type="button"
-              onClick={() => document.getElementById('fabric-pack-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              onClick={() => document.getElementById('fabric-catalog-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
               className="mt-5 block w-full text-sm underline underline-offset-3 lg:text-right"
             >
               &lt; Go back
