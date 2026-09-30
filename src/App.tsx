@@ -282,83 +282,183 @@ function TailoringTechSection({ onExplore }: { onExplore: () => void }) {
 }
 
 const demoFabrics = [
-  { name: 'Charcoal Herringbone', color: '#57514c', accent: '#6c655f' },
-  { name: 'Midnight Navy', color: '#1c2c43', accent: '#354960' },
-  { name: 'Warm Taupe', color: '#877263', accent: '#a18d7f' },
-  { name: 'Deep Forest', color: '#24392f', accent: '#3a5446' },
-  { name: 'Burgundy', color: '#6e2735', accent: '#8e4350' },
-  { name: 'Stone Grey', color: '#8a8c8b', accent: '#a4a6a5' },
+  { name: 'Charcoal Herringbone', color: '#57514c', accent: '#716963', texture: 'linear-gradient(135deg,#57514c 0 46%,#6d6660 46% 52%,#57514c 52%)' },
+  { name: 'Midnight Navy', color: '#1c2c43', accent: '#354960', texture: 'linear-gradient(90deg,#1c2c43,#2b3f58 48%,#1c2c43)' },
+  { name: 'Warm Taupe', color: '#877263', accent: '#a18d7f', texture: 'linear-gradient(135deg,#877263,#a18d7f)' },
+  { name: 'Deep Forest', color: '#24392f', accent: '#3a5446', texture: 'linear-gradient(135deg,#24392f,#3a5446)' },
+  { name: 'Burgundy', color: '#6e2735', accent: '#8e4350', texture: 'linear-gradient(135deg,#6e2735,#8e4350)' },
+  { name: 'Stone Grey', color: '#8a8c8b', accent: '#a4a6a5', texture: 'linear-gradient(135deg,#8a8c8b,#a4a6a5)' },
+  { name: 'Black Barathea', color: '#151515', accent: '#303030', texture: 'linear-gradient(135deg,#151515,#303030)' },
+  { name: 'Royal Blue', color: '#244e87', accent: '#416da8', texture: 'linear-gradient(135deg,#244e87,#416da8)' },
 ]
 
-const configuratorSteps = [
-  { panel: 'fabric', fabric: 0, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [16, 31] },
-  { panel: 'fabric', fabric: 1, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [28, 48] },
-  { panel: 'fabric', fabric: 3, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [20, 65] },
-  { panel: 'style', fabric: 3, lapel: 'Peak', pocket: 'Jetted', lining: '#d7c2a4', monogram: 'RM', cursor: [18, 39] },
-  { panel: 'style', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#d7c2a4', monogram: 'RM', cursor: [27, 61] },
-  { panel: 'accents', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#a12c40', monogram: 'RM', cursor: [18, 33] },
-  { panel: 'accents', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#b18f53', monogram: 'RV', cursor: [29, 58] },
-  { panel: 'accents', fabric: 4, lapel: 'Peak', pocket: 'Patch', lining: '#b18f53', monogram: 'RV', cursor: [17, 74] },
-] as const
+type ConfiguratorPanelKey = 'fabric' | 'style' | 'finish'
+type DemoConfiguration = {
+  fabric: number
+  lapel: 'Notch' | 'Peak' | 'Shawl'
+  pocket: 'Flap' | 'Jetted' | 'Patch'
+  breasting: 'Single' | 'Double'
+  lining: string
+  monogram: string
+  buttonFinish: 'Horn' | 'Dark' | 'Gold'
+  trouser: 'Plain' | 'Cuffed' | 'Pleated'
+}
+
+const initialDemoConfiguration: DemoConfiguration = {
+  fabric: 0,
+  lapel: 'Notch',
+  pocket: 'Flap',
+  breasting: 'Single',
+  lining: '#d7c2a4',
+  monogram: 'RV',
+  buttonFinish: 'Horn',
+  trouser: 'Plain',
+}
+
+const configuratorTimeline: {
+  panel: ConfiguratorPanelKey
+  patch?: Partial<DemoConfiguration>
+  cursor: [number, number]
+  scrollTop: number
+  hold: number
+}[] = [
+  { panel: 'fabric', patch: { fabric: 0 }, cursor: [15, 31], scrollTop: 0, hold: 1050 },
+  { panel: 'fabric', patch: { fabric: 1 }, cursor: [27, 39], scrollTop: 0, hold: 1250 },
+  { panel: 'fabric', patch: { fabric: 3 }, cursor: [17, 56], scrollTop: 68, hold: 1250 },
+  { panel: 'fabric', patch: { fabric: 4 }, cursor: [29, 66], scrollTop: 120, hold: 1200 },
+  { panel: 'style', patch: { lapel: 'Peak' }, cursor: [16, 34], scrollTop: 0, hold: 1300 },
+  { panel: 'style', patch: { breasting: 'Double' }, cursor: [28, 47], scrollTop: 62, hold: 1250 },
+  { panel: 'style', patch: { pocket: 'Jetted' }, cursor: [17, 62], scrollTop: 122, hold: 1250 },
+  { panel: 'style', patch: { trouser: 'Cuffed' }, cursor: [28, 73], scrollTop: 188, hold: 1350 },
+  { panel: 'finish', patch: { lining: '#a12c40' }, cursor: [17, 33], scrollTop: 0, hold: 1150 },
+  { panel: 'finish', patch: { monogram: 'RA' }, cursor: [28, 49], scrollTop: 62, hold: 1250 },
+  { panel: 'finish', patch: { buttonFinish: 'Gold' }, cursor: [17, 66], scrollTop: 132, hold: 1250 },
+  { panel: 'finish', patch: { lining: '#b18f53', monogram: 'RV' }, cursor: [27, 73], scrollTop: 184, hold: 1650 },
+]
 
 function ConfiguratorDemo() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const panelScrollRef = useRef<HTMLDivElement>(null)
   const [step, setStep] = useState(0)
+  const [panel, setPanel] = useState<ConfiguratorPanelKey>('fabric')
+  const [config, setConfig] = useState<DemoConfiguration>(initialDemoConfiguration)
+  const [isVisible, setIsVisible] = useState(false)
+  const [pageVisible, setPageVisible] = useState(true)
+
+  const applyConfig = (patch: Partial<DemoConfiguration>) => {
+    setConfig((current) => ({ ...current, ...patch }))
+  }
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      setStep((current) => (current + 1) % configuratorSteps.length)
-    }, 1600)
-    return () => window.clearInterval(timer)
+    const node = rootRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting && entry.intersectionRatio >= 0.35),
+      { threshold: [0, 0.35, 0.7] },
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
   }, [])
 
-  const current = configuratorSteps[step]
-  const fabric = demoFabrics[current.fabric]
-  const panelIndex = current.panel === 'fabric' ? 0 : current.panel === 'style' ? 1 : 2
+  useEffect(() => {
+    const onVisibility = () => setPageVisible(document.visibilityState === 'visible')
+    onVisibility()
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!isVisible || !pageVisible || prefersReducedMotion) return
+
+    const active = configuratorTimeline[step]
+    setPanel(active.panel)
+    if (active.patch) applyConfig(active.patch)
+
+    window.requestAnimationFrame(() => {
+      panelScrollRef.current?.scrollTo({ top: active.scrollTop, behavior: 'smooth' })
+    })
+
+    const timer = window.setTimeout(() => {
+      setStep((current) => (current + 1) % configuratorTimeline.length)
+    }, active.hold)
+
+    return () => window.clearTimeout(timer)
+  }, [step, isVisible, pageVisible])
+
+  const activeStep = configuratorTimeline[step]
+  const fabric = demoFabrics[config.fabric]
+  const panelIndex = panel === 'fabric' ? 0 : panel === 'style' ? 1 : 2
+
+  const openPanel = (next: ConfiguratorPanelKey) => {
+    setPanel(next)
+    panelScrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
-    <div className="relative mx-auto w-full max-w-[780px]">
-      <div className="relative aspect-[1.34] min-h-[430px] overflow-hidden rounded-[2rem] border-[7px] border-[#222b29] bg-white shadow-[0_32px_80px_rgba(26,35,32,0.18)] sm:min-h-[520px]">
+    <div ref={rootRef} className="relative mx-auto w-full max-w-[800px]">
+      <div className="relative aspect-[1.38] min-h-[420px] overflow-hidden rounded-[2rem] border-[7px] border-[#222b29] bg-white shadow-[0_32px_80px_rgba(26,35,32,0.18)] sm:min-h-[520px]">
         <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-center border-b border-black/8 bg-white">
           <div className="flex items-center gap-7 text-[9px] font-bold uppercase tracking-[0.18em] text-black/35 sm:gap-10 sm:text-[10px]">
-            {['Fabric', 'Style', 'Accents'].map((label, index) => (
-              <span key={label} className={index === panelIndex ? 'text-black' : ''}>
+            {([
+              ['fabric', 'Fabric'],
+              ['style', 'Style'],
+              ['finish', 'Finish'],
+            ] as const).map(([key, label], index) => (
+              <button key={key} type="button" onClick={() => openPanel(key)} className={`relative pb-1 ${index === panelIndex ? 'text-black' : 'hover:text-black/70'}`}>
                 {label}
-                {index === panelIndex && <span className="mx-auto mt-1 block h-[2px] w-full bg-[#a85b44]" />}
-              </span>
+                <span className={`absolute inset-x-0 -bottom-1 mx-auto h-[2px] origin-left bg-[#a85b44] transition-transform duration-300 ${index === panelIndex ? 'scale-x-100' : 'scale-x-0'}`} />
+              </button>
             ))}
           </div>
         </div>
 
         <div className="absolute inset-0 pt-12">
-          <div className="grid h-full grid-cols-[0.82fr_1.18fr_0.58fr]">
+          <div className="grid h-full grid-cols-[0.9fr_1.1fr] sm:grid-cols-[0.82fr_1.18fr_0.58fr]">
             <div className="relative overflow-hidden border-r border-black/8 bg-[#fafafa]">
-              <ConfiguratorPanel current={current} fabric={fabric} step={step} />
+              <ConfiguratorPanel
+                refEl={panelScrollRef}
+                panel={panel}
+                config={config}
+                applyConfig={applyConfig}
+              />
             </div>
 
             <div className="relative flex items-center justify-center bg-white">
               <SuitPreview
                 color={fabric.color}
                 accent={fabric.accent}
-                lapel={current.lapel}
-                pocket={current.pocket}
-                lining={current.lining}
+                lapel={config.lapel}
+                pocket={config.pocket}
+                lining={config.lining}
+                breasting={config.breasting}
+                buttonFinish={config.buttonFinish}
+                trouser={config.trouser}
               />
               <div className="absolute bottom-4 flex gap-2">
-                {demoFabrics.slice(0, 4).map((item, index) => (
-                  <span key={item.name} className={`h-2 w-2 rounded-full transition ${index === current.fabric ? 'scale-125 bg-black' : 'bg-black/18'}`} />
+                {demoFabrics.slice(0, 5).map((item, index) => (
+                  <button
+                    type="button"
+                    key={item.name}
+                    aria-label={item.name}
+                    onClick={() => applyConfig({ fabric: index })}
+                    className={`h-2 w-2 rounded-full transition ${index === config.fabric ? 'scale-125 bg-black' : 'bg-black/18'}`}
+                  />
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col items-center justify-center border-l border-black/8 px-3 text-center">
+            <div className="hidden flex-col items-center justify-center border-l border-black/8 px-3 text-center sm:flex">
               <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black sm:text-sm">Custom Suit</div>
               <div className="mt-1 text-[10px] text-black/38 sm:text-xs">Made to measure</div>
               <div className="mt-5 text-[10px] font-semibold text-black/45">Fabric</div>
               <div className="mt-1 text-[10px] font-semibold leading-tight text-black/78 sm:text-xs">{fabric.name}</div>
               <div className="mt-5 text-[10px] font-semibold text-black/45">Lapel</div>
-              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{current.lapel}</div>
-              <div className="mt-5 text-[10px] font-semibold text-black/45">Pocket</div>
-              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{current.pocket}</div>
+              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{config.lapel}</div>
+              <div className="mt-5 text-[10px] font-semibold text-black/45">Construction</div>
+              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{config.breasting}</div>
               <button type="button" className="mt-7 w-full bg-[#a85b44] px-3 py-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white">
                 Continue
               </button>
@@ -367,8 +467,8 @@ function ConfiguratorDemo() {
         </div>
 
         <div
-          className="config-cursor absolute z-40 h-5 w-5 transition-[left,top] duration-700 ease-out"
-          style={{ left: `${current.cursor[0]}%`, top: `${current.cursor[1]}%` }}
+          className="config-cursor absolute z-40 h-5 w-5 transition-[left,top] duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
+          style={{ left: `${activeStep.cursor[0]}%`, top: `${activeStep.cursor[1]}%` }}
         >
           <svg viewBox="0 0 24 24" className="h-full w-full drop-shadow-md">
             <path d="M4 3l13 9-6 1 3 6-2.5 1.2-3-6L4 18V3z" fill="#111" stroke="white" strokeWidth="1.4" />
@@ -379,56 +479,94 @@ function ConfiguratorDemo() {
   )
 }
 
-function ConfiguratorPanel({ current, fabric, step }: { current: (typeof configuratorSteps)[number]; fabric: (typeof demoFabrics)[number]; step: number }) {
-  const scrollShift = current.panel === 'fabric' ? (step % 3) * 36 : current.panel === 'style' ? 24 : 54
-
+function ConfiguratorPanel({
+  refEl,
+  panel,
+  config,
+  applyConfig,
+}: {
+  refEl: React.RefObject<HTMLDivElement>
+  panel: ConfiguratorPanelKey
+  config: DemoConfiguration
+  applyConfig: (patch: Partial<DemoConfiguration>) => void
+}) {
   return (
-    <div className="h-full overflow-hidden p-4 sm:p-5">
-      <div className="text-[9px] font-black uppercase tracking-[0.17em] text-black/42 sm:text-[10px]">
-        {current.panel === 'fabric' ? 'Select fabric' : current.panel === 'style' ? 'Choose style' : 'Finishing details'}
+    <div className="relative h-full">
+      <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-[#fafafa] via-[#fafafa] to-transparent px-4 pb-5 pt-4 sm:px-5">
+        <div className="text-[9px] font-black uppercase tracking-[0.17em] text-black/42 sm:text-[10px]">
+          {panel === 'fabric' ? 'Select fabric' : panel === 'style' ? 'Choose construction' : 'Finishing details'}
+        </div>
       </div>
 
-      <div className="mt-4 transition-transform duration-700 ease-out" style={{ transform: `translateY(-${scrollShift}px)` }}>
-        {current.panel === 'fabric' && (
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {demoFabrics.map((item, index) => (
-              <div key={item.name} className={`rounded-md border p-1.5 transition duration-300 ${index === current.fabric ? 'border-[#a85b44] shadow-[0_0_0_2px_rgba(168,91,68,.12)]' : 'border-black/8'}`}>
-                <div className="aspect-square rounded-sm" style={{ background: `linear-gradient(135deg,${item.color},${item.accent})` }} />
-                <div className="mt-1 truncate text-[7px] font-semibold text-black/58 sm:text-[8px]">{item.name}</div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {current.panel === 'style' && (
-          <div className="space-y-5">
-            <OptionRow title="Lapel" options={['Notch','Peak','Shawl']} active={current.lapel} />
-            <OptionRow title="Pocket style" options={['Flap','Jetted','Patch']} active={current.pocket} />
-            <OptionRow title="Buttons" options={['1 Button','2 Button','Double']} active="2 Button" />
-            <OptionRow title="Trouser finish" options={['Plain','Cuffed','Pleated']} active="Plain" />
-          </div>
-        )}
-
-        {current.panel === 'accents' && (
-          <div className="space-y-5">
-            <div>
-              <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Lining</div>
-              <div className="mt-2 flex gap-2">
-                {['#d7c2a4','#a12c40','#b18f53','#1f3550','#24392f'].map((color) => (
-                  <span key={color} className={`h-7 w-7 rounded-sm border-2 transition ${color === current.lining ? 'scale-110 border-black' : 'border-white shadow-sm'}`} style={{ background: color }} />
-                ))}
-              </div>
+      <div ref={refEl} className="config-panel-scroll h-full overflow-y-auto px-4 pb-16 pt-14 sm:px-5">
+        <div className="transition-opacity duration-250">
+          {panel === 'fabric' && (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {demoFabrics.map((item, index) => (
+                <button
+                  type="button"
+                  key={item.name}
+                  onClick={() => applyConfig({ fabric: index })}
+                  className={`rounded-md border p-1.5 text-left transition duration-300 ${index === config.fabric ? 'border-[#a85b44] shadow-[0_0_0_2px_rgba(168,91,68,.12)]' : 'border-black/8 hover:border-black/25'}`}
+                >
+                  <div className="aspect-square rounded-sm" style={{ background: item.texture }} />
+                  <div className="mt-1 truncate text-[7px] font-semibold text-black/58 sm:text-[8px]">{item.name}</div>
+                </button>
+              ))}
             </div>
-            <div>
-              <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Monogram</div>
-              <div className="mt-2 rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold tracking-[0.18em]">{current.monogram}</div>
+          )}
+
+          {panel === 'style' && (
+            <div className="space-y-6 pb-8">
+              <OptionRow title="Lapel" options={['Notch','Peak','Shawl']} active={config.lapel} onSelect={(value) => applyConfig({ lapel: value as DemoConfiguration['lapel'] })} />
+              <OptionRow title="Construction" options={['Single','Double']} active={config.breasting} onSelect={(value) => applyConfig({ breasting: value as DemoConfiguration['breasting'] })} />
+              <OptionRow title="Pocket style" options={['Flap','Jetted','Patch']} active={config.pocket} onSelect={(value) => applyConfig({ pocket: value as DemoConfiguration['pocket'] })} />
+              <OptionRow title="Trouser finish" options={['Plain','Cuffed','Pleated']} active={config.trouser} onSelect={(value) => applyConfig({ trouser: value as DemoConfiguration['trouser'] })} />
             </div>
-            <OptionRow title="Pocket square" options={['None','White','Pattern']} active="White" />
-            <OptionRow title="Button finish" options={['Horn','Dark','Gold']} active={step % 2 ? 'Gold' : 'Horn'} />
-          </div>
-        )}
+          )}
+
+          {panel === 'finish' && (
+            <div className="space-y-6 pb-8">
+              <div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Lining</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {['#d7c2a4','#a12c40','#b18f53','#1f3550','#24392f'].map((color) => (
+                    <button
+                      type="button"
+                      aria-label={`Lining ${color}`}
+                      key={color}
+                      onClick={() => applyConfig({ lining: color })}
+                      className={`h-7 w-7 rounded-sm border-2 transition ${color === config.lining ? 'scale-110 border-black' : 'border-white shadow-sm'}`}
+                      style={{ background: color }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Monogram</div>
+                <div className="mt-2 flex items-center gap-2">
+                  {['RV','RA','MC'].map((value) => (
+                    <button
+                      type="button"
+                      key={value}
+                      onClick={() => applyConfig({ monogram: value })}
+                      className={`rounded-md border px-3 py-2 text-xs font-semibold tracking-[0.18em] ${value === config.monogram ? 'border-[#a85b44] bg-[#f5ece8]' : 'border-black/10 bg-white'}`}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <OptionRow title="Button finish" options={['Horn','Dark','Gold']} active={config.buttonFinish} onSelect={(value) => applyConfig({ buttonFinish: value as DemoConfiguration['buttonFinish'] })} />
+              <OptionRow title="Pocket square" options={['None','White','Pattern']} active="White" />
+            </div>
+          )}
+        </div>
       </div>
 
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#fafafa] to-transparent" />
       <div className="absolute bottom-3 left-4 text-[8px] font-semibold text-black/32 sm:left-5">
         Live RIVAADO configuration
       </div>
@@ -436,24 +574,65 @@ function ConfiguratorPanel({ current, fabric, step }: { current: (typeof configu
   )
 }
 
-function OptionRow({ title, options, active }: { title: string; options: readonly string[]; active: string }) {
+function OptionRow({
+  title,
+  options,
+  active,
+  onSelect,
+}: {
+  title: string
+  options: readonly string[]
+  active: string
+  onSelect?: (value: string) => void
+}) {
   return (
     <div>
       <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">{title}</div>
       <div className="mt-2 grid grid-cols-3 gap-1.5">
         {options.map((option) => (
-          <div key={option} className={`rounded-md border px-1 py-2 text-center text-[7px] font-semibold transition sm:text-[8px] ${option === active ? 'border-[#a85b44] bg-[#f5ece8] text-[#8d4634]' : 'border-black/8 bg-white text-black/48'}`}>
+          <button
+            type="button"
+            key={option}
+            onClick={() => onSelect?.(option)}
+            className={`rounded-md border px-1 py-2 text-center text-[7px] font-semibold transition sm:text-[8px] ${option === active ? 'border-[#a85b44] bg-[#f5ece8] text-[#8d4634]' : 'border-black/8 bg-white text-black/48 hover:border-black/20'}`}
+          >
             {option}
-          </div>
+          </button>
         ))}
       </div>
     </div>
   )
 }
 
-function SuitPreview({ color, accent, lapel, pocket, lining }: { color: string; accent: string; lapel: string; pocket: string; lining: string }) {
+function SuitPreview({
+  color,
+  accent,
+  lapel,
+  pocket,
+  lining,
+  breasting,
+  buttonFinish,
+  trouser,
+}: {
+  color: string
+  accent: string
+  lapel: DemoConfiguration['lapel']
+  pocket: DemoConfiguration['pocket']
+  lining: string
+  breasting: DemoConfiguration['breasting']
+  buttonFinish: DemoConfiguration['buttonFinish']
+  trouser: DemoConfiguration['trouser']
+}) {
+  const buttonColor = buttonFinish === 'Gold' ? '#b18f53' : buttonFinish === 'Dark' ? '#111' : '#55483c'
+  const lapelPath =
+    lapel === 'Peak'
+      ? 'M151 35l29 57-42 58 10-62-23-35z M209 35l-29 57 42 58-10-62 23-35z'
+      : lapel === 'Shawl'
+        ? 'M151 35c5 45 11 78 29 109 18-31 24-64 29-109l25 21c-10 66-25 104-54 132-29-28-44-66-54-132z'
+        : 'M151 35l29 57-31 45-7-49-17-35z M209 35l-29 57 31 45 7-49 17-35z'
+
   return (
-    <svg viewBox="0 0 360 440" className="h-[76%] w-[82%] drop-shadow-[0_18px_18px_rgba(0,0,0,.12)]" aria-label="Custom suit preview">
+    <svg viewBox="0 0 360 470" className="h-[78%] w-[84%] drop-shadow-[0_18px_18px_rgba(0,0,0,.12)]" aria-label="Custom RIVAADO suit preview">
       <defs>
         <linearGradient id="suitFabric" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor={accent} />
@@ -461,16 +640,36 @@ function SuitPreview({ color, accent, lapel, pocket, lining }: { color: string; 
           <stop offset="100%" stopColor={accent} />
         </linearGradient>
       </defs>
+
       <path d="M113 52L151 34h58l38 18 54 45-27 91-34-24v236H120V164l-34 24-27-91z" fill="url(#suitFabric)" />
       <path d="M151 35l29 57 29-57 25 21-54 111-54-111z" fill={lining} opacity=".92" />
-      <path d={lapel === 'Peak' ? 'M151 35l29 57-42 58 10-62-23-35z M209 35l-29 57 42 58-10-62 23-35z' : 'M151 35l29 57-31 45-7-49-17-35z M209 35l-29 57 31 45 7-49 17-35z'} fill={accent} opacity=".95" />
+      <path d={lapelPath} fill={accent} opacity=".96" />
+
       <line x1="180" y1="94" x2="180" y2="398" stroke="rgba(255,255,255,.24)" strokeWidth="2" />
-      <circle cx="180" cy="188" r="5" fill="#d9d7d2" />
-      <circle cx="180" cy="232" r="5" fill="#d9d7d2" />
+
+      {breasting === 'Double' ? (
+        <>
+          <circle cx="165" cy="184" r="5" fill={buttonColor} />
+          <circle cx="195" cy="184" r="5" fill={buttonColor} />
+          <circle cx="165" cy="226" r="5" fill={buttonColor} />
+          <circle cx="195" cy="226" r="5" fill={buttonColor} />
+        </>
+      ) : (
+        <>
+          <circle cx="180" cy="188" r="5" fill={buttonColor} />
+          <circle cx="180" cy="232" r="5" fill={buttonColor} />
+        </>
+      )}
+
       {pocket === 'Patch' ? (
         <>
           <rect x="130" y="247" width="38" height="40" rx="4" fill="none" stroke="rgba(255,255,255,.32)" strokeWidth="3" />
           <rect x="192" y="247" width="38" height="40" rx="4" fill="none" stroke="rgba(255,255,255,.32)" strokeWidth="3" />
+        </>
+      ) : pocket === 'Jetted' ? (
+        <>
+          <line x1="129" y1="266" x2="164" y2="266" stroke="rgba(255,255,255,.42)" strokeWidth="3" />
+          <line x1="196" y1="266" x2="231" y2="266" stroke="rgba(255,255,255,.42)" strokeWidth="3" />
         </>
       ) : (
         <>
@@ -478,8 +677,15 @@ function SuitPreview({ color, accent, lapel, pocket, lining }: { color: string; 
           <line x1="197" y1="271" x2="231" y2="263" stroke="rgba(255,255,255,.32)" strokeWidth="4" />
         </>
       )}
+
       <path d="M120 400h120l-7 18h-106z" fill={accent} opacity=".65" />
-      <path d="M145 400v29h-40v-11h22zM215 400v29h40v-11h-22z" fill={color} />
+      <path d={trouser === 'Pleated' ? 'M145 400l-4 60h-38v-12l24-30h18zM215 400l4 60h38v-12l-24-30h-18z' : 'M145 400v60h-40v-12l22-30h18zM215 400v60h40v-12l-22-30h-18z'} fill={color} />
+      {trouser === 'Cuffed' && (
+        <>
+          <rect x="105" y="449" width="40" height="9" fill={accent} />
+          <rect x="215" y="449" width="40" height="9" fill={accent} />
+        </>
+      )}
     </svg>
   )
 }
