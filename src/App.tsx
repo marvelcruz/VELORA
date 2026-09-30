@@ -884,6 +884,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
 function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
   const [activeFabric, setActiveFabric] = useState(0)
   const [modal, setModal] = useState<null | 'weave' | 'feature'>(null)
+  const [detailsOpen, setDetailsOpen] = useState(false)
 
   const fabrics = [
     { name: 'Yari', kind: 'Oxford', bg: 'linear-gradient(135deg,#171d35,#2a3154)' },
@@ -987,16 +988,16 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
           >
             <div className="absolute inset-0 bg-black/18" />
             <div className="relative flex min-h-[760px] items-end justify-center sm:min-h-[840px] lg:min-h-[1040px]">
-              <div className="w-full max-w-[1040px] bg-white px-8 py-8 shadow-[0_2px_14px_rgba(0,0,0,.08)] sm:px-10">
+              <div className={`w-full max-w-[1040px] bg-white px-8 shadow-[0_2px_14px_rgba(0,0,0,.08)] transition-all duration-300 sm:px-10 ${detailsOpen ? 'py-9' : 'py-8'}`}>
                 <div className="flex items-start justify-between gap-8">
                   <h3 className="text-[28px] font-semibold tracking-[-0.03em]">{active.name}.</h3>
                   <button
                     type="button"
-                    onClick={() => setModal('weave')}
+                    onClick={() => setDetailsOpen((current) => !current)}
                     className="text-center text-xs text-black/45"
                   >
                     <span className="mx-auto flex h-6 w-6 items-center justify-center rounded-full border border-black/35 text-sm">i</span>
-                    <span className="mt-1 block">More<br />info</span>
+                    <span className="mt-1 block">{detailsOpen ? <>Hide<br />Details</> : <>More<br />info</>}</span>
                   </button>
                 </div>
 
@@ -1018,6 +1019,36 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
                     <div className="mt-1 text-sm">Oeko Tex</div>
                   </button>
                 </div>
+
+                {detailsOpen ? (
+                  <div className="mt-9 grid gap-x-10 gap-y-3 border-t border-black/5 pt-6 text-[14px] leading-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="space-y-3">
+                      <p><span className="font-semibold">Tone:</span> Navy Blue</p>
+                      <p><span className="font-semibold">Pattern:</span> Solid</p>
+                      <button type="button" onClick={() => setModal('weave')} className="text-left">
+                        <span className="font-semibold">Weave:</span> {active.kind} <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-3">
+                      <p><span className="font-semibold">Category:</span> Essential <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                      <p><span className="font-semibold">Seasonality:</span> Winter</p>
+                      <p><span className="font-semibold">Suggested occasion:</span> Smart casual, Casual</p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <button type="button" onClick={() => setModal('feature')} className="block text-left">
+                        <span className="font-semibold">Features:</span> Oeko Tex <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                      </button>
+                      <p><span className="font-semibold">Weight:</span> 5.43 oz/yd²</p>
+                      <p><span className="font-semibold">Composition:</span> Cotton (100% Cotton)</p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <p><span className="font-semibold">Opacity:</span> Very Opaque</p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
