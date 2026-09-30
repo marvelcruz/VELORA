@@ -116,7 +116,7 @@ video {
 }
 
 .config-cursor {
-  animation: configCursorTap 1.6s ease-in-out infinite;
+  animation: configCursorTap 1.2s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -124,5 +124,28 @@ video {
   .config-cursor {
     width: 1rem;
     height: 1rem;
+  }
+}
+
+
+.config-panel-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+.config-panel-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .config-cursor {
+    animation: none;
+    transition: none;
+  }
+
+  .config-panel-scroll {
+    scroll-behavior: auto;
   }
 }
