@@ -18,7 +18,7 @@ const drawerPrimary: { label: string; key: Exclude<SectionKey, 'admin'>; externa
 
 const drawerSecondary: { label: string; key: Exclude<SectionKey, 'admin'>; accent?: boolean }[] = [
   { label: 'Digital body profile', key: 'contact', accent: true },
-  { label: 'Order samples', key: 'contact' },
+  { label: 'Order samples', key: 'samples' },
   { label: 'Blog', key: 'about' },
   { label: 'Giftcard', key: 'contact' },
   { label: 'Corporate Solutions', key: 'contact' },
@@ -54,7 +54,7 @@ const aboutMarkers = [
   ['2022', 'Rivaado Bespoke Wear arrives in Calgary.'],
 ] as const
 
-const sectionOrder: SectionKey[] = ['home', 'about', 'men', 'women', 'accessories', 'contact', 'admin']
+const sectionOrder: SectionKey[] = ['home', 'about', 'men', 'women', 'accessories', 'samples', 'contact', 'admin']
 
 function getInitialSection(): SectionKey {
   if (typeof window === 'undefined') return 'home'
@@ -125,6 +125,7 @@ export default function App() {
         <Screen active={activeSection === 'men'}><ProductShowcase section="men" catalog={catalog} /></Screen>
         <Screen active={activeSection === 'women'}><ProductShowcase section="women" catalog={catalog} /></Screen>
         <Screen active={activeSection === 'accessories'}><ProductShowcase section="accessories" catalog={catalog} /></Screen>
+        <Screen active={activeSection === 'samples'}><SamplesScreen onNavigate={go} /></Screen>
         <Screen active={activeSection === 'contact'}><ContactScreen onBack={() => go('accessories')} /></Screen>
       </div>
     </main>
@@ -698,7 +699,7 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
             </p>
             <button
               type="button"
-              onClick={() => onNavigate('contact')}
+              onClick={() => onNavigate('samples')}
               className="mt-7 rounded-full border border-black/45 px-7 py-3 text-sm font-medium"
             >
               Order samples
@@ -769,10 +770,18 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
         </div>
       </section>
 
+      <SiteFooter />
+    </>
+  )
+}
+
+function SamplesScreen({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  return (
+    <div className="h-full w-full overflow-y-auto bg-white pt-[118px] md:pt-[104px]">
       <FabricSampleSections onNavigate={onNavigate} />
       <FabricPackShowcase onNavigate={onNavigate} />
       <SiteFooter />
-    </>
+    </div>
   )
 }
 
