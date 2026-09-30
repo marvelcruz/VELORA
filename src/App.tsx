@@ -770,6 +770,7 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
       </section>
 
       <FabricSampleSections onNavigate={onNavigate} />
+      <FabricPackShowcase onNavigate={onNavigate} />
       <SiteFooter />
     </>
   )
@@ -876,6 +877,185 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
           </div>
         </div>
       </section>
+    </>
+  )
+}
+
+function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  const [activeFabric, setActiveFabric] = useState(0)
+  const [modal, setModal] = useState<null | 'weave' | 'feature'>(null)
+
+  const fabrics = [
+    { name: 'Yari', kind: 'Oxford', bg: 'linear-gradient(135deg,#171d35,#2a3154)' },
+    { name: 'Miles', kind: 'Knitted', bg: 'radial-gradient(circle at 25% 25%,#fff 0 2px,transparent 2.5px),radial-gradient(circle at 75% 75%,#fff 0 2px,transparent 2.5px),#28345f', size: '18px 18px' },
+    { name: 'Rees', kind: 'Brushed', bg: 'repeating-linear-gradient(135deg,#8fa2b7 0 3px,#607286 3px 6px)' },
+    { name: 'Ruiz', kind: 'Brushed', bg: 'linear-gradient(135deg,#6e7454,#8a8e68)' },
+    { name: 'Haris', kind: 'Poplin', bg: 'linear-gradient(135deg,#29241f,#423a35)' },
+    { name: 'Coari', kind: 'Poplin', bg: 'linear-gradient(135deg,#4e2234,#6e3148)' },
+    { name: 'Brandy', kind: 'Pinpoint', bg: 'linear-gradient(135deg,#8b1f35,#b42d46)' },
+    { name: 'Declan', kind: 'Poplin', bg: 'linear-gradient(135deg,#41558f,#6e84c9)' },
+    { name: 'Stonearby', kind: 'Double stripe', bg: 'repeating-linear-gradient(90deg,#7b8ce4 0 18px,#f7f7fb 18px 21px,#7b8ce4 21px 34px,#fff 34px 37px)' },
+    { name: 'Mueller', kind: 'Knitted', bg: 'repeating-linear-gradient(135deg,#d6d6d6 0 2px,#bdbdbd 2px 4px)' },
+    { name: 'Cupstock', kind: 'Oxford', bg: 'linear-gradient(135deg,#e7a8c7,#f0c7d9)' },
+    { name: 'Bertram', kind: 'Cotton', bg: 'linear-gradient(135deg,#eee6d8,#f7f1e9)' },
+    { name: 'Whirlwind', kind: 'Linen Blends', bg: 'repeating-linear-gradient(90deg,#e8e1d6 0 15px,#c8bdae 15px 22px,#f5f0e8 22px 32px)' },
+    { name: 'Arlice', kind: 'Floral', bg: 'radial-gradient(circle at 30% 30%,#6f816c 0 2px,transparent 3px),radial-gradient(circle at 70% 60%,#9ba795 0 2px,transparent 3px),#f2f5ef' },
+    { name: 'East Finchley', kind: 'Peach skin', bg: 'linear-gradient(135deg,#dce8f2,#f4f9fc)' },
+    { name: 'Helton', kind: 'Linen–cotton', bg: 'repeating-linear-gradient(0deg,#f7f7f3 0 2px,#e5e5de 2px 4px)' },
+  ]
+
+  const active = fabrics[activeFabric]
+
+  return (
+    <>
+      <section id="fabric-pack-detail" className="bg-[#d9b278] text-[#202124]">
+        <div className="mx-auto grid min-h-[470px] max-w-[1500px] items-center gap-8 px-6 py-14 lg:grid-cols-[1fr_.85fr] lg:px-14">
+          <div className="text-center lg:text-left lg:pl-28">
+            <h2 className="text-[clamp(3rem,5vw,5rem)] font-normal tracking-[-0.055em]">Distinctive & Trendy</h2>
+            <p className="mt-5 text-[clamp(1.4rem,2vw,2rem)]">Dress Shirts</p>
+          </div>
+          <div className="relative hidden h-full min-h-[360px] overflow-hidden lg:block">
+            <img
+              src="/looks/look-04-blue-shirt-scarf.webp"
+              alt="Distinctive and Trendy catalogue placeholder"
+              className="absolute inset-0 h-full w-full object-cover object-top mix-blend-multiply sepia"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-5 py-14 text-[#202124] sm:px-8 lg:px-10 lg:py-16">
+        <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1.4fr_.6fr] lg:items-start">
+          <div>
+            <p className="max-w-[850px] text-[15px] leading-6 text-black/78 sm:text-base">
+              A fresh take on smart casual shirting, this pack showcases unique weaves, relaxed textures, and bold shades. From breathable linens and flannels to easy-iron knits and colorful oxfords, each fabric offers a distinctive look with a modern twist—perfect for standing out at the office or off-duty events.
+            </p>
+            <p className="mt-7 text-[15px] text-black/72 sm:text-base">Click on each fabric to know more</p>
+          </div>
+
+          <div className="text-center lg:text-right">
+            <p className="text-[15px]">Catalog price inc. shipping <span className="font-semibold">$5</span></p>
+            <button
+              type="button"
+              onClick={() => onNavigate('contact')}
+              className="mt-5 rounded-full bg-[#ff7200] px-12 py-3 text-base font-medium text-white"
+            >
+              Order this catalog
+            </button>
+            <button
+              type="button"
+              onClick={() => document.getElementById('fabric-pack-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="mt-5 block w-full text-sm underline underline-offset-3 lg:text-right"
+            >
+              &lt; Go back
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f6f6f4] text-[#202124]">
+        <div className="grid lg:grid-cols-[385px_1fr]">
+          <div className="border-r border-black/6 bg-[#f7f7f6] px-5 py-6 lg:px-6">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-5">
+              {fabrics.map((fabric, index) => (
+                <button
+                  type="button"
+                  key={fabric.name}
+                  onClick={() => setActiveFabric(index)}
+                  className="text-left"
+                >
+                  <div className={`aspect-[1.35] w-full rounded-md border-2 p-[2px] ${index === activeFabric ? 'border-black/35' : 'border-transparent'}`}>
+                    <div
+                      className="h-full w-full rounded-[4px]"
+                      style={{ background: fabric.bg, backgroundSize: fabric.size || undefined }}
+                    />
+                  </div>
+                  <div className="mt-2 text-[16px] font-medium leading-none">{fabric.name}</div>
+                  <div className="mt-1 text-xs text-black/55">{fabric.kind}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div
+            className="relative min-h-[820px] overflow-hidden px-6 py-10 sm:min-h-[900px] lg:min-h-[1120px] lg:px-14 lg:py-14"
+            style={{
+              background: active.bg,
+              backgroundSize: active.size || 'auto',
+            }}
+          >
+            <div className="absolute inset-0 bg-black/18" />
+            <div className="relative flex min-h-[760px] items-end justify-center sm:min-h-[840px] lg:min-h-[1040px]">
+              <div className="w-full max-w-[1040px] bg-white px-8 py-8 shadow-[0_2px_14px_rgba(0,0,0,.08)] sm:px-10">
+                <div className="flex items-start justify-between gap-8">
+                  <h3 className="text-[28px] font-semibold tracking-[-0.03em]">{active.name}.</h3>
+                  <button
+                    type="button"
+                    onClick={() => setModal('weave')}
+                    className="text-center text-xs text-black/45"
+                  >
+                    <span className="mx-auto flex h-6 w-6 items-center justify-center rounded-full border border-black/35 text-sm">i</span>
+                    <span className="mt-1 block">More<br />info</span>
+                  </button>
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-x-14 gap-y-7">
+                  <button type="button" onClick={() => setModal('weave')} className="text-center">
+                    <div className="text-2xl">▦</div>
+                    <div className="mt-1 text-sm">{active.kind}</div>
+                  </button>
+                  <button type="button" className="text-center">
+                    <div className="text-2xl">◉</div>
+                    <div className="mt-1 text-sm">Cotton</div>
+                  </button>
+                  <button type="button" className="text-center">
+                    <div className="text-2xl">❄</div>
+                    <div className="mt-1 text-sm">Winter</div>
+                  </button>
+                  <button type="button" onClick={() => setModal('feature')} className="text-center">
+                    <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-black text-[9px] font-bold text-white">OEKO<br />TEX</div>
+                    <div className="mt-1 text-sm">Oeko Tex</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {modal && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/65 px-5">
+          <div className="relative w-full max-w-[720px] rounded-[14px] bg-white px-7 py-8 text-[#202124] shadow-2xl sm:px-10 sm:py-10">
+            <button
+              type="button"
+              onClick={() => setModal(null)}
+              aria-label="Close information"
+              className="absolute right-6 top-5 text-4xl font-light text-black/55"
+            >
+              ×
+            </button>
+
+            {modal === 'weave' ? (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Weave</h3>
+                <h4 className="mt-7 text-[24px] font-semibold">{active.kind}</h4>
+                <p className="mt-4 max-w-[620px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  {active.kind} is a woven dress-shirt fabric with a visible texture and a comfortable hand. This placeholder description mirrors the information panel shown in your reference and can be replaced later with the exact RIVAADO fabric specification.
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Features</h3>
+                <h4 className="mt-7 text-[24px] font-semibold">Oeko Tex</h4>
+                <p className="mt-4 max-w-[620px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  Independent certification placeholder indicating that textile components and production processes meet defined health and environmental requirements.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }
