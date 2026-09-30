@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Admin from './Admin'
@@ -20,6 +20,20 @@ const heroVideo = {
   poster: '/video/rivaado-hero-poster.jpg',
   mobilePoster: '/video/rivaado-hero-poster-mobile.jpg',
 }
+
+
+const homeCategories: { label: string; image: string; target: ProductKind }[] = [
+  { label: 'Custom Suits', image: '/looks/look-03-pastel-pink-suit.webp', target: 'men' },
+  { label: 'Custom Shirts', image: '/looks/look-01-leopard-shirt.webp', target: 'men' },
+  { label: 'Wool Coats', image: '/looks/look-08-leather-sleeve-coat.webp', target: 'men' },
+  { label: 'Blazers', image: '/looks/look-05-plaid-blazer.webp', target: 'men' },
+  { label: 'Tuxedos', image: '/looks/look-02-textured-tuxedo.webp', target: 'men' },
+  { label: 'Ceremonial', image: '/looks/look-10-gold-couture.webp', target: 'women' },
+  { label: 'Vests', image: '/looks/look-07-teal-shirt-vest.webp', target: 'men' },
+  { label: 'Evening Shirts', image: '/looks/look-04-blue-shirt-scarf.webp', target: 'men' },
+  { label: 'Formal Looks', image: '/looks/look-06-navy-open-suit.webp', target: 'men' },
+  { label: 'Accessories', image: '/looks/look-09-blue-scarf-shirt.webp', target: 'accessories' },
+]
 
 const aboutMarkers = [
   ['1956', 'Custom suit tailoring begins.'],
@@ -95,7 +109,7 @@ export default function App() {
     <main className="relative h-[100svh] w-full overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
       <Header activeSection={activeSection} mode={headerMode} onNavigate={go} />
       <div className="absolute inset-0">
-        <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} /></Screen>
+        <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} onNavigate={go} /></Screen>
         <Screen active={activeSection === 'about'}><AboutScreen /></Screen>
         <Screen active={activeSection === 'men'}><ProductShowcase section="men" catalog={catalog} /></Screen>
         <Screen active={activeSection === 'women'}><ProductShowcase section="women" catalog={catalog} /></Screen>
@@ -132,43 +146,109 @@ function Screen({ active, children }: { active: boolean; children: ReactNode }) 
   return <section className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden={!active}>{children}</section>
 }
 
-function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () => void }) {
+function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; onExplore: () => void; onNavigate: (section: SectionKey) => void }) {
   const src = isMobile ? heroVideo.mobile : heroVideo.desktop
   const poster = isMobile ? heroVideo.mobilePoster : heroVideo.poster
+  const categoryRail = useRef<HTMLDivElement>(null)
+
+  const moveCategories = (direction: -1 | 1) => {
+    const rail = categoryRail.current
+    if (!rail) return
+    const card = rail.querySelector<HTMLElement>('[data-category-card]')
+    const step = (card?.offsetWidth || rail.clientWidth * 0.72) + 16
+    rail.scrollBy({ left: step * direction, behavior: 'smooth' })
+  }
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-black text-white">
-      <video
-        key={src}
-        className="absolute inset-0 h-full w-full object-cover"
-        src={src}
-        poster={poster}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(0,0,0,0.02)_42%,rgba(0,0,0,0.64))]" />
+    <div className="h-full w-full overflow-y-auto bg-white text-black">
+      <section className="relative h-[100svh] min-h-[620px] w-full overflow-hidden bg-black text-white">
+        <video
+          key={src}
+          className="absolute inset-0 h-full w-full object-cover"
+          src={src}
+          poster={poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(0,0,0,0.02)_42%,rgba(0,0,0,0.64))]" />
 
-      <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-8 sm:px-10 sm:pb-11 lg:px-14 lg:pb-12">
-        <div className="max-w-4xl">
-          <h1 className="hero-copy-title text-[clamp(2.9rem,7vw,6.8rem)] font-normal leading-[0.94] tracking-[-0.045em] text-white">
-            Dress the real you
-          </h1>
-          <p className="hero-copy-subtitle mt-4 max-w-3xl text-sm font-medium leading-6 text-white/92 sm:text-lg sm:leading-7 lg:text-xl">
-            Clothes made to fit you, not the other way around
-          </p>
+        <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-8 sm:px-10 sm:pb-11 lg:px-14 lg:pb-12">
+          <div className="max-w-4xl">
+            <h1 className="hero-copy-title text-[clamp(2.9rem,7vw,6.8rem)] font-normal leading-[0.94] tracking-[-0.045em] text-white">
+              Dress the real you
+            </h1>
+            <p className="hero-copy-subtitle mt-4 max-w-3xl text-sm font-medium leading-6 text-white/92 sm:text-lg sm:leading-7 lg:text-xl">
+              Clothes made to fit you, not the other way around
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onExplore}
+            className="hero-copy-cta mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/60 bg-black/10 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
+          >
+            Explore showcase <ArrowRight size={16} strokeWidth={2.25} />
+          </button>
+        </div>
+      </section>
+
+      <section className="relative bg-white px-0 py-14 text-black sm:py-16 lg:py-20">
+        <div className="px-5 sm:px-10 lg:px-10">
+          <h2 className="text-[clamp(2rem,3vw,3.4rem)] font-normal tracking-[-0.04em] text-black">
+            Bespoke from head to toe
+          </h2>
         </div>
 
-        <button
-          type="button"
-          onClick={onExplore}
-          className="hero-copy-cta mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/60 bg-black/10 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
-        >
-          Explore showcase <ArrowRight size={16} strokeWidth={2.25} />
-        </button>
-      </div>
+        <div className="relative mt-8 sm:mt-9">
+          <button
+            type="button"
+            onClick={() => moveCategories(-1)}
+            aria-label="Previous categories"
+            className="absolute left-3 top-[45%] z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/22 text-white backdrop-blur-sm transition hover:bg-black/36 sm:left-5"
+          >
+            <ArrowLeft size={30} strokeWidth={1.8} />
+          </button>
+
+          <div
+            ref={categoryRail}
+            className="category-rail flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:gap-4 sm:px-10"
+          >
+            {homeCategories.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                data-category-card
+                onClick={() => onNavigate(item.target)}
+                className="group w-[78vw] max-w-[360px] shrink-0 snap-start text-left sm:w-[36vw] sm:max-w-[380px] lg:w-[23.5vw] lg:max-w-[410px]"
+              >
+                <div className="aspect-[0.78] w-full overflow-hidden bg-[#ececec]">
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="pt-3 text-[1rem] font-medium tracking-[-0.02em] text-black sm:text-[1.08rem]">
+                  {item.label}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => moveCategories(1)}
+            aria-label="Next categories"
+            className="absolute right-3 top-[45%] z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/22 text-white backdrop-blur-sm transition hover:bg-black/36 sm:right-5"
+          >
+            <ArrowRight size={30} strokeWidth={1.8} />
+          </button>
+        </div>
+      </section>
     </div>
   )
 }
