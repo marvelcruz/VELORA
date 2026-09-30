@@ -883,7 +883,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
 
 function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
   const [activeFabric, setActiveFabric] = useState(0)
-  const [modal, setModal] = useState<null | 'weave' | 'feature'>(null)
+  const [modal, setModal] = useState<null | 'weave' | 'feature' | 'wrinkle' | 'stretch' | 'antiPilling' | 'yarn'>(null)
   const [detailsOpen, setDetailsOpen] = useState(false)
 
   const fabrics = [
@@ -963,7 +963,11 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
                 <button
                   type="button"
                   key={fabric.name}
-                  onClick={() => setActiveFabric(index)}
+                  onClick={() => {
+                    setActiveFabric(index)
+                    setDetailsOpen(false)
+                    setModal(null)
+                  }}
                   className="text-left"
                 >
                   <div className={`aspect-[1.35] w-full rounded-md border-2 p-[2px] ${index === activeFabric ? 'border-black/35' : 'border-transparent'}`}>
@@ -1001,53 +1005,117 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
                   </button>
                 </div>
 
-                <div className="mt-8 flex flex-wrap gap-x-14 gap-y-7">
-                  <button type="button" onClick={() => setModal('weave')} className="text-center">
-                    <div className="text-2xl">▦</div>
-                    <div className="mt-1 text-sm">{active.kind}</div>
-                  </button>
-                  <button type="button" className="text-center">
-                    <div className="text-2xl">◉</div>
-                    <div className="mt-1 text-sm">Cotton</div>
-                  </button>
-                  <button type="button" className="text-center">
-                    <div className="text-2xl">❄</div>
-                    <div className="mt-1 text-sm">Winter</div>
-                  </button>
-                  <button type="button" onClick={() => setModal('feature')} className="text-center">
-                    <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-black text-[9px] font-bold text-white">OEKO<br />TEX</div>
-                    <div className="mt-1 text-sm">Oeko Tex</div>
-                  </button>
-                </div>
+                {active.name === 'Miles' ? (
+                  <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-3 lg:grid-cols-6">
+                    <button type="button" onClick={() => setModal('weave')} className="text-center">
+                      <div className="text-3xl">≋</div>
+                      <div className="mt-1 text-sm">Knitted</div>
+                      <div className="text-[11px] text-black/45">more info</div>
+                    </button>
+                    <button type="button" onClick={() => setModal('wrinkle')} className="text-center">
+                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-black text-xl">≈</div>
+                      <div className="mt-1 text-sm">Wrinkle free</div>
+                    </button>
+                    <button type="button" onClick={() => setModal('stretch')} className="text-center">
+                      <div className="text-3xl">↔</div>
+                      <div className="mt-1 text-sm">Comfort stretch</div>
+                    </button>
+                    <button type="button" onClick={() => setModal('antiPilling')} className="text-center">
+                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-black text-xl">⌁</div>
+                      <div className="mt-1 text-sm">Anti-pilling</div>
+                    </button>
+                    <button type="button" onClick={() => setModal('yarn')} className="text-center">
+                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-black text-xl">◒</div>
+                      <div className="mt-1 text-sm">2 Ply</div>
+                    </button>
+                    <button type="button" className="text-center">
+                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-black text-xl">◉</div>
+                      <div className="mt-1 text-sm">Cotton</div>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-8 flex flex-wrap gap-x-14 gap-y-7">
+                    <button type="button" onClick={() => setModal('weave')} className="text-center">
+                      <div className="text-2xl">▦</div>
+                      <div className="mt-1 text-sm">{active.kind}</div>
+                    </button>
+                    <button type="button" className="text-center">
+                      <div className="text-2xl">◉</div>
+                      <div className="mt-1 text-sm">Cotton</div>
+                    </button>
+                    <button type="button" className="text-center">
+                      <div className="text-2xl">❄</div>
+                      <div className="mt-1 text-sm">Winter</div>
+                    </button>
+                    <button type="button" onClick={() => setModal('feature')} className="text-center">
+                      <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-black text-[9px] font-bold text-white">OEKO<br />TEX</div>
+                      <div className="mt-1 text-sm">Oeko Tex</div>
+                    </button>
+                  </div>
+                )}
 
                 {detailsOpen ? (
-                  <div className="mt-9 grid gap-x-10 gap-y-3 border-t border-black/5 pt-6 text-[14px] leading-5 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="space-y-3">
-                      <p><span className="font-semibold">Tone:</span> Navy Blue</p>
-                      <p><span className="font-semibold">Pattern:</span> Solid</p>
-                      <button type="button" onClick={() => setModal('weave')} className="text-left">
-                        <span className="font-semibold">Weave:</span> {active.kind} <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
-                      </button>
-                    </div>
+                  active.name === 'Miles' ? (
+                    <div className="mt-9 grid gap-x-10 gap-y-4 border-t border-black/5 pt-6 text-[14px] leading-5 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Tone:</span> Deep blue</p>
+                        <p><span className="font-semibold">Pattern:</span> Micropattern</p>
+                        <button type="button" onClick={() => setModal('weave')} className="block text-left">
+                          <span className="font-semibold">Weave:</span> Knitted <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                        </button>
+                        <p><span className="font-semibold">Brand:</span> Tessuti Aldèri <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                      </div>
 
-                    <div className="space-y-3">
-                      <p><span className="font-semibold">Category:</span> Essential <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
-                      <p><span className="font-semibold">Seasonality:</span> Winter</p>
-                      <p><span className="font-semibold">Suggested occasion:</span> Smart casual, Casual</p>
-                    </div>
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Category:</span> Premium <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                        <p><span className="font-semibold">Seasonality:</span> Year round</p>
+                        <p><span className="font-semibold">Suggested occasion:</span> Casual</p>
+                        <button type="button" onClick={() => setModal('stretch')} className="block text-left">
+                          <span className="font-semibold">Stretch:</span> Comfort stretch <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                        </button>
+                      </div>
 
-                    <div className="space-y-3">
-                      <button type="button" onClick={() => setModal('feature')} className="block text-left">
-                        <span className="font-semibold">Features:</span> Oeko Tex <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
-                      </button>
-                      <p><span className="font-semibold">Weight:</span> 5.43 oz/yd²</p>
-                      <p><span className="font-semibold">Composition:</span> Cotton (100% Cotton)</p>
-                    </div>
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Features:</span> Wrinkle free, Anti-pilling, Print <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                        <p><span className="font-semibold">Weight:</span> 3.98 oz/yd²</p>
+                        <p><span className="font-semibold">Composition:</span> Cotton (100% Cotton)</p>
+                      </div>
 
-                    <div className="space-y-3">
-                      <p><span className="font-semibold">Opacity:</span> Very Opaque</p>
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Thread count:</span> 80s <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                        <button type="button" onClick={() => setModal('yarn')} className="block text-left">
+                          <span className="font-semibold">Yarn:</span> 2 Ply <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                        </button>
+                        <p><span className="font-semibold">Finish:</span> Matte</p>
+                        <p><span className="font-semibold">Opacity:</span> Very Opaque</p>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="mt-9 grid gap-x-10 gap-y-3 border-t border-black/5 pt-6 text-[14px] leading-5 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Tone:</span> Navy Blue</p>
+                        <p><span className="font-semibold">Pattern:</span> Solid</p>
+                        <button type="button" onClick={() => setModal('weave')} className="text-left">
+                          <span className="font-semibold">Weave:</span> {active.kind} <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                        </button>
+                      </div>
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Category:</span> Essential <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span></p>
+                        <p><span className="font-semibold">Seasonality:</span> Winter</p>
+                        <p><span className="font-semibold">Suggested occasion:</span> Smart casual, Casual</p>
+                      </div>
+                      <div className="space-y-3">
+                        <button type="button" onClick={() => setModal('feature')} className="block text-left">
+                          <span className="font-semibold">Features:</span> Oeko Tex <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-[10px] text-white">i</span>
+                        </button>
+                        <p><span className="font-semibold">Weight:</span> 5.43 oz/yd²</p>
+                        <p><span className="font-semibold">Composition:</span> Cotton (100% Cotton)</p>
+                      </div>
+                      <div className="space-y-3">
+                        <p><span className="font-semibold">Opacity:</span> Very Opaque</p>
+                      </div>
+                    </div>
+                  )
                 ) : null}
               </div>
             </div>
@@ -1071,15 +1139,52 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
               <>
                 <h3 className="text-[28px] font-medium tracking-[-0.03em]">Weave</h3>
                 <h4 className="mt-7 text-[24px] font-semibold">{active.kind}</h4>
-                <p className="mt-4 max-w-[620px] text-sm leading-6 text-black/72 sm:text-[15px]">
-                  {active.kind} is a woven dress-shirt fabric with a visible texture and a comfortable hand. This placeholder description mirrors the information panel shown in your reference and can be replaced later with the exact RIVAADO fabric specification.
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  {active.name === 'Miles'
+                    ? 'Knit fabrics are created by interlacing yarn loops, making them stretchy and comfortable. They adapt to the body, are light, breathable, and often look more casual — combining comfort and style.'
+                    : active.kind + ' is a woven dress-shirt fabric with a visible texture and a comfortable hand. This placeholder description can be replaced later with the final RIVAADO fabric specification.'}
+                </p>
+              </>
+            ) : modal === 'wrinkle' ? (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Features</h3>
+                <h4 className="mt-7 text-[24px] font-semibold">Wrinkle free</h4>
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  The “wrinkle-free” property of a fabric helps the garment maintain a smooth and neat appearance throughout the day, minimizing creases and wrinkles that typically form from sitting, bending, or other everyday movements.
+                </p>
+              </>
+            ) : modal === 'stretch' ? (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Stretch</h3>
+                <h4 className="mt-7 text-[24px] font-semibold">Comfort stretch</h4>
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  Comfort stretch fabrics are designed for daily ease and convenience. They possess a moderate level of stretch, ensuring you stay comfortable without compromising the garment’s shape. It is a relaxed yet neat fit that adapts gently to the body’s movements.
+                </p>
+              </>
+            ) : modal === 'antiPilling' ? (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Features</h3>
+                <h4 className="mt-7 text-[24px] font-semibold">Anti-pilling</h4>
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  Anti-pilling refers to resistance against the formation of small balls of fiber caused by friction and wear. Treatments help preserve the fabric’s smooth appearance and extend its useful lifespan.
+                </p>
+              </>
+            ) : modal === 'yarn' ? (
+              <>
+                <h3 className="text-[28px] font-medium tracking-[-0.03em]">Yarn</h3>
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  Thread ply refers to the number of individual yarns twisted together to make a single thread. This can influence the fabric’s durability, feel and appearance.
+                </p>
+                <h4 className="mt-8 text-[24px] font-semibold">2 Ply</h4>
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                  Double-ply, or 2-ply yarn, means that two threads are twisted together to create a single thread. Fabrics made with 2-ply yarns are generally more durable, smoother, and slightly heavier than single-ply fabrics, giving the cloth a richer drape and texture.
                 </p>
               </>
             ) : (
               <>
                 <h3 className="text-[28px] font-medium tracking-[-0.03em]">Features</h3>
                 <h4 className="mt-7 text-[24px] font-semibold">Oeko Tex</h4>
-                <p className="mt-4 max-w-[620px] text-sm leading-6 text-black/72 sm:text-[15px]">
+                <p className="mt-4 max-w-[650px] text-sm leading-6 text-black/72 sm:text-[15px]">
                   Independent certification placeholder indicating that textile components and production processes meet defined health and environmental requirements.
                 </p>
               </>
