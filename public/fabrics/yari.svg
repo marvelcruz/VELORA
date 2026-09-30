@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <pattern id="w" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#142752"/>
+    <path d="M0 1H8M0 5H8" stroke="#2d4f86" stroke-width="1" opacity=".7"/>
+    <path d="M1 0V8M5 0V8" stroke="#0b1d43" stroke-width="1" opacity=".9"/>
+    <rect x="1" y="1" width="2" height="2" fill="#496ba0" opacity=".45"/>
+    <rect x="5" y="5" width="2" height="2" fill="#071938" opacity=".6"/>
+  </pattern>
+  <filter id="t"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="2" seed="11" result="n"/><feBlend in="SourceGraphic" in2="n" mode="soft-light"/></filter>
+</defs>
+<rect width="1024" height="1024" fill="url(#w)" filter="url(#t)"/>
+</svg>
