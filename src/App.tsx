@@ -814,7 +814,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
         </div>
       </section>
 
-      <section className="bg-white px-5 py-16 text-[#202124] sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+      <section id="fabric-catalog-list" className="bg-white px-5 py-16 text-[#202124] sm:px-8 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-[960px]">
           <p className="max-w-[760px] text-[15px] leading-6 text-black/78 sm:text-base">
             Request your fabric samples. Choose the catalogs that best fit your needs and we will send them to your home for you to choose from.
@@ -828,7 +828,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
               <button
                 type="button"
                 key={catalog.title + catalog.subtitle}
-                onClick={() => onNavigate('contact')}
+                onClick={() => document.getElementById('fabric-catalog-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 className="text-center"
               >
                 <div className="aspect-[0.82] overflow-hidden bg-[#d9b071]">
@@ -968,7 +968,7 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
                   <div className={`aspect-[1.35] w-full rounded-md border-2 p-[2px] ${index === activeFabric ? 'border-black/35' : 'border-transparent'}`}>
                     <div
                       className="h-full w-full rounded-[4px]"
-                      style={{ background: fabric.bg, backgroundSize: fabric.size || undefined }}
+                      style={{ background: fabric.bg, backgroundSize: 'size' in fabric ? fabric.size : undefined }}
                     />
                   </div>
                   <div className="mt-2 text-[16px] font-medium leading-none">{fabric.name}</div>
@@ -982,7 +982,7 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
             className="relative min-h-[820px] overflow-hidden px-6 py-10 sm:min-h-[900px] lg:min-h-[1120px] lg:px-14 lg:py-14"
             style={{
               background: active.bg,
-              backgroundSize: active.size || 'auto',
+              backgroundSize: 'size' in active ? active.size : 'auto',
             }}
           >
             <div className="absolute inset-0 bg-black/18" />
