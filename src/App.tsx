@@ -135,17 +135,39 @@ function Screen({ active, children }: { active: boolean; children: ReactNode }) 
 function HomeScreen({ isMobile, onExplore }: { isMobile: boolean; onExplore: () => void }) {
   const src = isMobile ? heroVideo.mobile : heroVideo.desktop
   const poster = isMobile ? heroVideo.mobilePoster : heroVideo.poster
+
   return (
     <div className="relative h-full w-full overflow-hidden bg-black text-white">
-      <video key={src} className="absolute inset-0 h-full w-full object-cover" src={src} poster={poster} autoPlay muted loop playsInline preload="auto" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.52),rgba(0,0,0,0.05)_44%,rgba(0,0,0,0.88))]" />
-      <div className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-8 sm:px-10 sm:pb-12">
-        <p className="mb-3 text-xs font-black uppercase tracking-[0.32em] text-white/70">Bespoke tailoring house</p>
-        <h1 className="max-w-5xl uppercase leading-[0.82] tracking-[-0.06em] text-white" style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(4.5rem, 14vw, 13rem)' }}>Rivaado</h1>
-        <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <p className="max-w-xl text-sm leading-6 text-white/75 sm:text-base sm:leading-7">A cinematic bespoke experience for men and women — tailoring, couture, accessories and made-to-measure presence.</p>
-          <button type="button" onClick={onExplore} className="inline-flex w-fit items-center gap-2 rounded-full border border-white/60 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-white hover:text-black">Explore showcase <ArrowRight size={16} strokeWidth={2.25} /></button>
+      <video
+        key={src}
+        className="absolute inset-0 h-full w-full object-cover"
+        src={src}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(0,0,0,0.02)_42%,rgba(0,0,0,0.64))]" />
+
+      <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-8 sm:px-10 sm:pb-11 lg:px-14 lg:pb-12">
+        <div className="max-w-4xl">
+          <h1 className="hero-copy-title text-[clamp(2.9rem,7vw,6.8rem)] font-normal leading-[0.94] tracking-[-0.045em] text-white">
+            Dress the real you
+          </h1>
+          <p className="hero-copy-subtitle mt-4 max-w-3xl text-sm font-medium leading-6 text-white/92 sm:text-lg sm:leading-7 lg:text-xl">
+            Clothes made to fit you, not the other way around
+          </p>
         </div>
+
+        <button
+          type="button"
+          onClick={onExplore}
+          className="hero-copy-cta mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/60 bg-black/10 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
+        >
+          Explore showcase <ArrowRight size={16} strokeWidth={2.25} />
+        </button>
       </div>
     </div>
   )
