@@ -210,51 +210,92 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
             className="fixed inset-0 z-[70] hidden bg-black/46 md:block"
           />
 
-          <aside className="fixed inset-y-0 left-0 z-[90] hidden w-[330px] flex-col bg-white text-[#202624] shadow-[16px_0_40px_rgba(0,0,0,.08)] md:flex">
-            <div className="flex h-[96px] items-center px-8">
-              <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                aria-label="Close menu"
-                className="flex h-10 w-10 items-center justify-start"
-              >
-                <X size={28} strokeWidth={1.3} />
-              </button>
+          <aside className="fixed inset-y-0 left-0 z-[90] hidden w-[700px] bg-white text-[#202624] shadow-[16px_0_40px_rgba(0,0,0,.08)] md:flex">
+            <div className="flex w-[350px] shrink-0 flex-col border-r border-black/8 bg-white">
+              <div className="flex h-[96px] items-center px-9">
+                <button
+                  type="button"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Close menu"
+                  className="flex h-10 w-10 items-center justify-start"
+                >
+                  <X size={28} strokeWidth={1.3} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-10 pb-7">
+                <nav aria-label="Main menu" className="space-y-[26px]">
+                  {drawerPrimary.map((item) => (
+                    <button
+                      type="button"
+                      key={item.label}
+                      onClick={() => navigateFromMenu(item.key)}
+                      className={`block text-left text-[21px] font-normal leading-none tracking-[-0.025em] transition-colors hover:text-[#202624] ${
+                        item.label === 'Highlights'
+                          ? 'font-medium text-[#202624]'
+                          : item.label === 'Women'
+                            ? 'text-[#c39a43]'
+                            : 'text-[#9b9f9d]'
+                      }`}
+                    >
+                      {item.label}{item.external ? <span className="ml-1 align-top text-[13px]">↗</span> : null}
+                    </button>
+                  ))}
+                </nav>
+
+                <nav aria-label="Secondary menu" className="mt-[52px] space-y-[20px]">
+                  {drawerSecondary.map((item) => (
+                    <button
+                      type="button"
+                      key={item.label}
+                      onClick={() => navigateFromMenu(item.key)}
+                      className={`block text-left text-[14px] leading-none tracking-[-0.015em] ${item.accent ? 'font-semibold text-[#bd7a24]' : 'font-normal text-[#9b9f9d]'}`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+
+                <div className="mt-9 flex items-center gap-[17px] text-[#202624]">
+                  <Instagram size={18} strokeWidth={1.8} />
+                  <Facebook size={18} strokeWidth={1.8} />
+                  <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[10px] font-semibold">X</span>
+                  <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">P</span>
+                  <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">♪</span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-9 pb-7">
-              <nav aria-label="Main menu" className="space-y-[24px]">
-                {drawerPrimary.map((item) => (
+            <div className="flex w-[350px] shrink-0 flex-col bg-[#f7f5ef]">
+              <div className="px-6 pb-3 pt-[118px]">
+                <h2 className="text-[21px] font-medium tracking-[-0.03em]">Shop by Looks</h2>
+              </div>
+
+              <div className="category-rail flex-1 overflow-y-auto px-6 pb-8">
+                {[
+                  { label: 'Made to Keep', image: '/looks/look-06-navy-open-suit.webp', badge: 'new' },
+                  { label: 'Travel line', image: '/looks/look-04-blue-shirt-scarf.webp' },
+                  { label: 'Outfit Ideas', image: '/looks/look-05-plaid-blazer.webp', active: true },
+                  { label: 'Wedding Collection 2026', image: '/looks/look-02-textured-tuxedo.webp' },
+                  { label: 'Pitti Uomo', image: '/looks/look-08-leather-sleeve-coat.webp' },
+                ].map((look) => (
                   <button
                     type="button"
-                    key={item.label}
-                    onClick={() => navigateFromMenu(item.key)}
-                    className={`block text-left text-[20px] font-normal leading-none tracking-[-0.025em] transition-opacity hover:opacity-55 ${activeSection === item.key ? 'opacity-100' : ''}`}
+                    key={look.label}
+                    onClick={() => navigateFromMenu('men')}
+                    className="mb-8 block w-full text-left"
                   >
-                    {item.label}{item.external ? <span className="ml-1 align-top text-[13px]">↗</span> : null}
+                    <div className="aspect-[1.85] w-full overflow-hidden bg-[#ebe8df]">
+                      <img src={look.image} alt="" className="h-full w-full object-cover object-top" />
+                    </div>
+                    <div className={`mt-2 flex items-center gap-2 text-[16px] tracking-[-0.025em] ${look.active ? 'text-[#c49a42]' : 'text-[#202624]'}`}>
+                      <span>{look.label}</span>
+                      {'badge' in look && look.badge ? (
+                        <span className="rounded-full bg-[#c65b43] px-2 py-[2px] text-[9px] font-semibold text-white">{look.badge}</span>
+                      ) : null}
+                    </div>
                   </button>
                 ))}
-              </nav>
-
-              <nav aria-label="Secondary menu" className="mt-[50px] space-y-[20px]">
-                {drawerSecondary.map((item) => (
-                  <button
-                    type="button"
-                    key={item.label}
-                    onClick={() => navigateFromMenu(item.key)}
-                    className={`block text-left text-[14px] leading-none tracking-[-0.015em] ${item.accent ? 'font-semibold text-[#bd7a24]' : 'font-normal text-[#202624]'}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </nav>
-
-              <div className="mt-9 flex items-center gap-[17px] text-[#202624]">
-                <Instagram size={18} strokeWidth={1.8} />
-                <Facebook size={18} strokeWidth={1.8} />
-                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[10px] font-semibold">X</span>
-                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">P</span>
-                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">♪</span>
               </div>
             </div>
           </aside>
