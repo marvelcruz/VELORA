@@ -769,8 +769,122 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
         </div>
       </section>
 
-      <footer className="border-t border-black/5 bg-[#f7f7f5] px-5 py-14 text-[#202124] sm:px-8 lg:px-10">
-        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[1.65fr_.6fr_.6fr_.6fr_.6fr]">
+      <FabricSampleSections onNavigate={onNavigate} />
+      <SiteFooter />
+    </>
+  )
+}
+
+function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  const catalogs = [
+    { title: 'Distinctive & Trendy', subtitle: 'Dress Shirts', image: '/looks/look-01-leopard-shirt.webp' },
+    { title: 'Essentials & Top Sales', subtitle: 'Suits, Jackets & Trousers', image: '/looks/look-06-navy-open-suit.webp' },
+    { title: 'Rustic & Winter Styles', subtitle: 'Suits, Jackets & Trousers', image: '/looks/look-08-leather-sleeve-coat.webp' },
+    { title: 'Spring summer specials', subtitle: 'Suits, Jackets & Trousers', image: '/looks/look-03-pastel-pink-suit.webp' },
+    { title: 'Party & Celebration', subtitle: 'Suits, Jackets & Trousers', image: '/looks/look-02-textured-tuxedo.webp' },
+    { title: 'Essentials & Top Sales', subtitle: 'Dress Shirts', image: '/looks/look-04-blue-shirt-scarf.webp' },
+    { title: 'Lightweight Layers', subtitle: 'Trench & Field Jacket', image: '/looks/look-07-teal-shirt-vest.webp' },
+  ]
+
+  const faqs = [
+    'I can’t find the fabric I want in the catalogs',
+    'How long it takes for samples to arrive?',
+    'Why samples are not free?',
+    'Can I order all catalogs at once?',
+  ]
+
+  return (
+    <>
+      <section className="relative isolate min-h-[420px] overflow-hidden bg-[#142338] text-white sm:min-h-[460px]">
+        <img
+          src="/looks/look-05-plaid-blazer.webp"
+          alt="Fabric sample catalogues placeholder"
+          className="absolute inset-0 -z-20 h-full w-full scale-[1.35] object-cover object-center blur-[1px]"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 -z-10 bg-[#0d1420]/58" />
+        <div className="mx-auto flex min-h-[420px] max-w-[1500px] flex-col items-center justify-center px-6 py-20 text-center sm:min-h-[460px]">
+          <h2 className="text-[clamp(2.8rem,4.3vw,4.8rem)] font-normal tracking-[-0.055em]">
+            Fabric sample catalogues
+          </h2>
+          <p className="mt-8 max-w-[420px] text-lg leading-7 text-white/90 sm:text-[21px]">
+            Fabric selection available in catalogs, ready to order online.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-white px-5 py-16 text-[#202124] sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[960px]">
+          <p className="max-w-[760px] text-[15px] leading-6 text-black/78 sm:text-base">
+            Request your fabric samples. Choose the catalogs that best fit your needs and we will send them to your home for you to choose from.
+          </p>
+          <p className="mt-7 text-[15px] leading-6 text-black/78 sm:text-base">
+            Click on each of them to find out which tissues are contained in them
+          </p>
+
+          <div className="mt-14 grid gap-x-9 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+            {catalogs.map((catalog) => (
+              <button
+                type="button"
+                key={catalog.title + catalog.subtitle}
+                onClick={() => onNavigate('contact')}
+                className="text-center"
+              >
+                <div className="aspect-[0.82] overflow-hidden bg-[#d9b071]">
+                  <img
+                    src={catalog.image}
+                    alt=""
+                    className="h-full w-full object-cover object-top mix-blend-multiply sepia"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="mt-3 text-[16px] font-medium tracking-[-0.025em]">{catalog.title}</h3>
+                <p className="mt-1 text-[13px] text-black/65">{catalog.subtitle}</p>
+                <p className="mt-1 text-[13px] font-medium">16 Samples – $5</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f3f1ec] px-5 py-16 text-[#202124] sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+          <div>
+            <h2 className="text-[clamp(2.2rem,3vw,3.2rem)] font-normal tracking-[-0.045em]">
+              About our samples catalogs
+            </h2>
+            <p className="mt-7 max-w-[660px] text-[15px] leading-6 text-black/76 sm:text-base">
+              Recently we changed the way we offer fabric samples to our customers. We took this decision in order to offer a better service, more reliable. Now we ship our catalogs from different parts of the world so they can reach you faster.
+            </p>
+            <p className="mt-7 max-w-[660px] text-[15px] leading-6 text-black/76 sm:text-base">
+              We will update our catalogs every quarter so you can have our best new arrivals
+            </p>
+          </div>
+
+          <div className="border-t border-black/10">
+            {faqs.map((faq) => (
+              <details key={faq} className="group border-b border-black/10">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-[15px] font-semibold">
+                  <span>{faq}</span>
+                  <span className="text-2xl font-light transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="pb-6 pr-10 text-sm leading-6 text-black/62">
+                  Placeholder answer for RIVAADO. We can replace this with the final ordering, shipping and fabric-sample details.
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+function SiteFooter() {
+  return (
+    <footer className="bg-white text-[#202124]">
+      <div className="px-5 py-14 sm:px-8 lg:px-10 lg:py-16">
+        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[1.75fr_.62fr_.62fr_.62fr_.62fr]">
           <div className="max-w-[430px]">
             <h3 className="text-sm font-semibold">Subscribe To Our Newsletter To Get Updates</h3>
             <div className="mt-7 flex border-b border-black/55 pb-3">
@@ -785,13 +899,60 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
           <FooterColumn title="Support" items={['Contact us','Order fabric samples','Track order','FAQs']} />
         </div>
 
-        <div className="mx-auto mt-14 flex max-w-[1500px] flex-wrap justify-between gap-8 border-t border-black/8 pt-8 text-sm text-black/58">
-          <span>Payment Methods</span>
-          <span>Shipping Partners</span>
-          <span>© RIVAADO</span>
+        <div className="mx-auto mt-14 grid max-w-[1500px] gap-10 lg:grid-cols-[1.75fr_1fr_1fr]">
+          <div className="hidden lg:block" />
+
+          <div>
+            <h3 className="text-sm font-semibold">Payment Methods</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['VISA','MC','Pay','AMEX','Klarna.'].map((method) => (
+                <span key={method} className="flex h-10 min-w-[58px] items-center justify-center border border-black/10 bg-white px-2 text-xs font-bold shadow-sm">
+                  {method}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold">Shipping Partners</h3>
+            <div className="mt-4 flex gap-3">
+              <span className="flex h-10 min-w-[72px] items-center justify-center bg-[#f4c400] px-3 text-xs font-black italic">DHL</span>
+              <span className="flex h-10 min-w-[72px] items-center justify-center bg-[#4d2584] px-3 text-xs font-black text-white">FedEx</span>
+            </div>
+          </div>
         </div>
-      </footer>
-    </>
+
+        <div className="mx-auto mt-10 grid max-w-[1500px] gap-8 lg:grid-cols-[1.75fr_2fr]">
+          <div className="flex items-end">
+            <div className="flex items-center gap-[18px] text-[#202624]">
+              <Instagram size={19} strokeWidth={1.8} />
+              <Facebook size={19} strokeWidth={1.8} />
+              <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[10px] font-semibold">X</span>
+              <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">P</span>
+              <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">♪</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold">Other Highlights</h3>
+            <div className="mt-4 flex h-[150px] w-[90px] flex-col items-center justify-center border border-[#7c5d96] bg-[#eee9f3] text-center text-[9px] font-semibold text-[#54346d]">
+              <div className="text-[11px]">DIGITAL</div>
+              <div>COMMERCE</div>
+              <div>AWARD</div>
+              <div className="mt-2 text-[13px]">Winner</div>
+              <div>2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-black/6 bg-[#f3f1ec] px-5 py-4 text-xs text-black/58 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <span>Copyright 2026 RIVAADO</span>
+          <span>Terms and Conditions | Privacy Policy</span>
+        </div>
+      </div>
+    </footer>
   )
 }
 
