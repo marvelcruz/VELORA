@@ -1,17 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Menu, ShoppingBag, X } from 'lucide-react'
 import Admin from './Admin'
 import { fromProductRow, itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type ProductRow, type SectionKey } from './catalog'
 import { supabase } from './supabase'
 
-const navItems: { label: string; key: Exclude<SectionKey, 'admin'> }[] = [
-  { label: 'Home', key: 'home' },
-  { label: 'About', key: 'about' },
-  { label: 'Men', key: 'men' },
-  { label: 'Women', key: 'women' },
+const drawerPrimary: { label: string; key: Exclude<SectionKey, 'admin'>; external?: boolean }[] = [
+  { label: 'Highlights', key: 'home' },
+  { label: 'Clothing', key: 'men' },
+  { label: 'Occasion', key: 'men' },
+  { label: 'Footwear', key: 'accessories' },
+  { label: 'Custom', key: 'men' },
   { label: 'Accessories', key: 'accessories' },
-  { label: 'Contact', key: 'contact' },
+  { label: 'Women', key: 'women', external: true },
+  { label: 'About', key: 'about' },
+]
+
+const drawerSecondary: { label: string; key: Exclude<SectionKey, 'admin'>; accent?: boolean }[] = [
+  { label: 'Digital body profile', key: 'contact', accent: true },
+  { label: 'Order samples', key: 'contact' },
+  { label: 'Blog', key: 'about' },
+  { label: 'Giftcard', key: 'contact' },
+  { label: 'Corporate Solutions', key: 'contact' },
+  { label: 'Contact us', key: 'contact' },
 ]
 
 const heroVideo = {
@@ -121,24 +132,185 @@ export default function App() {
 }
 
 function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
+  const [menuOpen, setMenuOpen] = useState(false)
   const dark = mode === 'dark'
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [])
+
+  const navigateFromMenu = (key: Exclude<SectionKey, 'admin'>) => {
+    setMenuOpen(false)
+    onNavigate(key)
+  }
+
   return (
-    <header className="absolute inset-x-0 top-0 z-50 px-4 py-4 sm:px-8 sm:py-6">
-      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full border px-4 py-3 shadow-2xl backdrop-blur-xl sm:px-6 ${dark ? 'border-black/10 bg-white/60 text-black' : 'border-white/30 bg-black/15 text-white'}`}>
-        <button type="button" onClick={() => onNavigate('home')} className="text-xs font-black uppercase tracking-[0.28em] sm:text-sm">RIVAADO</button>
-        <nav className="hidden items-center gap-6 sm:flex lg:gap-8" aria-label="Primary navigation">
-          {navItems.map((item) => (
-            <button key={item.key} type="button" onClick={() => onNavigate(item.key)} className={`text-[11px] font-black uppercase tracking-[0.2em] transition ${activeSection === item.key ? 'opacity-100' : 'opacity-55 hover:opacity-100'}`}>{item.label}</button>
-          ))}
-        </nav>
-        <button type="button" onClick={() => onNavigate('contact')} className="hidden rounded-full border border-current/45 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] transition hover:bg-white hover:text-black sm:inline-flex">Book fitting</button>
-      </div>
-      <nav className="mx-auto mt-3 flex max-w-7xl gap-2 overflow-x-auto pb-1 sm:hidden" aria-label="Mobile navigation">
-        {navItems.map((item) => (
-          <button key={item.key} type="button" onClick={() => onNavigate(item.key)} className={`shrink-0 rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] backdrop-blur-md ${activeSection === item.key ? 'border-white bg-white text-black' : 'border-white/20 bg-black/20 text-white/80'}`}>{item.label}</button>
-        ))}
-      </nav>
-    </header>
+    <>
+      <header className="pointer-events-none absolute inset-x-0 top-0 z-50">
+        <div className="hidden h-10 items-center justify-center bg-[#171719] text-[11px] font-medium tracking-[0.04em] text-white/78 md:flex">
+          Custom-tailored clothing
+        </div>
+
+        <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between px-5 sm:px-8 md:h-[64px] md:px-7 ${dark ? 'text-[#202624]' : 'text-white'}`}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            className="flex h-11 w-11 items-center justify-center"
+          >
+            <Menu size={28} strokeWidth={1.55} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('home')}
+            className="absolute left-1/2 -translate-x-1/2 text-[25px] font-semibold tracking-[-0.055em] md:text-[23px]"
+          >
+            Rivaado
+          </button>
+
+          <div className="flex items-center gap-4">
+            <button type="button" onClick={() => onNavigate('contact')} className="hidden text-[13px] font-medium md:block">
+              Book fitting
+            </button>
+            <button type="button" onClick={() => onNavigate('contact')} aria-label="Bag" className="flex h-11 w-11 items-center justify-center">
+              <ShoppingBag size={24} strokeWidth={1.45} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close menu overlay"
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 z-[70] hidden bg-black/46 md:block"
+          />
+
+          <aside className="fixed inset-y-0 left-0 z-[90] hidden w-[330px] flex-col bg-white text-[#202624] shadow-[16px_0_40px_rgba(0,0,0,.08)] md:flex">
+            <div className="flex h-[96px] items-center px-8">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                className="flex h-10 w-10 items-center justify-start"
+              >
+                <X size={28} strokeWidth={1.3} />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-9 pb-7">
+              <nav aria-label="Main menu" className="space-y-[24px]">
+                {drawerPrimary.map((item) => (
+                  <button
+                    type="button"
+                    key={item.label}
+                    onClick={() => navigateFromMenu(item.key)}
+                    className={`block text-left text-[20px] font-normal leading-none tracking-[-0.025em] transition-opacity hover:opacity-55 ${activeSection === item.key ? 'opacity-100' : ''}`}
+                  >
+                    {item.label}{item.external ? <span className="ml-1 align-top text-[13px]">↗</span> : null}
+                  </button>
+                ))}
+              </nav>
+
+              <nav aria-label="Secondary menu" className="mt-[50px] space-y-[20px]">
+                {drawerSecondary.map((item) => (
+                  <button
+                    type="button"
+                    key={item.label}
+                    onClick={() => navigateFromMenu(item.key)}
+                    className={`block text-left text-[14px] leading-none tracking-[-0.015em] ${item.accent ? 'font-semibold text-[#bd7a24]' : 'font-normal text-[#202624]'}`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+
+              <div className="mt-9 flex items-center gap-[17px] text-[#202624]">
+                <Instagram size={18} strokeWidth={1.8} />
+                <Facebook size={18} strokeWidth={1.8} />
+                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[10px] font-semibold">X</span>
+                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">P</span>
+                <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">♪</span>
+              </div>
+            </div>
+          </aside>
+
+          <aside className="fixed inset-0 z-[100] flex flex-col bg-white text-[#202624] md:hidden">
+            <div className="relative flex h-[112px] shrink-0 items-center justify-between px-7">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                className="flex h-12 w-12 items-center justify-start"
+              >
+                <X size={38} strokeWidth={1.15} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigateFromMenu('home')}
+                className="absolute left-1/2 -translate-x-1/2 text-[34px] font-semibold tracking-[-0.065em]"
+              >
+                Rivaado
+              </button>
+
+              <button type="button" onClick={() => navigateFromMenu('contact')} aria-label="Bag" className="flex h-12 w-12 items-center justify-end">
+                <ShoppingBag size={33} strokeWidth={1.35} />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-7 pb-[150px] pt-[95px]">
+              <nav aria-label="Main menu" className="space-y-[46px]">
+                {drawerPrimary.map((item) => (
+                  <button
+                    type="button"
+                    key={item.label}
+                    onClick={() => navigateFromMenu(item.key)}
+                    className="block text-left text-[46px] font-normal leading-[0.98] tracking-[-0.055em]"
+                  >
+                    {item.label}{item.external ? <span className="ml-2 align-top text-[24px]">↗</span> : null}
+                  </button>
+                ))}
+              </nav>
+
+              <nav aria-label="Secondary menu" className="mt-[126px] space-y-[34px]">
+                {drawerSecondary.map((item) => (
+                  <button
+                    type="button"
+                    key={item.label}
+                    onClick={() => navigateFromMenu(item.key)}
+                    className={`block text-left text-[28px] leading-[1.05] tracking-[-0.04em] ${item.accent ? 'font-semibold text-[#202124]' : 'font-normal'}`}
+                  >
+                    {item.accent ? (
+                      <>
+                        <span className="font-semibold">Digital body </span>
+                        <span className="font-semibold text-[#9a927f]">profile</span>
+                      </>
+                    ) : item.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="absolute inset-x-0 bottom-0 flex h-[120px] items-center justify-between rounded-t-[34px] bg-[#f5f3ee] px-8 text-[25px] tracking-[-0.035em] shadow-[0_-8px_30px_rgba(0,0,0,.03)]">
+              <button type="button" onClick={() => navigateFromMenu('contact')} className="font-normal">
+                Access your account
+              </button>
+              <button type="button" className="flex items-center gap-2 font-normal">
+                English <ChevronDown size={20} strokeWidth={1.5} />
+              </button>
+            </div>
+          </aside>
+        </>
+      )}
+    </>
   )
 }
 
