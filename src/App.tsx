@@ -930,22 +930,22 @@ function FabricPackShowcase({
   const [detailsOpen, setDetailsOpen] = useState(false)
 
   const fabrics = [
-    { name: 'Yari', kind: 'Oxford', bg: 'linear-gradient(135deg,#171d35,#2a3154)' },
-    { name: 'Miles', kind: 'Knitted', bg: 'radial-gradient(circle at 25% 25%,#fff 0 2px,transparent 2.5px),radial-gradient(circle at 75% 75%,#fff 0 2px,transparent 2.5px),#28345f', size: '18px 18px' },
-    { name: 'Rees', kind: 'Brushed', bg: 'repeating-linear-gradient(135deg,#8fa2b7 0 3px,#607286 3px 6px)' },
-    { name: 'Ruiz', kind: 'Brushed', bg: 'linear-gradient(135deg,#6e7454,#8a8e68)' },
-    { name: 'Haris', kind: 'Poplin', bg: 'linear-gradient(135deg,#29241f,#423a35)' },
-    { name: 'Coari', kind: 'Poplin', bg: 'linear-gradient(135deg,#4e2234,#6e3148)' },
-    { name: 'Brandy', kind: 'Pinpoint', bg: 'linear-gradient(135deg,#8b1f35,#b42d46)' },
-    { name: 'Declan', kind: 'Poplin', bg: 'linear-gradient(135deg,#41558f,#6e84c9)' },
-    { name: 'Stonearby', kind: 'Double stripe', bg: 'repeating-linear-gradient(90deg,#7b8ce4 0 18px,#f7f7fb 18px 21px,#7b8ce4 21px 34px,#fff 34px 37px)' },
-    { name: 'Mueller', kind: 'Knitted', bg: 'repeating-linear-gradient(135deg,#d6d6d6 0 2px,#bdbdbd 2px 4px)' },
-    { name: 'Cupstock', kind: 'Oxford', bg: 'linear-gradient(135deg,#e7a8c7,#f0c7d9)' },
-    { name: 'Bertram', kind: 'Cotton', bg: 'linear-gradient(135deg,#eee6d8,#f7f1e9)' },
-    { name: 'Whirlwind', kind: 'Linen Blends', bg: 'repeating-linear-gradient(90deg,#e8e1d6 0 15px,#c8bdae 15px 22px,#f5f0e8 22px 32px)' },
-    { name: 'Arlice', kind: 'Floral', bg: 'radial-gradient(circle at 30% 30%,#6f816c 0 2px,transparent 3px),radial-gradient(circle at 70% 60%,#9ba795 0 2px,transparent 3px),#f2f5ef' },
-    { name: 'East Finchley', kind: 'Peach skin', bg: 'linear-gradient(135deg,#dce8f2,#f4f9fc)' },
-    { name: 'Helton', kind: 'Linen–cotton', bg: 'repeating-linear-gradient(0deg,#f7f7f3 0 2px,#e5e5de 2px 4px)' },
+    { name: 'Yari', kind: 'Oxford', image: '/fabrics/yari.svg' },
+    { name: 'Miles', kind: 'Knitted', image: '/fabrics/miles.svg' },
+    { name: 'Rees', kind: 'Brushed', image: '/fabrics/rees.svg' },
+    { name: 'Ruiz', kind: 'Brushed', image: '/fabrics/ruiz.svg' },
+    { name: 'Haris', kind: 'Poplin', image: '/fabrics/haris.svg' },
+    { name: 'Coari', kind: 'Poplin', image: '/fabrics/coari.svg' },
+    { name: 'Brandy', kind: 'Pinpoint', image: '/fabrics/brandy.svg' },
+    { name: 'Declan', kind: 'Poplin', image: '/fabrics/declan.svg' },
+    { name: 'Stonearby', kind: 'Double stripe', image: '/fabrics/stonearby.svg' },
+    { name: 'Mueller', kind: 'Knitted', image: '/fabrics/mueller.svg' },
+    { name: 'Cupstock', kind: 'Oxford', image: '/fabrics/cupstock.svg' },
+    { name: 'Bertram', kind: 'Cotton', image: '/fabrics/bertram.svg' },
+    { name: 'Whirlwind', kind: 'Linen Blends', image: '/fabrics/whirlwind.svg' },
+    { name: 'Arlice', kind: 'Floral', image: '/fabrics/arlice.svg' },
+    { name: 'East Finchley', kind: 'Peach skin', image: '/fabrics/east-finchley.svg' },
+    { name: 'Helton', kind: 'Linen–cotton', image: '/fabrics/helton.svg' },
   ]
 
   const active = fabrics[activeFabric]
@@ -1014,9 +1014,11 @@ function FabricPackShowcase({
                   className="text-left"
                 >
                   <div className={`aspect-[1.35] w-full rounded-md border-2 p-[2px] ${index === activeFabric ? 'border-black/35' : 'border-transparent'}`}>
-                    <div
-                      className="h-full w-full rounded-[4px]"
-                      style={{ background: fabric.bg, backgroundSize: 'size' in fabric ? fabric.size : undefined }}
+                    <img
+                      src={fabric.image}
+                      alt={`${fabric.name} ${fabric.kind} fabric texture`}
+                      className="h-full w-full rounded-[4px] object-cover"
+                      loading="lazy"
                     />
                   </div>
                   <div className="mt-2 text-[16px] font-medium leading-none">{fabric.name}</div>
@@ -1026,14 +1028,14 @@ function FabricPackShowcase({
             </div>
           </div>
 
-          <div
-            className="relative min-h-[820px] overflow-hidden px-6 py-10 sm:min-h-[900px] lg:min-h-[1120px] lg:px-14 lg:py-14"
-            style={{
-              background: active.bg,
-              backgroundSize: 'size' in active ? active.size : 'auto',
-            }}
-          >
-            <div className="absolute inset-0 bg-black/18" />
+          <div className="relative min-h-[820px] overflow-hidden px-6 py-10 sm:min-h-[900px] lg:min-h-[1120px] lg:px-14 lg:py-14">
+            <img
+              key={active.image}
+              src={active.image}
+              alt={`${active.name} ${active.kind} fabric close-up`}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/8" />
             <div className="relative flex min-h-[760px] items-end justify-center sm:min-h-[840px] lg:min-h-[1040px]">
               <div className={`w-full max-w-[1040px] bg-white px-8 shadow-[0_2px_14px_rgba(0,0,0,.08)] transition-all duration-300 sm:px-10 ${detailsOpen ? 'py-9' : 'py-8'}`}>
                 <div className="flex items-start justify-between gap-8">
