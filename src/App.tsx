@@ -180,6 +180,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawerActive, setDrawerActive] = useState('Highlights')
   const dark = mode === 'dark'
+  const womenMode = activeSection === 'women'
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -197,8 +198,28 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
   return (
     <>
       <header className="pointer-events-none absolute inset-x-0 top-0 z-50">
-        <div className="hidden h-10 items-center justify-center bg-[#171719] text-[11px] font-medium tracking-[0.04em] text-white/78 md:flex">
-          Custom-tailored clothing
+        <div className="pointer-events-auto relative flex h-10 items-center justify-center bg-[#171719] px-3 text-[11px] font-medium tracking-[0.04em] text-white/78 sm:px-5">
+          <div className="absolute left-3 flex items-center rounded-full border border-white/14 bg-white/[0.04] p-[3px] sm:left-5">
+            <button
+              type="button"
+              onClick={() => onNavigate('home')}
+              aria-pressed={!womenMode}
+              className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.06em] transition sm:px-4 ${!womenMode ? 'bg-white text-[#171719]' : 'text-white/52 hover:text-white'}`}
+            >
+              Main
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('women')}
+              aria-pressed={womenMode}
+              className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.06em] transition sm:px-4 ${womenMode ? 'bg-white text-[#171719]' : 'text-white/52 hover:text-white'}`}
+            >
+              Women
+            </button>
+          </div>
+
+          <span className="hidden sm:inline">{womenMode ? "Women's custom-tailored clothing" : 'Custom-tailored clothing'}</span>
+          <span className="sm:hidden">{womenMode ? "Women's tailoring" : 'RIVAADO'}</span>
         </div>
 
         <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between border-b px-4 transition-colors sm:px-6 md:h-[64px] md:px-5 ${dark ? 'border-black/10 bg-white/95 text-[#202624] backdrop-blur-md' : 'border-white/10 bg-black/5 text-white backdrop-blur-[2px]'}`}>
@@ -213,10 +234,21 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
             </button>
 
             <nav className="hidden items-center gap-7 md:flex" aria-label="Desktop shortcuts">
-              <button type="button" onClick={() => onNavigate('home')} className="text-[14px] font-medium tracking-[-0.02em]">Highlights</button>
-              <button type="button" onClick={() => onNavigate('men')} className="text-[14px] font-medium tracking-[-0.02em]">Custom clothing</button>
-              <button type="button" onClick={() => onNavigate('accessories')} className="text-[14px] font-medium tracking-[-0.02em]">Custom Footwear</button>
-              <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Women ↗</button>
+              {womenMode ? (
+                <>
+                  <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Women's Highlights</button>
+                  <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Custom clothing</button>
+                  <button type="button" onClick={() => onNavigate('accessories')} className="text-[14px] font-medium tracking-[-0.02em]">Accessories</button>
+                  <button type="button" onClick={() => onNavigate('home')} className="text-[14px] font-medium tracking-[-0.02em]">Main ↗</button>
+                </>
+              ) : (
+                <>
+                  <button type="button" onClick={() => onNavigate('home')} className="text-[14px] font-medium tracking-[-0.02em]">Highlights</button>
+                  <button type="button" onClick={() => onNavigate('men')} className="text-[14px] font-medium tracking-[-0.02em]">Custom clothing</button>
+                  <button type="button" onClick={() => onNavigate('accessories')} className="text-[14px] font-medium tracking-[-0.02em]">Custom Footwear</button>
+                  <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Women ↗</button>
+                </>
+              )}
             </nav>
           </div>
 
