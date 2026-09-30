@@ -243,50 +243,50 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
           </aside>
 
           <aside className="fixed inset-0 z-[100] flex flex-col bg-white text-[#202624] md:hidden">
-            <div className="relative flex h-[112px] shrink-0 items-center justify-between px-7">
+            <div className="relative flex h-[78px] shrink-0 items-center justify-between px-6">
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}
                 aria-label="Close menu"
                 className="flex h-12 w-12 items-center justify-start"
               >
-                <X size={38} strokeWidth={1.15} />
+                <X size={30} strokeWidth={1.2} />
               </button>
 
               <button
                 type="button"
                 onClick={() => navigateFromMenu('home')}
-                className="absolute left-1/2 -translate-x-1/2 text-[34px] font-semibold tracking-[-0.065em]"
+                className="absolute left-1/2 -translate-x-1/2 text-[24px] font-semibold tracking-[-0.055em]"
               >
                 Rivaado
               </button>
 
               <button type="button" onClick={() => navigateFromMenu('contact')} aria-label="Bag" className="flex h-12 w-12 items-center justify-end">
-                <ShoppingBag size={33} strokeWidth={1.35} />
+                <ShoppingBag size={27} strokeWidth={1.35} />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-7 pb-[150px] pt-[95px]">
-              <nav aria-label="Main menu" className="space-y-[46px]">
+            <div className="flex-1 overflow-y-auto px-6 pb-[105px] pt-[68px]">
+              <nav aria-label="Main menu" className="space-y-[38px]">
                 {drawerPrimary.map((item) => (
                   <button
                     type="button"
                     key={item.label}
                     onClick={() => navigateFromMenu(item.key)}
-                    className="block text-left text-[46px] font-normal leading-[0.98] tracking-[-0.055em]"
+                    className="block text-left text-[30px] font-normal leading-[1.02] tracking-[-0.045em]"
                   >
-                    {item.label}{item.external ? <span className="ml-2 align-top text-[24px]">↗</span> : null}
+                    {item.label}{item.external ? <span className="ml-1.5 align-top text-[16px]">↗</span> : null}
                   </button>
                 ))}
               </nav>
 
-              <nav aria-label="Secondary menu" className="mt-[126px] space-y-[34px]">
+              <nav aria-label="Secondary menu" className="mt-[92px] space-y-[24px]">
                 {drawerSecondary.map((item) => (
                   <button
                     type="button"
                     key={item.label}
                     onClick={() => navigateFromMenu(item.key)}
-                    className={`block text-left text-[28px] leading-[1.05] tracking-[-0.04em] ${item.accent ? 'font-semibold text-[#202124]' : 'font-normal'}`}
+                    className={`block text-left text-[20px] leading-[1.08] tracking-[-0.03em] ${item.accent ? 'font-semibold text-[#202124]' : 'font-normal'}`}
                   >
                     {item.accent ? (
                       <>
@@ -299,12 +299,12 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
               </nav>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 flex h-[120px] items-center justify-between rounded-t-[34px] bg-[#f5f3ee] px-8 text-[25px] tracking-[-0.035em] shadow-[0_-8px_30px_rgba(0,0,0,.03)]">
+            <div className="absolute inset-x-0 bottom-0 flex h-[72px] items-center justify-between rounded-t-[26px] bg-[#f5f3ee] px-6 text-[19px] tracking-[-0.03em] shadow-[0_-8px_30px_rgba(0,0,0,.03)]">
               <button type="button" onClick={() => navigateFromMenu('contact')} className="font-normal">
                 Access your account
               </button>
               <button type="button" className="flex items-center gap-2 font-normal">
-                English <ChevronDown size={20} strokeWidth={1.5} />
+                English <ChevronDown size={16} strokeWidth={1.5} />
               </button>
             </div>
           </aside>
