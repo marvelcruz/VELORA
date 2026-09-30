@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Menu, ShoppingBag, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Globe2, Instagram, Menu, MessageCircle, ShoppingBag, UserRound, X } from 'lucide-react'
 import Admin from './Admin'
 import { fromProductRow, itemsFor, sectionSizes, seedCatalog, subsectionConfig, type CatalogItem, type ProductKind, type ProductRow, type SectionKey } from './catalog'
 import { supabase } from './supabase'
@@ -155,30 +155,47 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
           Custom-tailored clothing
         </div>
 
-        <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between px-5 sm:px-8 md:h-[64px] md:px-7 ${dark ? 'text-[#202624]' : 'text-white'}`}>
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            className="flex h-11 w-11 items-center justify-center"
-          >
-            <Menu size={28} strokeWidth={1.55} />
-          </button>
+        <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between px-4 sm:px-6 md:h-[64px] md:px-5 ${dark ? 'text-[#202624]' : 'text-white'}`}>
+          <div className="flex items-center">
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              className="flex h-11 w-11 items-center justify-start md:w-10"
+            >
+              <Menu size={26} strokeWidth={1.45} />
+            </button>
+
+            <nav className="hidden items-center gap-7 md:flex" aria-label="Desktop shortcuts">
+              <button type="button" onClick={() => onNavigate('home')} className="text-[14px] font-medium tracking-[-0.02em]">Highlights</button>
+              <button type="button" onClick={() => onNavigate('men')} className="text-[14px] font-medium tracking-[-0.02em]">Custom clothing</button>
+              <button type="button" onClick={() => onNavigate('accessories')} className="text-[14px] font-medium tracking-[-0.02em]">Custom Footwear</button>
+              <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Women ↗</button>
+            </nav>
+          </div>
 
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="absolute left-1/2 -translate-x-1/2 text-[25px] font-semibold tracking-[-0.055em] md:text-[23px]"
+            className="absolute left-1/2 -translate-x-1/2 text-[25px] font-semibold tracking-[-0.055em] md:text-[25px]"
           >
             Rivaado
           </button>
 
-          <div className="flex items-center gap-4">
-            <button type="button" onClick={() => onNavigate('contact')} className="hidden text-[13px] font-medium md:block">
-              Book fitting
+          <div className="flex items-center gap-4 md:gap-3.5">
+            <button type="button" onClick={() => onNavigate('contact')} aria-label="Messages" className="hidden h-10 w-9 items-center justify-center md:flex">
+              <MessageCircle size={22} strokeWidth={1.35} />
             </button>
-            <button type="button" onClick={() => onNavigate('contact')} aria-label="Bag" className="flex h-11 w-11 items-center justify-center">
-              <ShoppingBag size={24} strokeWidth={1.45} />
+            <button type="button" className="hidden items-center gap-1.5 text-[13px] font-medium md:flex" aria-label="Region">
+              <Globe2 size={21} strokeWidth={1.35} />
+              <span>Global</span>
+            </button>
+            <button type="button" onClick={() => onNavigate('contact')} className="hidden items-center gap-1.5 text-[13px] font-medium md:flex">
+              <UserRound size={21} strokeWidth={1.35} />
+              <span>login</span>
+            </button>
+            <button type="button" onClick={() => onNavigate('contact')} aria-label="Bag" className="flex h-11 w-9 items-center justify-center">
+              <ShoppingBag size={24} strokeWidth={1.4} />
             </button>
           </div>
         </div>
@@ -423,6 +440,217 @@ function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; on
       </section>
 
       <TailoringTechSection onExplore={() => onNavigate('men')} />
+      <HomeReferenceSections onNavigate={onNavigate} />
+    </div>
+  )
+}
+
+function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  const outfitIdeas = [
+    '/looks/look-02-textured-tuxedo.webp',
+    '/looks/look-08-leather-sleeve-coat.webp',
+    '/looks/look-06-navy-open-suit.webp',
+    '/looks/look-03-pastel-pink-suit.webp',
+    '/looks/look-05-plaid-blazer.webp',
+    '/looks/look-07-teal-shirt-vest.webp',
+  ]
+
+  const reviews = [
+    {
+      title: 'Thanks again for helping me!!',
+      body: 'I wanted to take a quick moment and say again thanks to RIVAADO for the excellent work. The fit, finish and attention to detail were exactly what I hoped for.',
+      name: 'Larrren Unruh – United States',
+    },
+    {
+      title: 'Fantastic job',
+      body: 'Just received my package — the items were perfect. Fantastic job. Loving my purchases and thank you for all your help.',
+      name: 'David B – United States',
+    },
+    {
+      title: 'Awesome job, RIVAADO!',
+      body: 'The fit is exceptional, the garments are comfortable, and the whole process feels considered from order to arrival. I will definitely be coming back.',
+      name: 'Matthew T. – United States',
+    },
+  ]
+
+  return (
+    <>
+      <section className="bg-[#202625] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-14 lg:py-24">
+        <div className="mx-auto max-w-[1500px]">
+          <div className="flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
+            <div>
+              <h2 className="text-[clamp(2.7rem,4vw,4.2rem)] font-normal tracking-[-0.055em]">Outfit Ideas</h2>
+              <p className="mt-5 max-w-[470px] text-sm leading-5 text-white/78 sm:text-[15px]">
+                Get inspired by our community. Real customers like you styling great outfits based on RIVAADO garments.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => onNavigate('men')}
+              className="w-fit rounded-full bg-white px-7 py-3 text-sm font-medium text-[#202625]"
+            >
+              Check them all
+            </button>
+          </div>
+
+          <div className="category-rail mt-7 flex gap-5 overflow-x-auto pb-2">
+            {outfitIdeas.map((image, index) => (
+              <button
+                type="button"
+                key={image}
+                onClick={() => onNavigate(index === 3 ? 'women' : 'men')}
+                className="w-[72vw] max-w-[285px] shrink-0 overflow-hidden bg-white/5 sm:w-[31vw] lg:w-[19vw]"
+              >
+                <img src={image} alt={`RIVAADO outfit idea ${index + 1}`} className="aspect-[0.78] h-auto w-full object-cover object-top" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid min-h-[760px] bg-white text-[#202124] lg:grid-cols-2">
+        <div className="min-h-[520px] overflow-hidden lg:min-h-[760px]">
+          <img
+            src="/looks/look-09-blue-scarf-shirt.webp"
+            alt="Material and craftsmanship placeholder"
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex items-center justify-center px-7 py-16 text-center sm:px-12 lg:px-20">
+          <div className="max-w-[520px]">
+            <h2 className="text-[clamp(2.7rem,4vw,4.3rem)] font-normal leading-[1.05] tracking-[-0.055em]">
+              Our planet<br />appreciates it
+            </h2>
+            <p className="mx-auto mt-6 max-w-[510px] text-[15px] leading-7 text-black/74 sm:text-base">
+              Feel great about your clothes and your environmental impact. Thoughtful pieces are designed to be worn, cared for and kept.
+            </p>
+            <button
+              type="button"
+              onClick={() => onNavigate('about')}
+              className="mt-7 rounded-full border border-black/45 px-7 py-3 text-sm font-medium"
+            >
+              Learn how it's made
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid min-h-[760px] bg-white text-[#202124] lg:grid-cols-2">
+        <div className="order-2 flex items-center justify-center px-7 py-16 text-center sm:px-12 lg:order-1 lg:px-20">
+          <div className="max-w-[520px]">
+            <h2 className="text-[clamp(2.7rem,4vw,4.2rem)] font-normal tracking-[-0.055em]">Looks that last</h2>
+            <p className="mx-auto mt-5 max-w-[510px] text-[15px] leading-7 text-black/74 sm:text-base">
+              We know you pay attention to detail, and so do we. From durable fabrics to a quality-controlled tailoring process, every piece is made to stand up to repeat wear.
+            </p>
+            <button
+              type="button"
+              onClick={() => onNavigate('contact')}
+              className="mt-7 rounded-full border border-black/45 px-7 py-3 text-sm font-medium"
+            >
+              Order samples
+            </button>
+          </div>
+        </div>
+        <div className="order-1 min-h-[520px] overflow-hidden lg:order-2 lg:min-h-[760px]">
+          <img
+            src="/looks/look-05-plaid-blazer.webp"
+            alt="Tailoring measurement placeholder"
+            className="h-full w-full object-cover object-top"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section className="relative min-h-[820px] overflow-hidden bg-[#b65a42] text-white sm:min-h-[900px] lg:min-h-[780px]">
+        <img src="/looks/look-10-gold-couture.webp" alt="" className="absolute left-[15%] top-0 hidden h-[220px] w-[380px] object-cover sm:block" />
+        <img src="/looks/look-08-leather-sleeve-coat.webp" alt="" className="absolute right-0 top-0 h-[260px] w-[200px] object-cover sm:w-[250px]" />
+        <img src="/looks/look-03-pastel-pink-suit.webp" alt="" className="absolute left-0 bottom-0 h-[310px] w-[190px] object-cover object-top sm:w-[220px]" />
+        <img src="/looks/look-01-leopard-shirt.webp" alt="" className="absolute bottom-[130px] left-[25%] hidden h-[300px] w-[210px] object-cover object-top md:block" />
+        <img src="/looks/look-06-navy-open-suit.webp" alt="" className="absolute left-[39%] top-[255px] hidden h-[300px] w-[190px] object-cover object-top lg:block" />
+        <img src="/looks/look-07-teal-shirt-vest.webp" alt="" className="absolute bottom-0 right-0 h-[220px] w-[310px] object-cover object-top sm:h-[230px] sm:w-[360px]" />
+
+        <div className="relative z-10 mx-auto flex min-h-[820px] max-w-[1500px] items-center justify-center px-6 py-20 sm:min-h-[900px] lg:min-h-[780px] lg:justify-end lg:px-20">
+          <div className="max-w-[520px] bg-[#b65a42]/88 p-5 backdrop-blur-[1px] sm:p-8 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+            <h2 className="text-[clamp(3rem,4.3vw,5rem)] font-normal leading-[1.04] tracking-[-0.055em]">
+              Perfect fit<br />garments, to your<br />specifications
+            </h2>
+            <p className="mt-7 max-w-[470px] text-base leading-7 text-white/94">
+              From fabrics and buttons to pocket styles and lining colors, personalize your handcrafted look. Take control and feel confident with our fit promise.
+            </p>
+            <button type="button" onClick={() => onNavigate('men')} className="mt-7 text-base font-medium underline underline-offset-4">
+              Learn more
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-5 py-16 text-[#202124] sm:px-8 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-[1500px]">
+          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+            <h2 className="text-[25px] font-medium tracking-[-0.035em]">Reviewed by you</h2>
+            <div className="flex items-center gap-3 text-sm">
+              <span className="font-semibold">Great</span>
+              <span className="tracking-[0.08em] text-[#48b82c]">★★★★★</span>
+              <span className="underline underline-offset-2">23,360 reviews on</span>
+              <span className="font-semibold text-[#00a36c]">★ Trustpilot</span>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-12 lg:grid-cols-3 lg:gap-20">
+            {reviews.map((review) => (
+              <article key={review.title}>
+                <div className="text-[25px] tracking-[0.12em] text-[#f3b000]">★★★★★</div>
+                <h3 className="mt-6 text-base font-medium">{review.title}</h3>
+                <p className="mt-5 max-w-[430px] text-sm leading-7 text-black/62">{review.body}</p>
+                <p className="mt-5 text-sm font-medium">{review.name}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <button type="button" className="rounded-full bg-[#202625] px-8 py-3 text-sm font-medium text-white">
+              See them all
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-black/5 bg-[#f7f7f5] px-5 py-14 text-[#202124] sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[1.65fr_.6fr_.6fr_.6fr_.6fr]">
+          <div className="max-w-[430px]">
+            <h3 className="text-sm font-semibold">Subscribe To Our Newsletter To Get Updates</h3>
+            <div className="mt-7 flex border-b border-black/55 pb-3">
+              <input aria-label="Email Address" placeholder="Email Address" className="w-full bg-transparent text-lg outline-none placeholder:text-black/50" />
+              <button type="button" aria-label="Subscribe" className="text-xl">→</button>
+            </div>
+          </div>
+
+          <FooterColumn title="Men's Store" items={['Custom Suits','Custom Dress Shirts','Custom Blazers','Custom Pants','Overcoats','Other products']} />
+          <FooterColumn title="Women" items={["Women's Suits","Women's Dress Shirt","Women's Blazers","Women's Dress Pants","Women's Wool Coats",'Other products']} />
+          <FooterColumn title="Company" items={['About us','How it works','Perfect Fit Guarantee','RIVAADO Blog']} />
+          <FooterColumn title="Support" items={['Contact us','Order fabric samples','Track order','FAQs']} />
+        </div>
+
+        <div className="mx-auto mt-14 flex max-w-[1500px] flex-wrap justify-between gap-8 border-t border-black/8 pt-8 text-sm text-black/58">
+          <span>Payment Methods</span>
+          <span>Shipping Partners</span>
+          <span>© RIVAADO</span>
+        </div>
+      </footer>
+    </>
+  )
+}
+
+function FooterColumn({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold">{title}</h3>
+      <div className="mt-5 space-y-3 text-sm text-black/60">
+        {items.map((item) => (
+          <button type="button" key={item} className="block text-left hover:text-black">{item}</button>
+        ))}
+      </div>
     </div>
   )
 }
