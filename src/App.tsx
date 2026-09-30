@@ -56,6 +56,34 @@ const aboutMarkers = [
   ['2022', 'Rivaado Bespoke Wear arrives in Calgary.'],
 ] as const
 
+type SiteCopy = {
+  home_hero: { eyebrow: string; title: string; subtitle: string; cta: string }
+  home_house: { eyebrow: string; title: string; body: string; cta: string }
+  home_process: { eyebrow: string; title: string; step1: string; step2: string; step3: string }
+}
+
+const defaultSiteCopy: SiteCopy = {
+  home_hero: {
+    eyebrow: 'RIVAADO BESPOKE',
+    title: 'Dress the real you',
+    subtitle: 'Clothes made to fit you, not the other way around',
+    cta: 'Explore showcase',
+  },
+  home_house: {
+    eyebrow: 'THE HOUSE',
+    title: 'Tailoring with presence.',
+    body: 'RIVAADO brings together precise fit, expressive personal style and the confidence of clothing made around the individual.',
+    cta: 'Discover Rivaado',
+  },
+  home_process: {
+    eyebrow: 'MADE AROUND YOU',
+    title: 'Bespoke, without the stiffness.',
+    step1: 'Choose your direction',
+    step2: 'Shape the fit',
+    step3: 'Finish every detail',
+  },
+}
+
 const sectionOrder: SectionKey[] = ['home', 'about', 'men', 'women', 'accessories', 'samples', 'contact', 'admin']
 
 function getInitialSection(): SectionKey {
@@ -68,6 +96,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<SectionKey>(getInitialSection)
   const [isMobile, setIsMobile] = useState(false)
   const [catalog, setCatalog] = useState<CatalogItem[]>(seedCatalog)
+  const [siteCopy, setSiteCopy] = useState<SiteCopy>(defaultSiteCopy)
 
   useEffect(() => {
     const resize = () => setIsMobile(window.innerWidth < 700)
@@ -84,6 +113,18 @@ export default function App() {
 
   useEffect(() => {
     let active = true
+
+    const loadSiteCopy = async () => {
+      const { data } = await supabase.from('site_content').select('key,value').in('key', ['home_hero', 'home_house', 'home_process'])
+      if (!active || !data?.length) return
+      setSiteCopy((current) => {
+        const next = { ...current }
+        for (const row of data as { key: keyof SiteCopy; value: SiteCopy[keyof SiteCopy] }[]) {
+          if (row.key in next && row.value) (next as any)[row.key] = { ...(next as any)[row.key], ...row.value }
+        }
+        return next
+      })
+    }
 
     const loadCatalog = async () => {
       const { data, error } = await supabase
@@ -104,6 +145,7 @@ export default function App() {
     }
 
     loadCatalog()
+    loadSiteCopy()
     return () => { active = false }
   }, [])
 
@@ -116,13 +158,13 @@ export default function App() {
     return <main className="h-[100svh] w-full overflow-hidden"><Admin onExit={() => go('home')} /></main>
   }
 
-  const headerMode = activeSection === 'about' ? 'dark' : 'light'
+  const headerMode = activeSection === 'home' ? 'light' : 'dark'
 
   return (
     <main className="relative h-[100svh] w-full overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
       <Header activeSection={activeSection} mode={headerMode} onNavigate={go} />
       <div className="absolute inset-0">
-        <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} onNavigate={go} /></Screen>
+        <Screen active={activeSection === 'home'}><HomeScreen isMobile={isMobile} onExplore={() => go('men')} onNavigate={go} copy={siteCopy} /></Screen>
         <Screen active={activeSection === 'about'}><AboutScreen /></Screen>
         <Screen active={activeSection === 'men'}><ProductShowcase section="men" catalog={catalog} /></Screen>
         <Screen active={activeSection === 'women'}><ProductShowcase section="women" catalog={catalog} /></Screen>
@@ -159,7 +201,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
           Custom-tailored clothing
         </div>
 
-        <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between px-4 sm:px-6 md:h-[64px] md:px-5 ${dark ? 'text-[#202624]' : 'text-white'}`}>
+        <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between border-b px-4 transition-colors sm:px-6 md:h-[64px] md:px-5 ${dark ? 'border-black/10 bg-white/95 text-[#202624] backdrop-blur-md' : 'border-white/10 bg-black/5 text-white backdrop-blur-[2px]'}`}>
           <div className="flex items-center">
             <button
               type="button"
@@ -483,7 +525,7 @@ function Screen({ active, children }: { active: boolean; children: ReactNode }) 
   return <section className={`absolute inset-0 transition duration-500 ${active ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden={!active}>{children}</section>
 }
 
-function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; onExplore: () => void; onNavigate: (section: SectionKey) => void }) {
+function HomeScreen({ isMobile, onExplore, onNavigate, copy }: { isMobile: boolean; onExplore: () => void; onNavigate: (section: SectionKey) => void; copy: SiteCopy }) {
   const src = isMobile ? heroVideo.mobile : heroVideo.desktop
   const poster = isMobile ? heroVideo.mobilePoster : heroVideo.poster
   const categoryRail = useRef<HTMLDivElement>(null)
@@ -513,12 +555,13 @@ function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; on
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(0,0,0,0.02)_42%,rgba(0,0,0,0.64))]" />
 
         <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-8 sm:px-10 sm:pb-11 lg:px-14 lg:pb-12">
-          <div className="max-w-4xl">
-            <h1 className="hero-copy-title text-[clamp(2.9rem,7vw,6.8rem)] font-normal leading-[0.94] tracking-[-0.045em] text-white">
-              Dress the real you
+          <div className="max-w-5xl">
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/72">{copy.home_hero.eyebrow}</p>
+            <h1 className="hero-copy-title max-w-[980px] text-[clamp(3.4rem,8vw,8.4rem)] font-normal leading-[0.86] tracking-[-0.06em] text-white" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              {copy.home_hero.title}
             </h1>
-            <p className="hero-copy-subtitle mt-4 max-w-3xl text-sm font-medium leading-6 text-white/92 sm:text-lg sm:leading-7 lg:text-xl">
-              Clothes made to fit you, not the other way around
+            <p className="hero-copy-subtitle mt-6 max-w-2xl text-sm font-medium leading-6 text-white/88 sm:text-lg sm:leading-7">
+              {copy.home_hero.subtitle}
             </p>
           </div>
 
@@ -527,8 +570,43 @@ function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; on
             onClick={onExplore}
             className="hero-copy-cta mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/60 bg-black/10 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
           >
-            Explore showcase <ArrowRight size={16} strokeWidth={2.25} />
+            {copy.home_hero.cta} <ArrowRight size={16} strokeWidth={2.25} />
           </button>
+        </div>
+      </section>
+
+      <section className="grid bg-[#f2efe8] text-[#171719] lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="flex min-h-[560px] items-center px-7 py-16 sm:px-12 lg:min-h-[720px] lg:px-20">
+          <div className="max-w-[610px]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-black/48">{copy.home_house.eyebrow}</p>
+            <h2 className="mt-5 text-[clamp(3rem,5.7vw,6.6rem)] font-normal leading-[0.92] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              {copy.home_house.title}
+            </h2>
+            <p className="mt-7 max-w-[530px] text-[15px] leading-7 text-black/68 sm:text-base">{copy.home_house.body}</p>
+            <button type="button" onClick={() => onNavigate('about')} className="mt-8 border-b border-black pb-1 text-sm font-medium">{copy.home_house.cta}</button>
+          </div>
+        </div>
+        <div className="min-h-[560px] overflow-hidden lg:min-h-[720px]">
+          <img src="/looks/look-06-navy-open-suit.webp" alt="RIVAADO tailoring" className="h-full w-full object-cover object-top" loading="lazy" />
+        </div>
+      </section>
+
+      <section className="bg-[#171719] px-6 py-16 text-white sm:px-10 lg:px-14 lg:py-24">
+        <div className="mx-auto max-w-[1500px]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-white/44">{copy.home_process.eyebrow}</p>
+          <div className="mt-5 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <h2 className="max-w-[700px] text-[clamp(2.9rem,5vw,5.8rem)] font-normal leading-[0.94] tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              {copy.home_process.title}
+            </h2>
+            <div className="grid border-t border-white/18 sm:grid-cols-3">
+              {[copy.home_process.step1, copy.home_process.step2, copy.home_process.step3].map((step, index) => (
+                <div key={step} className="border-b border-white/18 py-6 sm:border-b-0 sm:border-r sm:px-6 sm:last:border-r-0">
+                  <div className="text-[11px] tracking-[0.2em] text-white/36">0{index + 1}</div>
+                  <div className="mt-3 text-[19px] leading-6 tracking-[-0.025em]">{step}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
