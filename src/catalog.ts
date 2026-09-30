@@ -1,4 +1,4 @@
-export type SectionKey = 'home' | 'about' | 'men' | 'women' | 'accessories' | 'contact' | 'admin'
+export type SectionKey = 'home' | 'about' | 'men' | 'women' | 'accessories' | 'samples' | 'contact' | 'admin'
 export type ProductKind = 'men' | 'women' | 'accessories'
 export type TextMode = 'light' | 'dark'
 
