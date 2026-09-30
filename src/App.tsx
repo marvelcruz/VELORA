@@ -133,6 +133,7 @@ export default function App() {
 
 function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey; mode: 'light' | 'dark'; onNavigate: (section: SectionKey) => void }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [drawerActive, setDrawerActive] = useState('Highlights')
   const dark = mode === 'dark'
 
   useEffect(() => {
@@ -229,13 +230,13 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
                     <button
                       type="button"
                       key={item.label}
-                      onClick={() => navigateFromMenu(item.key)}
+                      onMouseEnter={() => item.label !== 'Women' && setDrawerActive(item.label)}
+                      onFocus={() => item.label !== 'Women' && setDrawerActive(item.label)}
+                      onClick={() => item.label === 'Women' ? navigateFromMenu('women') : setDrawerActive(item.label)}
                       className={`block text-left text-[21px] font-normal leading-none tracking-[-0.025em] transition-colors hover:text-[#202624] ${
-                        item.label === 'Highlights'
+                        drawerActive === item.label
                           ? 'font-medium text-[#202624]'
-                          : item.label === 'Women'
-                            ? 'text-[#c39a43]'
-                            : 'text-[#9b9f9d]'
+                          : 'text-[#9b9f9d]'
                       }`}
                     >
                       {item.label}{item.external ? <span className="ml-1 align-top text-[13px]">↗</span> : null}
@@ -266,38 +267,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
               </div>
             </div>
 
-            <div className="flex w-[350px] shrink-0 flex-col bg-[#f7f5ef]">
-              <div className="px-6 pb-3 pt-[118px]">
-                <h2 className="text-[21px] font-medium tracking-[-0.03em]">Shop by Looks</h2>
-              </div>
-
-              <div className="category-rail flex-1 overflow-y-auto px-6 pb-8">
-                {[
-                  { label: 'Made to Keep', image: '/looks/look-06-navy-open-suit.webp', badge: 'new' },
-                  { label: 'Travel line', image: '/looks/look-04-blue-shirt-scarf.webp' },
-                  { label: 'Outfit Ideas', image: '/looks/look-05-plaid-blazer.webp', active: true },
-                  { label: 'Wedding Collection 2026', image: '/looks/look-02-textured-tuxedo.webp' },
-                  { label: 'Pitti Uomo', image: '/looks/look-08-leather-sleeve-coat.webp' },
-                ].map((look) => (
-                  <button
-                    type="button"
-                    key={look.label}
-                    onClick={() => navigateFromMenu('men')}
-                    className="mb-8 block w-full text-left"
-                  >
-                    <div className="aspect-[1.85] w-full overflow-hidden bg-[#ebe8df]">
-                      <img src={look.image} alt="" className="h-full w-full object-cover object-top" />
-                    </div>
-                    <div className={`mt-2 flex items-center gap-2 text-[16px] tracking-[-0.025em] ${look.active ? 'text-[#c49a42]' : 'text-[#202624]'}`}>
-                      <span>{look.label}</span>
-                      {'badge' in look && look.badge ? (
-                        <span className="rounded-full bg-[#c65b43] px-2 py-[2px] text-[9px] font-semibold text-white">{look.badge}</span>
-                      ) : null}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <DesktopDrawerPanel active={drawerActive} onNavigate={navigateFromMenu} />
           </aside>
 
           <aside className="fixed inset-0 z-[100] flex flex-col bg-white text-[#202624] md:hidden">
@@ -369,6 +339,148 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
         </>
       )}
     </>
+  )
+}
+
+function DesktopDrawerPanel({ active, onNavigate }: { active: string; onNavigate: (section: Exclude<SectionKey, 'admin'>) => void }) {
+  const simplePanels: Record<string, { title: string; items: { label: string; accent?: boolean; badge?: string }[] }> = {
+    Clothing: {
+      title: 'Shop by product',
+      items: [
+        { label: 'Travel line', badge: 'new' },
+        { label: 'Suits' },
+        { label: 'Shirts', accent: true },
+        { label: 'Polo Shirts' },
+        { label: 'Blazers' },
+        { label: 'Pants' },
+        { label: 'Jeans' },
+        { label: 'Chinos' },
+        { label: 'Tuxedo' },
+        { label: 'Outerwear' },
+        { label: 'Waistcoats' },
+      ],
+    },
+    Occasion: {
+      title: 'Shop by occasion',
+      items: [
+        { label: 'Travel line', badge: 'new' },
+        { label: 'Wedding' },
+        { label: 'Business' },
+        { label: 'Party' },
+        { label: 'Casual' },
+        { label: 'Vintage' },
+      ],
+    },
+    Custom: {
+      title: 'Custom clothing',
+      items: [
+        { label: 'Custom Suits' },
+        { label: 'Custom Dress Shirts' },
+        { label: 'Custom Blazers' },
+        { label: 'Custom Dress Pants' },
+        { label: 'Custom Jeans' },
+        { label: 'Custom Chinos' },
+        { label: 'Custom Tuxedos' },
+        { label: 'Custom Coats' },
+        { label: 'Custom Vests' },
+        { label: 'Custom Polo Shirts' },
+        { label: 'Custom Dress Shoes' },
+        { label: 'Custom Sneakers' },
+      ],
+    },
+    Accessories: {
+      title: 'Shop accessories',
+      items: [
+        { label: 'Ties' },
+        { label: 'Cufflinks' },
+        { label: 'Belts' },
+        { label: 'Bow–Ties' },
+        { label: 'Scarfs' },
+        { label: 'Socks' },
+        { label: 'All accessories' },
+      ],
+    },
+    Footwear: {
+      title: 'Shop shoes',
+      items: [
+        { label: 'Shoes' },
+        { label: 'Dress boot' },
+        { label: 'Sneakers' },
+        { label: 'Loafers' },
+        { label: 'Specials' },
+      ],
+    },
+    About: {
+      title: 'About',
+      items: [
+        { label: 'Our mission' },
+        { label: 'Our values' },
+        { label: 'How it works' },
+        { label: 'Our Partners Network' },
+        { label: 'FAQ' },
+      ],
+    },
+  }
+
+  if (active === 'Highlights') {
+    const looks = [
+      { label: 'Made to Keep', image: '/looks/look-06-navy-open-suit.webp', badge: 'new' },
+      { label: 'Travel line', image: '/looks/look-04-blue-shirt-scarf.webp' },
+      { label: 'Outfit Ideas', image: '/looks/look-05-plaid-blazer.webp', accent: true },
+      { label: 'Wedding Collection 2026', image: '/looks/look-02-textured-tuxedo.webp' },
+      { label: 'Pitti Uomo', image: '/looks/look-08-leather-sleeve-coat.webp' },
+    ]
+
+    return (
+      <div className="flex w-[350px] shrink-0 flex-col bg-[#f7f5ef]">
+        <div className="px-6 pb-3 pt-[118px]">
+          <h2 className="text-[21px] font-medium tracking-[-0.03em]">Shop by Looks</h2>
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 pb-8 [scrollbar-color:#c9c6bd_transparent] [scrollbar-width:thin]">
+          {looks.map((look) => (
+            <button type="button" key={look.label} onClick={() => onNavigate('men')} className="mb-8 block w-full text-left">
+              <div className="aspect-[1.85] w-full overflow-hidden bg-[#ebe8df]">
+                <img src={look.image} alt="" className="h-full w-full object-cover object-top" />
+              </div>
+              <div className={`mt-2 flex items-center gap-2 text-[16px] tracking-[-0.025em] ${look.accent ? 'text-[#c49a42]' : 'text-[#202624]'}`}>
+                <span>{look.label}</span>
+                {look.badge ? <span className="rounded-full bg-[#c65b43] px-2 py-[2px] text-[9px] font-semibold text-white">{look.badge}</span> : null}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const panel = simplePanels[active] || simplePanels.Clothing
+
+  return (
+    <div className="flex w-[350px] shrink-0 flex-col bg-[#f7f5ef] px-6 pb-8 pt-[118px]">
+      <h2 className="text-[21px] font-medium tracking-[-0.03em]">{panel.title}</h2>
+      <div className="mt-7 space-y-[20px]">
+        {panel.items.map((item) => (
+          <button
+            type="button"
+            key={item.label}
+            onClick={() => onNavigate(active === 'About' ? 'about' : active === 'Accessories' || active === 'Footwear' ? 'accessories' : 'men')}
+            className={`flex items-center gap-2 text-left text-[16px] leading-none tracking-[-0.02em] ${item.accent ? 'text-[#c49a42]' : 'text-[#202624]'}`}
+          >
+            <span>{item.label}</span>
+            {item.badge ? <span className="rounded-full bg-[#c65b43] px-2 py-[2px] text-[9px] font-semibold text-white">{item.badge}</span> : null}
+          </button>
+        ))}
+      </div>
+
+      {active === 'Occasion' ? (
+        <button type="button" onClick={() => onNavigate('men')} className="mt-auto pt-10 text-left">
+          <div className="aspect-[1.9] w-full overflow-hidden bg-[#ebe8df]">
+            <img src="/looks/look-02-textured-tuxedo.webp" alt="" className="h-full w-full object-cover object-top" />
+          </div>
+          <div className="mt-2 text-[16px] tracking-[-0.025em] text-[#202624]">Wedding Collection 2026</div>
+        </button>
+      ) : null}
+    </div>
   )
 }
 
