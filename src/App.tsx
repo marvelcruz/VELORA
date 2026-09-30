@@ -257,21 +257,21 @@ function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; on
 
 function TailoringTechSection({ onExplore }: { onExplore: () => void }) {
   return (
-    <section className="bg-[#f2efe8] px-5 py-16 text-[#1f2826] sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+    <section className="bg-[#f5f3ee] px-5 py-20 text-[#1f2826] sm:px-10 sm:py-24 lg:px-20 lg:py-28">
+      <div className="mx-auto grid max-w-[1440px] items-center gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
         <div className="max-w-xl">
-          <h2 className="text-[clamp(3rem,5.3vw,6rem)] font-normal leading-[0.98] tracking-[-0.055em]">
-            Bespoke, down to the last detail.
+          <h2 className="text-[clamp(3rem,4.65vw,5rem)] font-normal leading-[1.02] tracking-[-0.05em]">
+            High-tech tailoring for every body
           </h2>
-          <p className="mt-8 max-w-lg text-base leading-8 text-[#1f2826]/78 sm:text-lg">
-            Choose the cloth, shape the silhouette and finish every detail before our tailors bring the garment to life. The screen below builds a RIVAADO look automatically, just like a live fitting configurator.
+          <p className="mt-8 max-w-[31rem] text-[15px] leading-7 text-[#1f2826]/78 sm:text-base sm:leading-8">
+            When your clothes are made with care, you can feel it. Before our tailors cut your piece, RIVAADO brings your measurements, cloth and finishing details together so the fit is considered from the very first step.
           </p>
           <button
             type="button"
             onClick={onExplore}
-            className="mt-8 rounded-full border border-[#1f2826]/40 px-6 py-3 text-sm font-semibold transition hover:bg-[#1f2826] hover:text-white"
+            className="mt-8 rounded-full border border-[#1f2826]/55 px-7 py-3 text-sm font-medium transition hover:bg-[#1f2826] hover:text-white"
           >
-            Explore tailoring
+            Know more
           </button>
         </div>
 
@@ -290,6 +290,17 @@ const demoFabrics = [
   { name: 'Stone Grey', color: '#8a8c8b', accent: '#a4a6a5', texture: 'linear-gradient(135deg,#8a8c8b,#a4a6a5)' },
   { name: 'Black Barathea', color: '#151515', accent: '#303030', texture: 'linear-gradient(135deg,#151515,#303030)' },
   { name: 'Royal Blue', color: '#244e87', accent: '#416da8', texture: 'linear-gradient(135deg,#244e87,#416da8)' },
+]
+
+const demoSuitImages = [
+  '/looks/look-06-navy-open-suit.webp',
+  '/looks/look-05-plaid-blazer.webp',
+  '/looks/look-03-pastel-pink-suit.webp',
+  '/looks/look-02-textured-tuxedo.webp',
+  '/looks/look-08-leather-sleeve-coat.webp',
+  '/looks/look-07-teal-shirt-vest.webp',
+  '/looks/look-01-leopard-shirt.webp',
+  '/looks/look-04-blue-shirt-scarf.webp',
 ]
 
 type ConfiguratorPanelKey = 'fabric' | 'style' | 'finish'
@@ -390,6 +401,7 @@ function ConfiguratorDemo() {
 
   const activeStep = configuratorTimeline[step]
   const fabric = demoFabrics[config.fabric]
+  const previewImage = demoSuitImages[config.fabric % demoSuitImages.length]
   const panelIndex = panel === 'fabric' ? 0 : panel === 'style' ? 1 : 2
 
   const openPanel = (next: ConfiguratorPanelKey) => {
@@ -398,8 +410,8 @@ function ConfiguratorDemo() {
   }
 
   return (
-    <div ref={rootRef} className="relative mx-auto w-full max-w-[800px]">
-      <div className="relative aspect-[1.38] min-h-[420px] overflow-hidden rounded-[2rem] border-[7px] border-[#222b29] bg-white shadow-[0_32px_80px_rgba(26,35,32,0.18)] sm:min-h-[520px]">
+    <div ref={rootRef} className="relative mx-auto w-full max-w-[920px]">
+      <div className="relative aspect-[1.62] min-h-[390px] overflow-hidden rounded-[1.35rem] border-[6px] border-[#28302e] bg-white shadow-[0_28px_70px_rgba(26,35,32,0.14)] sm:min-h-[500px]">
         <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-center border-b border-black/8 bg-white">
           <div className="flex items-center gap-7 text-[9px] font-bold uppercase tracking-[0.18em] text-black/35 sm:gap-10 sm:text-[10px]">
             {([
@@ -416,7 +428,7 @@ function ConfiguratorDemo() {
         </div>
 
         <div className="absolute inset-0 pt-12">
-          <div className="grid h-full grid-cols-[0.9fr_1.1fr] sm:grid-cols-[0.82fr_1.18fr_0.58fr]">
+          <div className="grid h-full grid-cols-[0.88fr_1.12fr] sm:grid-cols-[0.88fr_1.2fr_0.52fr]">
             <div className="relative overflow-hidden border-r border-black/8 bg-[#fafafa]">
               <ConfiguratorPanel
                 refEl={panelScrollRef}
@@ -427,15 +439,10 @@ function ConfiguratorDemo() {
             </div>
 
             <div className="relative flex items-center justify-center bg-white">
-              <SuitPreview
-                color={fabric.color}
-                accent={fabric.accent}
-                lapel={config.lapel}
-                pocket={config.pocket}
-                lining={config.lining}
-                breasting={config.breasting}
-                buttonFinish={config.buttonFinish}
-                trouser={config.trouser}
+              <img
+                src={previewImage}
+                alt="RIVAADO bespoke tailoring preview"
+                className="h-[92%] w-[90%] object-contain object-center transition-all duration-700"
               />
               <div className="absolute bottom-4 flex gap-2">
                 {demoFabrics.slice(0, 5).map((item, index) => (
@@ -451,7 +458,7 @@ function ConfiguratorDemo() {
             </div>
 
             <div className="hidden flex-col items-center justify-center border-l border-black/8 px-3 text-center sm:flex">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black sm:text-sm">Custom Suit</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black sm:text-sm">CUSTOM SUIT</div>
               <div className="mt-1 text-[10px] text-black/38 sm:text-xs">Made to measure</div>
               <div className="mt-5 text-[10px] font-semibold text-black/45">Fabric</div>
               <div className="mt-1 text-[10px] font-semibold leading-tight text-black/78 sm:text-xs">{fabric.name}</div>
