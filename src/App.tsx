@@ -1578,7 +1578,20 @@ function TailoringTechSection({ onExplore }: { onExplore: () => void }) {
           </button>
         </div>
 
-        <ConfiguratorDemo />
+        <div className="relative mx-auto w-full max-w-[920px]">
+          <div className="relative aspect-[1.62] min-h-[390px] overflow-hidden rounded-[1.35rem] border-[6px] border-[#28302e] bg-white shadow-[0_28px_70px_rgba(26,35,32,0.14)] sm:min-h-[500px]">
+            <video
+              className="h-full w-full object-cover"
+              src="/video/rivaado-about-tailoring.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-label="RIVAADO tailoring configurator video"
+            />
+          </div>
+        </div>
       </div>
     </section>
   )
