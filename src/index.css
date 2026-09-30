@@ -101,3 +101,28 @@ video {
 .category-rail::-webkit-scrollbar {
   display: none;
 }
+
+
+@keyframes configCursorTap {
+  0%, 58% {
+    transform: scale(1);
+  }
+  66% {
+    transform: scale(.82);
+  }
+  76%, 100% {
+    transform: scale(1);
+  }
+}
+
+.config-cursor {
+  animation: configCursorTap 1.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .config-cursor {
+    width: 1rem;
+    height: 1rem;
+  }
+}
