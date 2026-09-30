@@ -776,16 +776,40 @@ function HomeReferenceSections({ onNavigate }: { onNavigate: (section: SectionKe
 }
 
 function SamplesScreen({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+  const [activePack, setActivePack] = useState<null | { title: string; subtitle: string }>(null)
+
   return (
     <div className="h-full w-full overflow-y-auto bg-white pt-[118px] md:pt-[104px]">
-      <FabricSampleSections onNavigate={onNavigate} />
-      <FabricPackShowcase onNavigate={onNavigate} />
-      <SiteFooter />
+      {activePack ? (
+        <>
+          <FabricPackShowcase
+            onNavigate={onNavigate}
+            packTitle={activePack.title}
+            packSubtitle={activePack.subtitle}
+            onBack={() => setActivePack(null)}
+          />
+          <SiteFooter />
+        </>
+      ) : (
+        <>
+          <FabricSampleSections
+            onNavigate={onNavigate}
+            onOpenPack={(pack) => setActivePack(pack)}
+          />
+          <SiteFooter />
+        </>
+      )}
     </div>
   )
 }
 
-function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+function FabricSampleSections({
+  onNavigate,
+  onOpenPack,
+}: {
+  onNavigate: (section: SectionKey) => void
+  onOpenPack: (pack: { title: string; subtitle: string }) => void
+}) {
   const catalogs = [
     { title: 'Distinctive & Trendy', subtitle: 'Dress Shirts', image: '/looks/look-01-leopard-shirt.webp' },
     { title: 'Essentials & Top Sales', subtitle: 'Suits, Jackets & Trousers', image: '/looks/look-06-navy-open-suit.webp' },
@@ -837,7 +861,7 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
               <button
                 type="button"
                 key={catalog.title + catalog.subtitle}
-                onClick={() => document.getElementById('fabric-pack-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                onClick={() => onOpenPack({ title: catalog.title, subtitle: catalog.subtitle })}
                 className="text-center"
               >
                 <div className="aspect-[0.82] overflow-hidden bg-[#d9b071]">
@@ -890,7 +914,17 @@ function FabricSampleSections({ onNavigate }: { onNavigate: (section: SectionKey
   )
 }
 
-function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) => void }) {
+function FabricPackShowcase({
+  onNavigate,
+  packTitle,
+  packSubtitle,
+  onBack,
+}: {
+  onNavigate: (section: SectionKey) => void
+  packTitle: string
+  packSubtitle: string
+  onBack: () => void
+}) {
   const [activeFabric, setActiveFabric] = useState(0)
   const [modal, setModal] = useState<null | 'weave' | 'feature' | 'wrinkle' | 'stretch' | 'antiPilling' | 'yarn'>(null)
   const [detailsOpen, setDetailsOpen] = useState(false)
@@ -921,8 +955,8 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
       <section id="fabric-pack-detail" className="bg-[#d9b278] text-[#202124]">
         <div className="mx-auto grid min-h-[470px] max-w-[1500px] items-center gap-8 px-6 py-14 lg:grid-cols-[1fr_.85fr] lg:px-14">
           <div className="text-center lg:text-left lg:pl-28">
-            <h2 className="text-[clamp(3rem,5vw,5rem)] font-normal tracking-[-0.055em]">Distinctive & Trendy</h2>
-            <p className="mt-5 text-[clamp(1.4rem,2vw,2rem)]">Dress Shirts</p>
+            <h2 className="text-[clamp(3rem,5vw,5rem)] font-normal tracking-[-0.055em]">{packTitle}</h2>
+            <p className="mt-5 text-[clamp(1.4rem,2vw,2rem)]">{packSubtitle}</p>
           </div>
           <div className="relative hidden h-full min-h-[360px] overflow-hidden lg:block">
             <img
@@ -955,7 +989,7 @@ function FabricPackShowcase({ onNavigate }: { onNavigate: (section: SectionKey) 
             </button>
             <button
               type="button"
-              onClick={() => document.getElementById('fabric-catalog-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              onClick={onBack}
               className="mt-5 block w-full text-sm underline underline-offset-3 lg:text-right"
             >
               &lt; Go back
