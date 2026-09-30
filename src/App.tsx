@@ -206,7 +206,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
               aria-pressed={!womenMode}
               className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.06em] transition sm:px-4 ${!womenMode ? 'bg-white text-[#171719]' : 'text-white/52 hover:text-white'}`}
             >
-              Main
+              Men
             </button>
             <button
               type="button"
@@ -218,8 +218,8 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
             </button>
           </div>
 
-          <span className="hidden sm:inline">{womenMode ? "Women's custom-tailored clothing" : 'Custom-tailored clothing'}</span>
-          <span className="sm:hidden">{womenMode ? "Women's tailoring" : 'RIVAADO'}</span>
+          <span className="hidden sm:inline">{womenMode ? "Women's custom-tailored clothing" : "Men's custom-tailored clothing"}</span>
+          <span className="sm:hidden">{womenMode ? "Women's tailoring" : "Men's tailoring"}</span>
         </div>
 
         <div className={`pointer-events-auto relative flex h-[78px] items-center justify-between border-b px-4 transition-colors sm:px-6 md:h-[64px] md:px-5 ${dark ? 'border-black/10 bg-white/95 text-[#202624] backdrop-blur-md' : 'border-white/10 bg-black/5 text-white backdrop-blur-[2px]'}`}>
@@ -239,7 +239,7 @@ function Header({ activeSection, mode, onNavigate }: { activeSection: SectionKey
                   <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Women's Highlights</button>
                   <button type="button" onClick={() => onNavigate('women')} className="text-[14px] font-medium tracking-[-0.02em]">Custom clothing</button>
                   <button type="button" onClick={() => onNavigate('accessories')} className="text-[14px] font-medium tracking-[-0.02em]">Accessories</button>
-                  <button type="button" onClick={() => onNavigate('home')} className="text-[14px] font-medium tracking-[-0.02em]">Main ↗</button>
+                  <button type="button" onClick={() => onNavigate('men')} className="text-[14px] font-medium tracking-[-0.02em]">Men ↗</button>
                 </>
               ) : (
                 <>
