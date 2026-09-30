@@ -38,11 +38,43 @@ export default function Admin({ onExit }: { onExit: () => void }) {
   const [isAdmin, setIsAdmin] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [siteCopy, setSiteCopy] = useState({
+    home_hero: { eyebrow: 'RIVAADO BESPOKE', title: 'Dress the real you', subtitle: 'Clothes made to fit you, not the other way around', cta: 'Explore showcase' },
+    home_house: { eyebrow: 'THE HOUSE', title: 'Tailoring with presence.', body: 'RIVAADO brings together precise fit, expressive personal style and the confidence of clothing made around the individual.', cta: 'Discover Rivaado' },
+    home_process: { eyebrow: 'MADE AROUND YOU', title: 'Bespoke, without the stiffness.', step1: 'Choose your direction', step2: 'Shape the fit', step3: 'Finish every detail' },
+  })
 
   const loadCatalog = async () => {
     const { data, error } = await supabase.from('products').select('*').order('section').order('subsection').order('sort_order')
     if (error) return setMessage(error.message)
     setItems(((data || []) as ProductRow[]).map(fromProductRow))
+  }
+
+  const loadSiteCopy = async () => {
+    const { data } = await supabase.from('site_content').select('key,value').in('key', ['home_hero', 'home_house', 'home_process'])
+    if (!data?.length) return
+    setSiteCopy((current) => {
+      const next = { ...current } as any
+      for (const row of data as any[]) if (next[row.key]) next[row.key] = { ...next[row.key], ...row.value }
+      return next
+    })
+  }
+
+  const saveSiteCopy = async () => {
+    if (!isAdmin) return setMessage('Sign in with the RIVAADO admin account first.')
+    setSaving(true)
+    setMessage('')
+    try {
+      for (const [key, value] of Object.entries(siteCopy)) {
+        const { error } = await supabase.from('site_content').upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+        if (error) throw error
+      }
+      setMessage('Site content published.')
+    } catch (error) {
+      setMessage((error as Error).message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const applySession = async (session: Session | null) => {
@@ -70,6 +102,7 @@ export default function Admin({ onExit }: { onExit: () => void }) {
 
   useEffect(() => {
     loadCatalog()
+    loadSiteCopy()
 
     supabase.auth.getSession().then(({ data }) => {
       void applySession(data.session)
@@ -238,6 +271,44 @@ export default function Admin({ onExit }: { onExit: () => void }) {
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div><div className="text-[10px] font-black uppercase tracking-[0.16em] text-white/40">Signed in</div><div className="mt-1 text-sm font-black">{sessionEmail} · {isAdmin ? 'Admin access' : 'No admin access'}</div></div>
               <button onClick={async()=>{ await supabase.auth.signOut(); setSessionEmail(''); setIsAdmin(false) }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-black uppercase tracking-[0.14em]"><LogOut size={14}/> Sign out</button>
+            </div>
+
+            <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#d3aa52]">Site content</p>
+                  <h2 className="mt-1 text-2xl font-black">Homepage copy</h2>
+                  <p className="mt-2 text-sm text-white/50">Edit homepage text without touching the frontend code.</p>
+                </div>
+                <button onClick={saveSiteCopy} disabled={saving} className="rounded-full bg-[#d3aa52] px-6 py-3 text-xs font-black uppercase tracking-[0.15em] text-black disabled:opacity-50">Publish site copy</button>
+              </div>
+
+              <div className="mt-7 grid gap-6 xl:grid-cols-3">
+                <div className="rounded-3xl border border-white/10 p-5">
+                  <div className="text-sm font-black">Hero</div>
+                  <Field label="Eyebrow"><input className="admin-input" value={siteCopy.home_hero.eyebrow} onChange={(e)=>setSiteCopy({...siteCopy,home_hero:{...siteCopy.home_hero,eyebrow:e.target.value}})} /></Field>
+                  <Field label="Title"><input className="admin-input" value={siteCopy.home_hero.title} onChange={(e)=>setSiteCopy({...siteCopy,home_hero:{...siteCopy.home_hero,title:e.target.value}})} /></Field>
+                  <Field label="Subtitle"><textarea className="admin-input min-h-20" value={siteCopy.home_hero.subtitle} onChange={(e)=>setSiteCopy({...siteCopy,home_hero:{...siteCopy.home_hero,subtitle:e.target.value}})} /></Field>
+                  <Field label="Button"><input className="admin-input" value={siteCopy.home_hero.cta} onChange={(e)=>setSiteCopy({...siteCopy,home_hero:{...siteCopy.home_hero,cta:e.target.value}})} /></Field>
+                </div>
+
+                <div className="rounded-3xl border border-white/10 p-5">
+                  <div className="text-sm font-black">House story</div>
+                  <Field label="Eyebrow"><input className="admin-input" value={siteCopy.home_house.eyebrow} onChange={(e)=>setSiteCopy({...siteCopy,home_house:{...siteCopy.home_house,eyebrow:e.target.value}})} /></Field>
+                  <Field label="Title"><input className="admin-input" value={siteCopy.home_house.title} onChange={(e)=>setSiteCopy({...siteCopy,home_house:{...siteCopy.home_house,title:e.target.value}})} /></Field>
+                  <Field label="Body"><textarea className="admin-input min-h-28" value={siteCopy.home_house.body} onChange={(e)=>setSiteCopy({...siteCopy,home_house:{...siteCopy.home_house,body:e.target.value}})} /></Field>
+                  <Field label="Button"><input className="admin-input" value={siteCopy.home_house.cta} onChange={(e)=>setSiteCopy({...siteCopy,home_house:{...siteCopy.home_house,cta:e.target.value}})} /></Field>
+                </div>
+
+                <div className="rounded-3xl border border-white/10 p-5">
+                  <div className="text-sm font-black">Bespoke process</div>
+                  <Field label="Eyebrow"><input className="admin-input" value={siteCopy.home_process.eyebrow} onChange={(e)=>setSiteCopy({...siteCopy,home_process:{...siteCopy.home_process,eyebrow:e.target.value}})} /></Field>
+                  <Field label="Title"><input className="admin-input" value={siteCopy.home_process.title} onChange={(e)=>setSiteCopy({...siteCopy,home_process:{...siteCopy.home_process,title:e.target.value}})} /></Field>
+                  <Field label="Step 1"><input className="admin-input" value={siteCopy.home_process.step1} onChange={(e)=>setSiteCopy({...siteCopy,home_process:{...siteCopy.home_process,step1:e.target.value}})} /></Field>
+                  <Field label="Step 2"><input className="admin-input" value={siteCopy.home_process.step2} onChange={(e)=>setSiteCopy({...siteCopy,home_process:{...siteCopy.home_process,step2:e.target.value}})} /></Field>
+                  <Field label="Step 3"><input className="admin-input" value={siteCopy.home_process.step3} onChange={(e)=>setSiteCopy({...siteCopy,home_process:{...siteCopy.home_process,step3:e.target.value}})} /></Field>
+                </div>
+              </div>
             </div>
 
             <div className="mt-8 grid gap-7 lg:grid-cols-[0.9fr_1.1fr]">
