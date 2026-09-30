@@ -575,99 +575,267 @@ function HomeScreen({ isMobile, onExplore, onNavigate, copy }: { isMobile: boole
         </div>
       </section>
 
-      <section className="grid bg-[#f2efe8] text-[#171719] lg:grid-cols-[0.92fr_1.08fr]">
-        <div className="flex min-h-[560px] items-center px-7 py-16 sm:px-12 lg:min-h-[720px] lg:px-20">
-          <div className="max-w-[610px]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-black/48">{copy.home_house.eyebrow}</p>
-            <h2 className="mt-5 text-[clamp(3rem,5.7vw,6.6rem)] font-normal leading-[0.92] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-              {copy.home_house.title}
-            </h2>
-            <p className="mt-7 max-w-[530px] text-[15px] leading-7 text-black/68 sm:text-base">{copy.home_house.body}</p>
-            <button type="button" onClick={() => onNavigate('about')} className="mt-8 border-b border-black pb-1 text-sm font-medium">{copy.home_house.cta}</button>
+      <LuxuryHomeSections copy={copy} onNavigate={onNavigate} onExplore={onExplore} />
+    </div>
+  )
+}
+
+function LuxuryHomeSections({
+  copy,
+  onNavigate,
+  onExplore,
+}: {
+  copy: SiteCopy
+  onNavigate: (section: SectionKey) => void
+  onExplore: () => void
+}) {
+  const wardrobe = homeCategories.slice(0, 6)
+  const lookbook = [
+    '/looks/look-02-textured-tuxedo.webp',
+    '/looks/look-08-leather-sleeve-coat.webp',
+    '/looks/look-06-navy-open-suit.webp',
+    '/looks/look-03-pastel-pink-suit.webp',
+    '/looks/look-05-plaid-blazer.webp',
+    '/looks/look-07-teal-shirt-vest.webp',
+  ]
+  const reviews = [
+    {
+      title: 'Thanks again for helping me!!',
+      body: 'I wanted to take a quick moment and say again thanks to RIVAADO for the excellent work. The fit, finish and attention to detail were exactly what I hoped for.',
+      name: 'Larrren Unruh – United States',
+    },
+    {
+      title: 'Fantastic job',
+      body: 'Just received my package — the items were perfect. Fantastic job. Loving my purchases and thank you for all your help.',
+      name: 'David B – United States',
+    },
+    {
+      title: 'Awesome job, RIVAADO!',
+      body: 'The fit is exceptional, the garments are comfortable, and the whole process feels considered from order to arrival. I will definitely be coming back.',
+      name: 'Matthew T. – United States',
+    },
+  ]
+
+  return (
+    <>
+      <section className="relative overflow-hidden bg-[#efece5] text-[#171719]">
+        <div className="mx-auto grid min-h-[760px] max-w-[1600px] lg:grid-cols-[0.78fr_1.22fr]">
+          <div className="relative z-10 flex items-center px-6 py-20 sm:px-10 lg:px-16">
+            <div className="max-w-[650px]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-black/44">{copy.home_house.eyebrow}</p>
+              <h2 className="mt-5 max-w-[640px] text-[clamp(3.4rem,6vw,7.4rem)] font-normal leading-[0.87] tracking-[-0.065em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+                {copy.home_house.title}
+              </h2>
+              <div className="mt-9 grid gap-7 sm:grid-cols-[1fr_auto] sm:items-end">
+                <p className="max-w-[470px] text-[15px] leading-7 text-black/66 sm:text-base">{copy.home_house.body}</p>
+                <button type="button" onClick={() => onNavigate('about')} className="group flex items-center gap-3 text-sm font-medium">
+                  <span className="border-b border-black/60 pb-1">{copy.home_house.cta}</span>
+                  <ArrowRight size={16} strokeWidth={1.4} className="transition group-hover:translate-x-1" />
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="min-h-[560px] overflow-hidden lg:min-h-[720px]">
-          <img src="/looks/look-06-navy-open-suit.webp" alt="RIVAADO tailoring" className="h-full w-full object-cover object-top" loading="lazy" />
+
+          <div className="relative min-h-[620px] lg:min-h-[760px]">
+            <img src="/looks/look-06-navy-open-suit.webp" alt="RIVAADO tailoring" className="absolute inset-0 h-full w-full object-cover object-top" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/5 via-transparent to-[#efece5]/18" />
+            <div className="absolute bottom-8 left-8 hidden w-[180px] border border-white/40 bg-black/10 p-4 text-white backdrop-blur-md sm:block">
+              <div className="text-[9px] uppercase tracking-[0.24em] text-white/65">RIVAADO</div>
+              <div className="mt-2 text-[15px] leading-5">Bespoke tailoring, shaped around the individual.</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-[#171719] px-6 py-16 text-white sm:px-10 lg:px-14 lg:py-24">
-        <div className="mx-auto max-w-[1500px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-white/44">{copy.home_process.eyebrow}</p>
-          <div className="mt-5 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <h2 className="max-w-[700px] text-[clamp(2.9rem,5vw,5.8rem)] font-normal leading-[0.94] tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
-              {copy.home_process.title}
-            </h2>
-            <div className="grid border-t border-white/18 sm:grid-cols-3">
+      <section className="bg-white px-5 py-16 text-[#171719] sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1540px]">
+          <div className="flex flex-col gap-8 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/38">The wardrobe</p>
+              <h2 className="mt-3 text-[clamp(2.8rem,5vw,5.8rem)] font-normal leading-[0.93] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+                Bespoke from<br />head to toe
+              </h2>
+            </div>
+            <p className="max-w-[390px] text-sm leading-6 text-black/58">
+              Move from formal tailoring to expressive eveningwear and finishing details without leaving the RIVAADO world.
+            </p>
+          </div>
+
+          <div className="mt-8 grid auto-rows-[220px] gap-3 sm:auto-rows-[260px] sm:grid-cols-2 lg:auto-rows-[310px] lg:grid-cols-12">
+            {wardrobe.map((item, index) => {
+              const spans = [
+                'lg:col-span-7 lg:row-span-2',
+                'lg:col-span-5',
+                'lg:col-span-5',
+                'lg:col-span-4',
+                'lg:col-span-4',
+                'lg:col-span-4',
+              ]
+              return (
+                <button
+                  type="button"
+                  key={item.label}
+                  onClick={() => onNavigate(item.target)}
+                  className={`group relative overflow-hidden bg-[#e7e4dc] text-left ${spans[index]}`}
+                >
+                  <img src={item.image} alt={item.label} className="absolute inset-0 h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.035]" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-black/5 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-white sm:p-6">
+                    <span className="text-[18px] font-medium tracking-[-0.03em] sm:text-[21px]">{item.label}</span>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/45 bg-black/10 backdrop-blur-sm">
+                      <ArrowRight size={16} strokeWidth={1.4} />
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-x-7 gap-y-3 border-t border-black/8 pt-5 text-sm text-black/52">
+            {homeCategories.slice(6).map((item) => (
+              <button type="button" key={item.label} onClick={() => onNavigate(item.target)} className="border-b border-transparent pb-1 transition hover:border-black hover:text-black">
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#171719] px-5 py-16 text-white sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1540px]">
+          <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40">{copy.home_process.eyebrow}</p>
+              <h2 className="mt-4 max-w-[700px] text-[clamp(3rem,5.3vw,6.2rem)] font-normal leading-[0.9] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+                {copy.home_process.title}
+              </h2>
+            </div>
+            <div className="grid border-t border-white/20 sm:grid-cols-3">
               {[copy.home_process.step1, copy.home_process.step2, copy.home_process.step3].map((step, index) => (
-                <div key={step} className="border-b border-white/18 py-6 sm:border-b-0 sm:border-r sm:px-6 sm:last:border-r-0">
-                  <div className="text-[11px] tracking-[0.2em] text-white/36">0{index + 1}</div>
-                  <div className="mt-3 text-[19px] leading-6 tracking-[-0.025em]">{step}</div>
-                </div>
+                <button type="button" key={step} onClick={index === 0 ? onExplore : () => onNavigate(index === 2 ? 'accessories' : 'men')} className="group border-b border-white/14 py-6 text-left sm:border-b-0 sm:border-r sm:px-6 sm:last:border-r-0">
+                  <span className="text-[10px] tracking-[0.22em] text-white/32">0{index + 1}</span>
+                  <span className="mt-5 block max-w-[170px] text-[20px] leading-6 tracking-[-0.025em]">{step}</span>
+                  <ArrowRight size={17} strokeWidth={1.3} className="mt-5 text-white/45 transition group-hover:translate-x-1 group-hover:text-white" />
+                </button>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative bg-white px-0 py-14 text-black sm:py-16 lg:py-20">
-        <div className="px-5 sm:px-10 lg:px-10">
-          <h2 className="text-[clamp(2rem,3vw,3.4rem)] font-normal tracking-[-0.04em] text-black">
-            Bespoke from head to toe
-          </h2>
-        </div>
+      <TailoringTechSection onExplore={() => onNavigate('men')} />
 
-        <div className="relative mt-8 sm:mt-9">
-          <button
-            type="button"
-            onClick={() => moveCategories(-1)}
-            aria-label="Previous categories"
-            className="absolute left-3 top-[45%] z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/22 text-white backdrop-blur-sm transition hover:bg-black/36 sm:left-5"
-          >
-            <ArrowLeft size={30} strokeWidth={1.8} />
-          </button>
-
-          <div
-            ref={categoryRail}
-            className="category-rail flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:gap-4 sm:px-10"
-          >
-            {homeCategories.map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                data-category-card
-                onClick={() => onNavigate(item.target)}
-                className="group w-[78vw] max-w-[360px] shrink-0 snap-start text-left sm:w-[36vw] sm:max-w-[380px] lg:w-[23.5vw] lg:max-w-[410px]"
-              >
-                <div className="aspect-[0.78] w-full overflow-hidden bg-[#ececec]">
-                  <img
-                    src={item.image}
-                    alt={item.label}
-                    className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="pt-3 text-[1rem] font-medium tracking-[-0.02em] text-black sm:text-[1.08rem]">
-                  {item.label}
-                </div>
-              </button>
-            ))}
+      <section className="bg-[#f3f0e9] px-5 py-16 text-[#171719] sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1540px]">
+          <div className="flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/40">RIVAADO people</p>
+              <h2 className="mt-3 text-[clamp(3rem,5vw,5.8rem)] font-normal leading-[0.92] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Outfit Ideas</h2>
+              <p className="mt-5 max-w-[470px] text-sm leading-6 text-black/60">Get inspired by our community. Real customers like you styling great outfits based on RIVAADO garments.</p>
+            </div>
+            <button type="button" onClick={() => onNavigate('men')} className="group flex items-center gap-3 text-sm font-medium">
+              <span className="border-b border-black/60 pb-1">Check them all</span>
+              <ArrowRight size={16} strokeWidth={1.4} className="transition group-hover:translate-x-1" />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => moveCategories(1)}
-            aria-label="Next categories"
-            className="absolute right-3 top-[45%] z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/22 text-white backdrop-blur-sm transition hover:bg-black/36 sm:right-5"
-          >
-            <ArrowRight size={30} strokeWidth={1.8} />
-          </button>
+          <div className="mt-10 grid auto-rows-[210px] gap-3 sm:auto-rows-[270px] sm:grid-cols-2 lg:auto-rows-[330px] lg:grid-cols-12">
+            {lookbook.map((image, index) => {
+              const spans = [
+                'lg:col-span-5 lg:row-span-2',
+                'lg:col-span-3',
+                'lg:col-span-4',
+                'lg:col-span-4',
+                'lg:col-span-3',
+                'lg:col-span-5',
+              ]
+              return (
+                <button type="button" key={image} onClick={() => onNavigate(index === 3 ? 'women' : 'men')} className={`group relative overflow-hidden bg-black/5 ${spans[index]}`}>
+                  <img src={image} alt={`RIVAADO outfit idea ${index + 1}`} className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.035]" loading="lazy" />
+                  <div className="absolute inset-0 bg-black/0 transition group-hover:bg-black/12" />
+                </button>
+              )
+            })}
+          </div>
         </div>
       </section>
 
-      <TailoringTechSection onExplore={() => onNavigate('men')} />
-      <HomeReferenceSections onNavigate={onNavigate} />
-    </div>
+      <section className="bg-white px-5 py-16 text-[#171719] sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-[1540px] gap-4 lg:grid-cols-2">
+          <article className="group relative min-h-[620px] overflow-hidden bg-black text-white">
+            <img src="/looks/look-09-blue-scarf-shirt.webp" alt="Material and craftsmanship" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/16 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+              <p className="text-[10px] uppercase tracking-[0.28em] text-white/55">Material responsibility</p>
+              <h2 className="mt-3 max-w-[500px] text-[clamp(2.8rem,4.2vw,4.8rem)] font-normal leading-[0.92] tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Our planet appreciates it</h2>
+              <p className="mt-5 max-w-[500px] text-sm leading-6 text-white/72">Feel great about your clothes and your environmental impact. Thoughtful pieces are designed to be worn, cared for and kept.</p>
+              <button type="button" onClick={() => onNavigate('about')} className="mt-6 border-b border-white/70 pb-1 text-sm">Learn how it's made</button>
+            </div>
+          </article>
+
+          <article className="group relative min-h-[620px] overflow-hidden bg-[#d7d0c2] text-white">
+            <img src="/looks/look-05-plaid-blazer.webp" alt="Tailoring measurement" className="absolute inset-0 h-full w-full object-cover object-top" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/14 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+              <p className="text-[10px] uppercase tracking-[0.28em] text-white/55">Built to stay</p>
+              <h2 className="mt-3 text-[clamp(2.8rem,4.2vw,4.8rem)] font-normal leading-[0.92] tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Looks that last</h2>
+              <p className="mt-5 max-w-[500px] text-sm leading-6 text-white/72">We know you pay attention to detail, and so do we. From durable fabrics to a quality-controlled tailoring process, every piece is made to stand up to repeat wear.</p>
+              <button type="button" onClick={() => onNavigate('samples')} className="mt-6 border-b border-white/70 pb-1 text-sm">Order samples</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="relative min-h-[820px] overflow-hidden bg-[#9b4c39] text-white">
+        <img src="/looks/look-10-gold-couture.webp" alt="" className="absolute left-[6%] top-[8%] hidden h-[240px] w-[360px] object-cover sm:block" />
+        <img src="/looks/look-08-leather-sleeve-coat.webp" alt="" className="absolute right-[4%] top-0 h-[300px] w-[230px] object-cover" />
+        <img src="/looks/look-03-pastel-pink-suit.webp" alt="" className="absolute bottom-0 left-0 h-[330px] w-[220px] object-cover object-top" />
+        <img src="/looks/look-01-leopard-shirt.webp" alt="" className="absolute bottom-[9%] left-[27%] hidden h-[340px] w-[235px] object-cover object-top md:block" />
+        <img src="/looks/look-07-teal-shirt-vest.webp" alt="" className="absolute bottom-0 right-0 h-[245px] w-[350px] object-cover object-top" />
+        <div className="absolute inset-0 bg-black/8" />
+        <div className="relative z-10 mx-auto flex min-h-[820px] max-w-[1540px] items-center justify-center px-6 py-20 lg:justify-end lg:px-20">
+          <div className="max-w-[610px] border-l border-white/35 pl-7 sm:pl-10">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-white/58">Made personal</p>
+            <h2 className="mt-4 text-[clamp(3.2rem,5.3vw,6.2rem)] font-normal leading-[0.9] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              Perfect fit<br />garments, to your<br />specifications
+            </h2>
+            <p className="mt-7 max-w-[470px] text-base leading-7 text-white/86">From fabrics and buttons to pocket styles and lining colors, personalize your handcrafted look. Take control and feel confident with our fit promise.</p>
+            <button type="button" onClick={() => onNavigate('men')} className="mt-7 border-b border-white/75 pb-1 text-sm font-medium">Learn more</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f6f4ef] px-5 py-16 text-[#171719] sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1540px]">
+          <div className="grid gap-8 border-b border-black/10 pb-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/38">Client notes</p>
+              <h2 className="mt-3 text-[clamp(2.8rem,4.8vw,5.4rem)] font-normal leading-[0.94] tracking-[-0.06em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Reviewed by you</h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 text-sm lg:justify-end">
+              <span className="font-semibold">Great</span>
+              <span className="tracking-[0.08em] text-[#48b82c]">★★★★★</span>
+              <span className="underline underline-offset-2">23,360 reviews on</span>
+              <span className="font-semibold text-[#00a36c]">★ Trustpilot</span>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-4 lg:grid-cols-3">
+            {reviews.map((review, index) => (
+              <article key={review.title} className={`min-h-[330px] border border-black/10 p-7 sm:p-8 ${index === 1 ? 'bg-[#171719] text-white' : 'bg-white'}`}>
+                <div className="text-[11px] uppercase tracking-[0.2em] opacity-45">0{index + 1}</div>
+                <div className="mt-8 text-[22px] tracking-[0.08em] text-[#c59a3b]">★★★★★</div>
+                <h3 className="mt-7 text-[21px] font-medium tracking-[-0.025em]">{review.title}</h3>
+                <p className="mt-5 text-sm leading-7 opacity-62">{review.body}</p>
+                <p className="mt-7 text-sm font-medium">{review.name}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </>
   )
 }
 
