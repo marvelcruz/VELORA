@@ -382,7 +382,7 @@ function ConfiguratorDemo() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!isVisible || !pageVisible || prefersReducedMotion) return
+    if (true || !isVisible || !pageVisible || prefersReducedMotion) return
 
     const active = configuratorTimeline[step]
     setPanel(active.panel)
@@ -417,7 +417,7 @@ function ConfiguratorDemo() {
             {([
               ['fabric', 'Fabric'],
               ['style', 'Style'],
-              ['finish', 'Finish'],
+              ['finish', 'Accents'],
             ] as const).map(([key, label], index) => (
               <button key={key} type="button" onClick={() => openPanel(key)} className={`relative pb-1 ${index === panelIndex ? 'text-black' : 'hover:text-black/70'}`}>
                 {label}
@@ -474,7 +474,7 @@ function ConfiguratorDemo() {
         </div>
 
         <div
-          className="config-cursor absolute z-40 h-5 w-5 transition-[left,top] duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
+          className="hidden config-cursor absolute z-40 h-5 w-5 transition-[left,top] duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
           style={{ left: `${activeStep.cursor[0]}%`, top: `${activeStep.cursor[1]}%` }}
         >
           <svg viewBox="0 0 24 24" className="h-full w-full drop-shadow-md">
