@@ -249,7 +249,238 @@ function HomeScreen({ isMobile, onExplore, onNavigate }: { isMobile: boolean; on
           </button>
         </div>
       </section>
+
+      <TailoringTechSection onExplore={() => onNavigate('men')} />
     </div>
+  )
+}
+
+function TailoringTechSection({ onExplore }: { onExplore: () => void }) {
+  return (
+    <section className="bg-[#f2efe8] px-5 py-16 text-[#1f2826] sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+        <div className="max-w-xl">
+          <h2 className="text-[clamp(3rem,5.3vw,6rem)] font-normal leading-[0.98] tracking-[-0.055em]">
+            Bespoke, down to the last detail.
+          </h2>
+          <p className="mt-8 max-w-lg text-base leading-8 text-[#1f2826]/78 sm:text-lg">
+            Choose the cloth, shape the silhouette and finish every detail before our tailors bring the garment to life. The screen below builds a RIVAADO look automatically, just like a live fitting configurator.
+          </p>
+          <button
+            type="button"
+            onClick={onExplore}
+            className="mt-8 rounded-full border border-[#1f2826]/40 px-6 py-3 text-sm font-semibold transition hover:bg-[#1f2826] hover:text-white"
+          >
+            Explore tailoring
+          </button>
+        </div>
+
+        <ConfiguratorDemo />
+      </div>
+    </section>
+  )
+}
+
+const demoFabrics = [
+  { name: 'Charcoal Herringbone', color: '#57514c', accent: '#6c655f' },
+  { name: 'Midnight Navy', color: '#1c2c43', accent: '#354960' },
+  { name: 'Warm Taupe', color: '#877263', accent: '#a18d7f' },
+  { name: 'Deep Forest', color: '#24392f', accent: '#3a5446' },
+  { name: 'Burgundy', color: '#6e2735', accent: '#8e4350' },
+  { name: 'Stone Grey', color: '#8a8c8b', accent: '#a4a6a5' },
+]
+
+const configuratorSteps = [
+  { panel: 'fabric', fabric: 0, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [16, 31] },
+  { panel: 'fabric', fabric: 1, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [28, 48] },
+  { panel: 'fabric', fabric: 3, lapel: 'Notch', pocket: 'Flap', lining: '#d7c2a4', monogram: 'RM', cursor: [20, 65] },
+  { panel: 'style', fabric: 3, lapel: 'Peak', pocket: 'Jetted', lining: '#d7c2a4', monogram: 'RM', cursor: [18, 39] },
+  { panel: 'style', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#d7c2a4', monogram: 'RM', cursor: [27, 61] },
+  { panel: 'accents', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#a12c40', monogram: 'RM', cursor: [18, 33] },
+  { panel: 'accents', fabric: 3, lapel: 'Peak', pocket: 'Patch', lining: '#b18f53', monogram: 'RV', cursor: [29, 58] },
+  { panel: 'accents', fabric: 4, lapel: 'Peak', pocket: 'Patch', lining: '#b18f53', monogram: 'RV', cursor: [17, 74] },
+] as const
+
+function ConfiguratorDemo() {
+  const [step, setStep] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setStep((current) => (current + 1) % configuratorSteps.length)
+    }, 1600)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  const current = configuratorSteps[step]
+  const fabric = demoFabrics[current.fabric]
+  const panelIndex = current.panel === 'fabric' ? 0 : current.panel === 'style' ? 1 : 2
+
+  return (
+    <div className="relative mx-auto w-full max-w-[780px]">
+      <div className="relative aspect-[1.34] min-h-[430px] overflow-hidden rounded-[2rem] border-[7px] border-[#222b29] bg-white shadow-[0_32px_80px_rgba(26,35,32,0.18)] sm:min-h-[520px]">
+        <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-center border-b border-black/8 bg-white">
+          <div className="flex items-center gap-7 text-[9px] font-bold uppercase tracking-[0.18em] text-black/35 sm:gap-10 sm:text-[10px]">
+            {['Fabric', 'Style', 'Accents'].map((label, index) => (
+              <span key={label} className={index === panelIndex ? 'text-black' : ''}>
+                {label}
+                {index === panelIndex && <span className="mx-auto mt-1 block h-[2px] w-full bg-[#a85b44]" />}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="absolute inset-0 pt-12">
+          <div className="grid h-full grid-cols-[0.82fr_1.18fr_0.58fr]">
+            <div className="relative overflow-hidden border-r border-black/8 bg-[#fafafa]">
+              <ConfiguratorPanel current={current} fabric={fabric} step={step} />
+            </div>
+
+            <div className="relative flex items-center justify-center bg-white">
+              <SuitPreview
+                color={fabric.color}
+                accent={fabric.accent}
+                lapel={current.lapel}
+                pocket={current.pocket}
+                lining={current.lining}
+              />
+              <div className="absolute bottom-4 flex gap-2">
+                {demoFabrics.slice(0, 4).map((item, index) => (
+                  <span key={item.name} className={`h-2 w-2 rounded-full transition ${index === current.fabric ? 'scale-125 bg-black' : 'bg-black/18'}`} />
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center border-l border-black/8 px-3 text-center">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black sm:text-sm">Custom Suit</div>
+              <div className="mt-1 text-[10px] text-black/38 sm:text-xs">Made to measure</div>
+              <div className="mt-5 text-[10px] font-semibold text-black/45">Fabric</div>
+              <div className="mt-1 text-[10px] font-semibold leading-tight text-black/78 sm:text-xs">{fabric.name}</div>
+              <div className="mt-5 text-[10px] font-semibold text-black/45">Lapel</div>
+              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{current.lapel}</div>
+              <div className="mt-5 text-[10px] font-semibold text-black/45">Pocket</div>
+              <div className="mt-1 text-[10px] font-semibold text-black/78 sm:text-xs">{current.pocket}</div>
+              <button type="button" className="mt-7 w-full bg-[#a85b44] px-3 py-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="config-cursor absolute z-40 h-5 w-5 transition-[left,top] duration-700 ease-out"
+          style={{ left: `${current.cursor[0]}%`, top: `${current.cursor[1]}%` }}
+        >
+          <svg viewBox="0 0 24 24" className="h-full w-full drop-shadow-md">
+            <path d="M4 3l13 9-6 1 3 6-2.5 1.2-3-6L4 18V3z" fill="#111" stroke="white" strokeWidth="1.4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ConfiguratorPanel({ current, fabric, step }: { current: (typeof configuratorSteps)[number]; fabric: (typeof demoFabrics)[number]; step: number }) {
+  const scrollShift = current.panel === 'fabric' ? (step % 3) * 36 : current.panel === 'style' ? 24 : 54
+
+  return (
+    <div className="h-full overflow-hidden p-4 sm:p-5">
+      <div className="text-[9px] font-black uppercase tracking-[0.17em] text-black/42 sm:text-[10px]">
+        {current.panel === 'fabric' ? 'Select fabric' : current.panel === 'style' ? 'Choose style' : 'Finishing details'}
+      </div>
+
+      <div className="mt-4 transition-transform duration-700 ease-out" style={{ transform: `translateY(-${scrollShift}px)` }}>
+        {current.panel === 'fabric' && (
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {demoFabrics.map((item, index) => (
+              <div key={item.name} className={`rounded-md border p-1.5 transition duration-300 ${index === current.fabric ? 'border-[#a85b44] shadow-[0_0_0_2px_rgba(168,91,68,.12)]' : 'border-black/8'}`}>
+                <div className="aspect-square rounded-sm" style={{ background: `linear-gradient(135deg,${item.color},${item.accent})` }} />
+                <div className="mt-1 truncate text-[7px] font-semibold text-black/58 sm:text-[8px]">{item.name}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {current.panel === 'style' && (
+          <div className="space-y-5">
+            <OptionRow title="Lapel" options={['Notch','Peak','Shawl']} active={current.lapel} />
+            <OptionRow title="Pocket style" options={['Flap','Jetted','Patch']} active={current.pocket} />
+            <OptionRow title="Buttons" options={['1 Button','2 Button','Double']} active="2 Button" />
+            <OptionRow title="Trouser finish" options={['Plain','Cuffed','Pleated']} active="Plain" />
+          </div>
+        )}
+
+        {current.panel === 'accents' && (
+          <div className="space-y-5">
+            <div>
+              <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Lining</div>
+              <div className="mt-2 flex gap-2">
+                {['#d7c2a4','#a12c40','#b18f53','#1f3550','#24392f'].map((color) => (
+                  <span key={color} className={`h-7 w-7 rounded-sm border-2 transition ${color === current.lining ? 'scale-110 border-black' : 'border-white shadow-sm'}`} style={{ background: color }} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">Monogram</div>
+              <div className="mt-2 rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold tracking-[0.18em]">{current.monogram}</div>
+            </div>
+            <OptionRow title="Pocket square" options={['None','White','Pattern']} active="White" />
+            <OptionRow title="Button finish" options={['Horn','Dark','Gold']} active={step % 2 ? 'Gold' : 'Horn'} />
+          </div>
+        )}
+      </div>
+
+      <div className="absolute bottom-3 left-4 text-[8px] font-semibold text-black/32 sm:left-5">
+        Live RIVAADO configuration
+      </div>
+    </div>
+  )
+}
+
+function OptionRow({ title, options, active }: { title: string; options: readonly string[]; active: string }) {
+  return (
+    <div>
+      <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/40">{title}</div>
+      <div className="mt-2 grid grid-cols-3 gap-1.5">
+        {options.map((option) => (
+          <div key={option} className={`rounded-md border px-1 py-2 text-center text-[7px] font-semibold transition sm:text-[8px] ${option === active ? 'border-[#a85b44] bg-[#f5ece8] text-[#8d4634]' : 'border-black/8 bg-white text-black/48'}`}>
+            {option}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function SuitPreview({ color, accent, lapel, pocket, lining }: { color: string; accent: string; lapel: string; pocket: string; lining: string }) {
+  return (
+    <svg viewBox="0 0 360 440" className="h-[76%] w-[82%] drop-shadow-[0_18px_18px_rgba(0,0,0,.12)]" aria-label="Custom suit preview">
+      <defs>
+        <linearGradient id="suitFabric" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={accent} />
+          <stop offset="48%" stopColor={color} />
+          <stop offset="100%" stopColor={accent} />
+        </linearGradient>
+      </defs>
+      <path d="M113 52L151 34h58l38 18 54 45-27 91-34-24v236H120V164l-34 24-27-91z" fill="url(#suitFabric)" />
+      <path d="M151 35l29 57 29-57 25 21-54 111-54-111z" fill={lining} opacity=".92" />
+      <path d={lapel === 'Peak' ? 'M151 35l29 57-42 58 10-62-23-35z M209 35l-29 57 42 58-10-62 23-35z' : 'M151 35l29 57-31 45-7-49-17-35z M209 35l-29 57 31 45 7-49 17-35z'} fill={accent} opacity=".95" />
+      <line x1="180" y1="94" x2="180" y2="398" stroke="rgba(255,255,255,.24)" strokeWidth="2" />
+      <circle cx="180" cy="188" r="5" fill="#d9d7d2" />
+      <circle cx="180" cy="232" r="5" fill="#d9d7d2" />
+      {pocket === 'Patch' ? (
+        <>
+          <rect x="130" y="247" width="38" height="40" rx="4" fill="none" stroke="rgba(255,255,255,.32)" strokeWidth="3" />
+          <rect x="192" y="247" width="38" height="40" rx="4" fill="none" stroke="rgba(255,255,255,.32)" strokeWidth="3" />
+        </>
+      ) : (
+        <>
+          <line x1="129" y1="263" x2="163" y2="271" stroke="rgba(255,255,255,.32)" strokeWidth="4" />
+          <line x1="197" y1="271" x2="231" y2="263" stroke="rgba(255,255,255,.32)" strokeWidth="4" />
+        </>
+      )}
+      <path d="M120 400h120l-7 18h-106z" fill={accent} opacity=".65" />
+      <path d="M145 400v29h-40v-11h22zM215 400v29h40v-11h-22z" fill={color} />
+    </svg>
   )
 }
 
