@@ -1483,13 +1483,16 @@ function FabricPackShowcase({
 
 function SiteFooter() {
   return (
-    <footer className="bg-white text-[#202124]">
-      <div className="px-5 py-14 sm:px-8 lg:px-10 lg:py-16">
-        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[1.75fr_.62fr_.62fr_.62fr_.62fr]">
-          <div className="max-w-[430px]">
-            <h3 className="text-sm font-semibold">Subscribe To Our Newsletter To Get Updates</h3>
-            <div className="mt-7 flex border-b border-black/55 pb-3">
-              <input aria-label="Email Address" placeholder="Email Address" className="w-full bg-transparent text-lg outline-none placeholder:text-black/50" />
+    <footer className="bg-[#171719] text-white">
+      <div className="border-b border-white/10 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="mx-auto grid max-w-[1540px] gap-12 lg:grid-cols-[1.35fr_.65fr_.65fr_.65fr_.65fr]">
+          <div className="max-w-[520px]">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/38">RIVAADO</div>
+            <h3 className="mt-4 max-w-[460px] text-[clamp(2.5rem,4vw,4.5rem)] font-normal leading-[0.94] tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              Subscribe To Our Newsletter To Get Updates
+            </h3>
+            <div className="mt-8 flex border-b border-white/35 pb-3">
+              <input aria-label="Email Address" placeholder="Email Address" className="w-full bg-transparent text-base outline-none placeholder:text-white/35" />
               <button type="button" aria-label="Subscribe" className="text-xl">→</button>
             </div>
           </div>
@@ -1499,35 +1502,14 @@ function SiteFooter() {
           <FooterColumn title="Company" items={['About us','How it works','Perfect Fit Guarantee','RIVAADO Blog']} />
           <FooterColumn title="Support" items={['Contact us','Order fabric samples','Track order','FAQs']} />
         </div>
+      </div>
 
-        <div className="mx-auto mt-14 grid max-w-[1500px] gap-10 lg:grid-cols-[1.75fr_1fr_1fr]">
-          <div className="hidden lg:block" />
-
+      <div className="px-5 py-10 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-[1540px] gap-10 lg:grid-cols-[1.35fr_1fr_1fr]">
           <div>
-            <h3 className="text-sm font-semibold">Payment Methods</h3>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {['VISA','MC','Pay','AMEX','Klarna.'].map((method) => (
-                <span key={method} className="flex h-10 min-w-[58px] items-center justify-center border border-black/10 bg-white px-2 text-xs font-bold shadow-sm">
-                  {method}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold">Shipping Partners</h3>
-            <div className="mt-4 flex gap-3">
-              <span className="flex h-10 min-w-[72px] items-center justify-center bg-[#f4c400] px-3 text-xs font-black italic">DHL</span>
-              <span className="flex h-10 min-w-[72px] items-center justify-center bg-[#4d2584] px-3 text-xs font-black text-white">FedEx</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-10 grid max-w-[1500px] gap-8 lg:grid-cols-[1.75fr_2fr]">
-          <div className="flex items-end">
-            <div className="flex items-center gap-[18px] text-[#202624]">
-              <Instagram size={19} strokeWidth={1.8} />
-              <Facebook size={19} strokeWidth={1.8} />
+            <div className="flex items-center gap-[18px] text-white/72">
+              <Instagram size={19} strokeWidth={1.6} />
+              <Facebook size={19} strokeWidth={1.6} />
               <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[10px] font-semibold">X</span>
               <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">P</span>
               <span className="flex h-[19px] w-[19px] items-center justify-center rounded-full border border-current text-[9px] font-semibold">♪</span>
@@ -1535,20 +1517,26 @@ function SiteFooter() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold">Other Highlights</h3>
-            <div className="mt-4 flex h-[150px] w-[90px] flex-col items-center justify-center border border-[#7c5d96] bg-[#eee9f3] text-center text-[9px] font-semibold text-[#54346d]">
-              <div className="text-[11px]">DIGITAL</div>
-              <div>COMMERCE</div>
-              <div>AWARD</div>
-              <div className="mt-2 text-[13px]">Winner</div>
-              <div>2026</div>
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Payment Methods</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['VISA','MC','Pay','AMEX','Klarna.'].map((method) => (
+                <span key={method} className="flex h-9 min-w-[54px] items-center justify-center border border-white/12 px-2 text-[11px] font-semibold text-white/70">{method}</span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Shipping Partners</h3>
+            <div className="mt-4 flex gap-3">
+              <span className="flex h-9 min-w-[70px] items-center justify-center border border-white/12 px-3 text-[11px] font-semibold text-white/70">DHL</span>
+              <span className="flex h-9 min-w-[70px] items-center justify-center border border-white/12 px-3 text-[11px] font-semibold text-white/70">FedEx</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-black/6 bg-[#f3f1ec] px-5 py-4 text-xs text-black/58 sm:px-8 lg:px-10">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-white/8 px-5 py-5 text-[11px] text-white/38 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-[1540px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <span>Copyright 2026 RIVAADO</span>
           <span>Terms and Conditions | Privacy Policy</span>
         </div>
@@ -1560,10 +1548,10 @@ function SiteFooter() {
 function FooterColumn({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
-      <h3 className="text-sm font-semibold">{title}</h3>
-      <div className="mt-5 space-y-3 text-sm text-black/60">
+      <h3 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/42">{title}</h3>
+      <div className="mt-5 space-y-3 text-sm text-white/62">
         {items.map((item) => (
-          <button type="button" key={item} className="block text-left hover:text-black">{item}</button>
+          <button type="button" key={item} className="block text-left transition hover:text-white">{item}</button>
         ))}
       </div>
     </div>
@@ -2127,64 +2115,109 @@ function ProductShowcase({ section, catalog }: { section: ProductKind; catalog: 
   const selectSubsection = (index: number) => { setSubIndex(index); setLookIndex(0) }
   const previousLook = () => looks.length && setLookIndex((current) => (current + looks.length - 1) % looks.length)
   const nextLook = () => looks.length && setLookIndex((current) => (current + 1) % looks.length)
-
-  const fallbackBg = section === 'women' ? '#7f172b' : section === 'accessories' ? '#2b2119' : '#111827'
-  const darkText = activeLook?.text === 'dark'
-  const background = activeLook?.background || fallbackBg
-  const glow = activeLook?.glow || 'rgba(255,255,255,0.16)'
-  const eyebrow = section === 'men' ? 'Men / Bespoke' : section === 'women' ? 'Women / Bespoke' : 'Accessories / Finish'
+  const eyebrow = section === 'men' ? 'Men / Bespoke' : 'Women / Bespoke'
 
   return (
-    <div className="relative h-full w-full overflow-hidden px-5 pt-28 transition-colors duration-500 sm:px-10" style={{ background, color: darkText ? '#101010' : '#fff' }}>
-      <div className="absolute inset-0 transition duration-500" style={{ background: `radial-gradient(circle at 52% 43%, ${glow}, transparent 38%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.14))` }} />
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col">
-        <div className="mt-16 flex flex-wrap justify-center gap-2 sm:mt-20">
+    <div className="h-full w-full overflow-y-auto bg-[#f6f4ef] pt-[118px] text-[#171719] md:pt-[104px]">
+      <div className="sticky top-[118px] z-30 border-y border-black/8 bg-[#f6f4ef]/95 px-5 backdrop-blur-md md:top-[104px] sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-[1540px] items-center gap-7 overflow-x-auto py-4 [scrollbar-width:none]">
+          <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.24em] text-black/32">{eyebrow}</span>
           {subsections.map((item, index) => (
-            <button key={item.id} type="button" onClick={() => selectSubsection(index)} className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] transition ${index === subIndex ? (darkText ? 'border-black bg-black text-white' : 'border-white bg-white text-black') : darkText ? 'border-black/20 bg-white/20 text-black/55 hover:text-black' : 'border-white/20 bg-black/10 text-white/62 hover:text-white'}`}>{item.label}</button>
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => selectSubsection(index)}
+              className={`shrink-0 border-b pb-1 text-sm transition ${index === subIndex ? 'border-black text-black' : 'border-transparent text-black/42 hover:text-black'}`}
+            >
+              {item.label}
+            </button>
           ))}
         </div>
+      </div>
 
-        {!activeLook ? (
-          <div className="flex flex-1 items-center justify-center text-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] opacity-50">{eyebrow} / {subsection.label}</p>
-              <h2 className="mt-4 text-5xl font-black">No looks published yet.</h2>
-              <p className="mt-3 opacity-60">Add images through the RIVAADO admin catalog.</p>
-            </div>
+      {!activeLook ? (
+        <div className="flex min-h-[70vh] items-center justify-center px-6 text-center">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-black/35">{eyebrow} / {subsection.label}</p>
+            <h2 className="mt-4 text-5xl font-normal tracking-[-0.05em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>No looks published yet.</h2>
+            <p className="mt-3 text-black/45">Add images through the RIVAADO admin catalog.</p>
           </div>
-        ) : (
-          <div className="grid flex-1 items-center gap-6 lg:grid-cols-[0.86fr_1.25fr_0.72fr]">
-            <div className="relative z-20 pt-6 sm:pt-0">
-              <p className={`mb-4 text-xs font-black uppercase tracking-[0.28em] ${darkText ? 'text-black/50' : 'text-white/70'}`}>{eyebrow} / {subsection.label}</p>
-              <h2 className="max-w-md text-4xl leading-[0.95] tracking-[-0.04em] sm:text-6xl" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>{activeLook.label}</h2>
-              <p className={`mt-6 max-w-md text-sm font-semibold leading-7 sm:text-base ${darkText ? 'text-black/60' : 'text-white/76'}`}>{activeLook.description}</p>
-              <button type="button" className={`mt-8 rounded-full px-7 py-4 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>Book fitting</button>
-              <div className="mt-8 flex items-center gap-3" aria-label={`${subsection.label} looks`}>
+        </div>
+      ) : (
+        <>
+          <section className="mx-auto grid max-w-[1600px] lg:min-h-[760px] lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="order-2 flex items-center bg-[#f6f4ef] px-6 py-14 sm:px-10 lg:order-1 lg:px-16 lg:py-20">
+              <div className="w-full max-w-[600px]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-black/36">{eyebrow} / {subsection.label}</p>
+                <h1 className="mt-5 text-[clamp(3.4rem,5.6vw,6.8rem)] font-normal leading-[0.88] tracking-[-0.065em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+                  {activeLook.label}
+                </h1>
+                <p className="mt-7 max-w-[500px] text-[15px] leading-7 text-black/62 sm:text-base">{activeLook.description}</p>
+
+                <div className="mt-9 flex flex-wrap items-center gap-4">
+                  <button type="button" className="rounded-full bg-[#171719] px-7 py-3.5 text-sm font-medium text-white">Book fitting</button>
+                  <div className="text-sm text-black/48">
+                    <div className="text-[10px] uppercase tracking-[0.18em]">Starting at</div>
+                    <div className="mt-1 font-medium text-black">{activeLook.priceTop} <span className="text-black/42">{activeLook.priceBottom}</span></div>
+                  </div>
+                </div>
+
+                <div className="mt-10 border-t border-black/10 pt-6">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-black/35">Available directions</div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {sectionSizes[section].map((size) => (
+                      <span key={size} className="flex min-h-10 items-center justify-center rounded-full border border-black/12 px-4 text-xs font-medium">{size}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 relative min-h-[580px] overflow-hidden bg-[#ded9cf] lg:order-2 lg:min-h-[760px]">
+              <img src={activeLook.imageUrl} alt={activeLook.name} className="absolute inset-0 h-full w-full object-cover object-top" loading="eager" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+              <button type="button" onClick={previousLook} aria-label={`Previous ${subsection.label} look`} className="absolute left-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/10 text-white backdrop-blur-md">
+                <ArrowLeft size={18} strokeWidth={1.4} />
+              </button>
+              <button type="button" onClick={nextLook} aria-label={`Next ${subsection.label} look`} className="absolute right-5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/10 text-white backdrop-blur-md">
+                <ArrowRight size={18} strokeWidth={1.4} />
+              </button>
+
+              <div className="absolute bottom-6 left-6 max-w-[320px] text-white sm:bottom-8 sm:left-8">
+                <div className="text-[10px] uppercase tracking-[0.22em] text-white/58">{activeLook.name}</div>
+                <div className="mt-2 text-[18px] leading-6">{activeLook.caption.split('\n').map((line) => <div key={line}>{line}</div>)}</div>
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-white px-5 py-14 sm:px-8 lg:px-10 lg:py-20">
+            <div className="mx-auto max-w-[1540px]">
+              <div className="flex items-end justify-between gap-6 border-b border-black/10 pb-6">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-black/35">More from {subsection.label}</p>
+                  <h2 className="mt-2 text-[clamp(2.3rem,3.8vw,4.2rem)] font-normal tracking-[-0.055em]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Choose another look</h2>
+                </div>
+                <span className="hidden text-sm text-black/42 sm:block">{looks.length} looks</span>
+              </div>
+
+              <div className="mt-7 flex gap-4 overflow-x-auto pb-3 [scrollbar-width:none]">
                 {looks.map((item, index) => (
-                  <button key={item.id} type="button" onClick={() => setLookIndex(index)} title={item.name} className={`h-11 w-11 overflow-hidden rounded-full border-2 transition ${index === lookIndex ? (darkText ? 'scale-110 border-black' : 'scale-110 border-white') : darkText ? 'border-black/30' : 'border-white/45'}`}>
-                    <img src={item.imageUrl} alt="" className="h-full w-full object-cover object-top" />
+                  <button type="button" key={item.id} onClick={() => setLookIndex(index)} className="group w-[68vw] max-w-[280px] shrink-0 text-left sm:w-[32vw] lg:w-[20vw]">
+                    <div className={`aspect-[0.78] overflow-hidden border ${index === lookIndex ? 'border-black' : 'border-transparent'} bg-[#eeeae2]`}>
+                      <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]" loading="lazy" />
+                    </div>
+                    <div className="mt-3 text-[16px] font-medium tracking-[-0.025em]">{item.label}</div>
+                    <div className="mt-1 text-xs text-black/45">{item.priceTop}</div>
                   </button>
                 ))}
               </div>
-              <div className={`mt-5 text-xs font-black uppercase tracking-[0.18em] ${darkText ? 'text-black/46' : 'text-white/55'}`}>{activeLook.name}</div>
             </div>
+          </section>
 
-            <div className="relative flex min-h-[48vh] items-center justify-center lg:min-h-[640px]">
-              <button type="button" onClick={previousLook} aria-label={`Previous ${subsection.label} look`} className={`absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}><ArrowLeft size={22} strokeWidth={2.4} /></button>
-              <RunwayImage look={activeLook} darkText={darkText} />
-              <button type="button" onClick={nextLook} aria-label={`Next ${subsection.label} look`} className={`absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition hover:scale-105 ${darkText ? 'bg-black/12 text-black' : 'bg-white/18 text-white'}`}><ArrowRight size={22} strokeWidth={2.4} /></button>
-            </div>
-
-            <div className="relative z-20 hidden lg:block">
-              <p className={`mb-3 text-xs font-black uppercase tracking-[0.24em] ${darkText ? 'text-black/50' : 'text-white/68'}`}>Starting at</p>
-              <p className="text-3xl font-black uppercase leading-tight">{activeLook.priceTop}</p>
-              <p className="text-sm font-black uppercase opacity-80">{activeLook.priceBottom}</p>
-              <div className="mt-8 flex flex-wrap gap-3">{sectionSizes[section].map((size) => <span key={size} className={`flex h-16 min-w-16 items-center justify-center rounded-full px-4 text-xs font-black uppercase ${darkText ? 'bg-black text-white' : 'bg-white text-black'}`}>{size}</span>)}</div>
-              <div className={`mt-10 h-36 w-28 overflow-hidden rounded-[2rem] border ${darkText ? 'border-black/24' : 'border-white/36'}`}><img src={activeLook.imageUrl} alt="" className="h-full w-full object-cover object-top" /></div>
-            </div>
-          </div>
-        )}
-      </div>
+          <SiteFooter />
+        </>
+      )}
     </div>
   )
 }
